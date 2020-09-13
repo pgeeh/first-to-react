@@ -1,0 +1,8 @@
+.example {
+  flex: 1;
+}
+
+.example .active {
+  background-color: yellowgreen;
+  border: 1px solid black;
+}

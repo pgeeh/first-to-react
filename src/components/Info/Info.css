@@ -1,0 +1,8 @@
+.info {
+  flex-grow: 1;
+}
+
+.info .active {
+  background-color: yellowgreen;
+  border: 1px solid black;
+}

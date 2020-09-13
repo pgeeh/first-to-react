@@ -1,0 +1,8 @@
+.tableOfContents {
+  margin: 5px;
+}
+
+.tableOfContents .active {
+  background-color: yellowgreen;
+  border: 1px solid black;
+}

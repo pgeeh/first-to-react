@@ -1,0 +1,15 @@
+body {
+  height: 100vh;
+  display: grid;
+  grid-template: auto 1fr auto / auto 1fr auto;
+  background-color: lightgrey;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  height: inherit;
+  flex-grow: 1;
+  grid-column: 1 / 4;
+  background-color: blueviolet;
+}

@@ -1,0 +1,21 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  background-color: cyan;
+  flex-grow: 1;
+}
+
+.App > .main {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.App header {
+  background-color: grey;
+}
+
+.App footer {
+  text-align: center;
+  font-style: italic;
+}

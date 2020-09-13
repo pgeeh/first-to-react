@@ -1,0 +1,6 @@
+.editorWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+}
