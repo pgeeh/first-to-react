@@ -1,7 +1,7 @@
 .App {
   display: flex;
   flex-direction: column;
-  background-color: cyan;
+  background-color: lightcyan;
   flex-grow: 1;
 }
 
