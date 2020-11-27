@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import vsDark from 'prism-react-renderer/themes/vsDark';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -47,9 +48,7 @@ function Editor(props) {
   }, [content]);
 
   useEffect(() => {
-    readFile(code, (c) => {
-      setContent(c);
-    });
+    readFile(code, setContent);
   }, [code]);
 
   if (content === null) {
@@ -64,6 +63,7 @@ function Editor(props) {
       noInline={true}
       scope={scope}
       transformCode={onTransform}
+      theme={vsDark}
     >
       <Container className="editorContainer" fluid>
         {/* Hide the scope editing for now until we decide if it is useful */}
