@@ -18,16 +18,16 @@ module.exports = class extends Generator {
 
     const prompts = [
       {
-        type: 'confirm',
-        name: 'includeCode',
-        message: 'Would you like to include a code file?',
-        default: true
-      },
-      {
         type: 'input',
         name: 'fullName',
         message: 'Name of the example?',
         default: 'NewExample'
+      },
+      {
+        type: 'confirm',
+        name: 'includeCode',
+        message: 'Would you like to include a code file?',
+        default: true
       },
     ];
 
