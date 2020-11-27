@@ -5,7 +5,7 @@ First-To-React Tutorial
 ```javascript
 npm install -g yo
 
-cd generators-f-2-r
+cd generator-f-2-r
 npm install
 npm link
 

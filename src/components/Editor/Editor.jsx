@@ -42,7 +42,7 @@ function Editor(props) {
       setContent(edited);
     }
 
-    // Do not make any transforms
+    // Do not make any actual transforms
     return edited;
   }, [content]);
 
@@ -66,7 +66,8 @@ function Editor(props) {
       transformCode={onTransform}
     >
       <Container className="editorContainer" fluid>
-        <Row>
+        {/* Hide the scope editing for now until we decide if it is useful */}
+        <Row className="d-none">
           <Col>
             <textarea
               className="styledScope"
