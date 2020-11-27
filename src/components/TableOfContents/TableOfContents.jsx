@@ -3,7 +3,7 @@ import {
   NavLink,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './TableOfContents.css';
+import './TableOfContents.scss';
 
 
 /**
@@ -31,19 +31,18 @@ CustomLink.propTypes = {
  * @param {object} example example with potential children
  * @return {object}
  */
-function generateExampleLink(example) {
+function ExampleLink(example) {
   const link = `/example/${example.id}/${example.name}`;
   return (
-    <div className='toc-link'>
+    <div key={example.id} className='toc-link'>
       <CustomLink
-        key={example.id}
         to={link}
       >
-        <div>
+        <div className="toc-link-text">
           {example.id} - {example.name}
         </div>
       </CustomLink>
-      {(example.children || []).map(generateExampleLink)}
+      {(example.children || []).map(ExampleLink)}
     </div>
   );
 }
@@ -58,12 +57,14 @@ function TableOfContents(props) {
 
   return (
     <div className="tableOfContents">
-      <CustomLink to="/" exact={true}>
-        <div>
-            Home
-        </div>
-      </CustomLink>
-      {examples.map(generateExampleLink)}
+      <div className='toc-link'>
+        <CustomLink key="home" to="/" exact={true}>
+          <div className="toc-link-text">
+              Home
+          </div>
+        </CustomLink>
+      </div>
+      {examples.map(ExampleLink)}
     </div>
   );
 }

@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import vsDark from 'prism-react-renderer/themes/vsDark';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
-import './Editor.css';
+import './Editor.scss';
 import {readFile} from '../../utils';
 
 /**
@@ -12,18 +16,82 @@ import {readFile} from '../../utils';
  */
 function Editor(props) {
   const {code} = props;
+  const originalScope = {test: 'SOMETHING'};
 
-  const [content, setContent] = useState('Loading...');
+  const [content, setContent] = useState(null);
+  const [scope, setScope] = useState(originalScope);
+  const [scopeText, setScopeText] = useState(JSON.stringify(scope, null, 2));
+  const [scopeError, setScopeError] = useState(null);
 
-  readFile(code, setContent);
+  const onScopeChange = useCallback((e) => {
+    const update = e.target.value;
+
+    try {
+      const s = JSON.parse(update);
+      setScope(s);
+      setScopeText(JSON.stringify(s, null, 2));
+      setScopeError(null);
+    } catch (e) {
+      setScopeText(update);
+      setScopeError(String(e));
+    }
+  }, []);
+
+  // Save content changes so when the scope changes, they do not get lost
+  const onTransform = useCallback((edited) => {
+    if (edited !== content) {
+      setContent(edited);
+    }
+
+    // Do not make any actual transforms
+    return edited;
+  }, [content]);
+
+  useEffect(() => {
+    readFile(code, setContent);
+  }, [code]);
+
+  if (content === null) {
+    return (
+      <i>Loading example...</i>
+    );
+  }
 
   return (
-    <LiveProvider code={content} noInline={true} scope={{test: 'SOMETHING'}}>
-      <div className="editorWrapper">
-        <LiveEditor />
-        <LivePreview />
-      </div>
-      <LiveError />
+    <LiveProvider
+      code={content}
+      noInline={true}
+      scope={scope}
+      transformCode={onTransform}
+      theme={vsDark}
+    >
+      <Container className="editorContainer" fluid>
+        {/* Hide the scope editing for now until we decide if it is useful */}
+        <Row className="d-none">
+          <Col>
+            <textarea
+              className="styledScope"
+              onChange={onScopeChange}
+              value={scopeText}></textarea>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {scopeError !== null ?
+              <div className="styledError">Invalid Scope! {scopeError}</div> :
+              null}
+            <LiveError className="styledError" />
+          </Col>
+        </Row>
+        <Row className="editorWrapper">
+          <Col>
+            <LiveEditor className="styledEditor" />
+          </Col>
+          <Col>
+            <LivePreview className="styledPreview" />
+          </Col>
+        </Row>
+      </Container>
     </LiveProvider>
   );
 }

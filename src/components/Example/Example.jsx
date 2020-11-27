@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Example.css';
 
 import Info from '../Info';
 import Editor from '../Editor';
+
+import './Example.scss';
 
 /**
  * Display an Example

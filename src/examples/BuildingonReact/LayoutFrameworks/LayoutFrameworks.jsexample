@@ -1,0 +1,13 @@
+/**
+ * Render the Layout Frameworks example
+ * @param props props for the object
+ * @return {object}
+ */
+function LayoutFrameworks(props) {
+  const {test} = props;
+  return (<span>Layout Frameworks of {test}</span>);
+}
+
+render(
+  <LayoutFrameworks test={test} />,
+);

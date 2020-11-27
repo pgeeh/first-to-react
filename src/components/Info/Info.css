@@ -1,9 +1,0 @@
-.info {
-  flex-grow: 1;
-  background-color: azure;
-}
-
-.info .active {
-  background-color: yellowgreen;
-  border: 1px solid black;
-}
