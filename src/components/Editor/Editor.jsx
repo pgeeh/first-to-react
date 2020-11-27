@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 
-import './Editor.css';
+import './Editor.scss';
 import {readFile} from '../../utils';
+import {useEffect} from 'react';
 
 /**
  * Display an Editor
@@ -13,17 +14,25 @@ import {readFile} from '../../utils';
 function Editor(props) {
   const {code} = props;
 
-  const [content, setContent] = useState('Loading...');
+  const [content, setContent] = useState(null);
 
-  readFile(code, setContent);
+  useEffect(() => {
+    readFile(code, setContent);
+  }, []);
+
+  if (content === null) {
+    return (
+      <center>Loading example...</center>
+    );
+  }
 
   return (
     <LiveProvider code={content} noInline={true} scope={{test: 'SOMETHING'}}>
       <div className="editorWrapper">
-        <LiveEditor />
-        <LivePreview />
+        <LiveEditor className="styledEditor" />
+        <LivePreview className="styledPreview" />
+        <LiveError className="styledError" />
       </div>
-      <LiveError />
     </LiveProvider>
   );
 }

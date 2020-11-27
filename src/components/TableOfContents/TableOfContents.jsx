@@ -31,7 +31,7 @@ CustomLink.propTypes = {
  * @param {object} example example with potential children
  * @return {object}
  */
-function generateExampleLink(example) {
+function ExampleLink(example) {
   const link = `/example/${example.id}/${example.name}`;
   return (
     <div className='toc-link'>
@@ -43,7 +43,7 @@ function generateExampleLink(example) {
           {example.id} - {example.name}
         </div>
       </CustomLink>
-      {(example.children || []).map(generateExampleLink)}
+      {(example.children || []).map(ExampleLink)}
     </div>
   );
 }
@@ -63,7 +63,7 @@ function TableOfContents(props) {
             Home
         </div>
       </CustomLink>
-      {examples.map(generateExampleLink)}
+      {examples.map(ExampleLink)}
     </div>
   );
 }

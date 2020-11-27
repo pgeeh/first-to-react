@@ -9,6 +9,8 @@
       "google"
   ],
   "globals": {
+      "test": "readonly",
+      "expect": "readonly",
       "Atomics": "readonly",
       "SharedArrayBuffer": "readonly"
   },

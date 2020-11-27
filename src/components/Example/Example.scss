@@ -1,0 +1,10 @@
+.example {
+  flex: 1;
+  background-color: blanchedalmond;
+  margin: 5px;
+  
+  .active {
+    background-color: yellowgreen;
+    border: 1px solid black;
+  }
+}

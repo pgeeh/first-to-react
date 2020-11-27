@@ -1,0 +1,21 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  background-color: lightcyan;
+  flex-grow: 1;
+
+  margin-top: 56px;
+
+  & > .main {
+    flex-grow: 1;
+  }
+  
+  footer {
+    text-align: center;
+    font-style: italic;
+  }
+
+  & div {
+    border: 1px solid black;
+  }
+}

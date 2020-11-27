@@ -3,9 +3,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  NavLink,
   useParams,
 } from 'react-router-dom';
-import './App.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
+import './App.scss';
 
 import TableOfContents from './components/TableOfContents';
 import Example from './components/Example';
@@ -49,22 +54,30 @@ function App() {
   // Manage the active example
   return (
     <div className="App">
-      <header>First To React</header>
       <Router>
-        <div className="main">
-          <TableOfContents
-            examples={examples}/>
-          <Switch>
-            <Route path={'/'} exact={true}>
-              <Welcome />
-            </Route>
-            <Route path={'/example/:activeId'}>
-              <ExampleWrapper />
-            </Route>
-          </Switch>
-        </div>
+        <Navbar fixed="top" bg='dark' variant='dark'>
+          <Navbar.Brand to="/" as={NavLink}>First-To-React</Navbar.Brand>
+        </Navbar>
+        {/* <header>First To React</header> */}
+        <Container className="main" fluid>
+          <Row className="justify-content-center">
+            <Col className="p-0" xs={3}>
+              <TableOfContents
+                examples={examples}/>
+            </Col>
+            <Col className="p-0">
+              <Switch>
+                <Route path={'/'} exact={true}>
+                  <Welcome />
+                </Route>
+                <Route path={'/example/:activeId'}>
+                  <ExampleWrapper />
+                </Route>
+              </Switch>
+            </Col>
+          </Row>
+        </Container>
       </Router>
-      <footer>Copyright &copy; 2020 Peter G. Hilton</footer>
     </div>
   );
 }

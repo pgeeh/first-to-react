@@ -1,0 +1,37 @@
+.editorWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  background-color: cornsilk;
+  flex-wrap: wrap;
+
+  & > div {
+    flex-grow: 1;
+  }
+
+  div {
+    border: none;
+  }
+  
+  $editorBackground: #333333;
+  
+  .styledEditor {
+    background-color: $editorBackground;
+    width: 50%;
+    caret-color: lighten($color: $editorBackground, $amount: 70);
+  }
+  
+  .styledPreview {
+    background-color: white;
+    width: 50%;
+  }
+
+  .styledError {
+    margin-top: 5px;
+    padding: 5px;
+    width: 100%;
+
+    background-color: lightcoral;
+  }
+}
