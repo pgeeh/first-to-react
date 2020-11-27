@@ -55,17 +55,17 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar fixed="top" bg='dark' variant='dark'>
+        <Navbar bg='dark' variant='dark'>
           <Navbar.Brand to="/" as={NavLink}>First-To-React</Navbar.Brand>
         </Navbar>
         {/* <header>First To React</header> */}
         <Container className="main" fluid>
           <Row className="justify-content-center">
-            <Col className="p-0" xs={3}>
+            <Col className="p-0 toc-col" xs={2}>
               <TableOfContents
                 examples={examples}/>
             </Col>
-            <Col className="p-0">
+            <Col className="p-0" xs={10}>
               <Switch>
                 <Route path={'/'} exact={true}>
                   <Welcome />

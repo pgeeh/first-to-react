@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 
 import {readFile} from '../../utils';
 
-import './Info.css';
+import './Info.scss';
 
 /**
  * Display an info using Markdown
@@ -21,7 +21,7 @@ function Info(props) {
   }, [source]);
 
   return (
-    <ReactMarkdown
+    <ReactMarkdown className="info"
       source={text} />
   );
 }

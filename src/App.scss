@@ -1,10 +1,10 @@
 .App {
   display: flex;
   flex-direction: column;
-  background-color: lightcyan;
+  // background-color: lightcyan;
   flex-grow: 1;
 
-  margin-top: 56px;
+  // margin-top: 56px;
 
   & > .main {
     flex-grow: 1;
@@ -15,7 +15,11 @@
     font-style: italic;
   }
 
+  .toc-col {
+    z-index: 100;
+  }
+
   & div {
-    border: 1px solid black;
+    // border: 1px solid black;
   }
 }
