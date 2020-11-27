@@ -57,11 +57,13 @@ function TableOfContents(props) {
 
   return (
     <div className="tableOfContents">
-      <CustomLink key="home" to="/" exact={true}>
-        <div>
-            Home
-        </div>
-      </CustomLink>
+      <div className='toc-link'>
+        <CustomLink key="home" to="/" exact={true}>
+          <div className="toc-link-text">
+              Home
+          </div>
+        </CustomLink>
+      </div>
       {examples.map(ExampleLink)}
     </div>
   );
