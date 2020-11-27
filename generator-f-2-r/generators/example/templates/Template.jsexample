@@ -9,5 +9,5 @@ function <%= cleanName %>(props) {
 }
 
 render(
-    <<%= cleanName %> test={test} />,
+  <<%= cleanName %> test={test} />,
 );

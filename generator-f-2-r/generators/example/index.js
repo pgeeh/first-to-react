@@ -61,6 +61,12 @@ module.exports = class extends Generator {
         this.props,
       );
     }
+    const indexPath = this.destinationPath('index.js');
+    if(this.fs.exists(indexPath)) {
+      const original = this.fs.read(indexPath); 
+      const updated = `import ${this.props.cleanName} from './${this.props.cleanName}';\n` + original;
+      this.fs.write(indexPath, updated)
+    }
   }
 
   install() {
