@@ -6,6 +6,8 @@ const config = {
   info,
   name: '<%= fullName %>',<%if (includeCode === true) { %>
   code,<% } %>
+  children: [
+  ],
 };
 
 export default config;
