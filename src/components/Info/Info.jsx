@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import './Info.css';
 
 import {readFile} from '../../utils';
+
+import './Info.css';
 
 /**
  * Display an info using Markdown
@@ -15,7 +16,9 @@ function Info(props) {
 
   const [text, setText] = useState('_Loading info..._');
 
-  readFile(source, setText);
+  useEffect(() => {
+    readFile(source, setText);
+  }, [source]);
 
   return (
     <ReactMarkdown
