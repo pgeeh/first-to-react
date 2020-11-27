@@ -1,11 +1,11 @@
 /**
- * Render the <%= cleanName %>
+ * Render the <%= fullName %> example
  * @param props props for the object
  * @return {object}
  */
 function <%= cleanName %>(props) {
   const {test} = props;
-  return (<span><%= cleanName %> of {test}</span>);
+  return (<span><%= fullName %> of {test}</span>);
 }
 
 render(

@@ -3,6 +3,12 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 
+const notAllowed = /[^\w\d]/g;
+const clean = (s) => {
+  console.log(s);
+  return s.replace(notAllowed, '');
+};
+
 module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
@@ -27,7 +33,7 @@ module.exports = class extends Generator {
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
-      const cleanName = props.fullName; // Eventually clean this
+      const cleanName = clean(props.fullName); // Eventually clean this
       this.props = {
         ...props,
         cleanName,
