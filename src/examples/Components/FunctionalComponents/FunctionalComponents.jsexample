@@ -9,5 +9,5 @@ function FunctionalComponents(props) {
 }
 
 render(
-    <FunctionalComponents test={test} />,
+  <FunctionalComponents test={test} />,
 );

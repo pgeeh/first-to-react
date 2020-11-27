@@ -1,8 +1,8 @@
+import ClassComponents from './ClassComponents';
+import FunctionalComponents from './FunctionalComponents';
 
 import info from './Components.md';
 import code from './Components.jsexample';
-import ClassComponents from './ClassComponents';
-import FunctionalComponents from './FunctionalComponents';
 
 const config = {
   info,

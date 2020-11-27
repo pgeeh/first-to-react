@@ -1,17 +1,25 @@
-
+import OtherConcepts from './OtherConcepts';
+import Alternatives from './Alternatives';
+import Resources from './Resources';
+import GettingStartedSuggestions from './GettingStartedSuggestions';
+import BuildingonReact from './BuildingonReact';
+import Hooks from './Hooks';
 import Intro from './Intro';
-import Summary from './Summary';
 import WhatIsReact from './WhatisReact';
 import Components from './Components';
+import MainConcepts from './MainConcepts';
 
 const examples = [
   Intro,
   WhatIsReact,
   Components,
-  Summary,
-  {
-    name: 'Tools',
-  },
+  MainConcepts,
+  Hooks,
+  OtherConcepts,
+  BuildingonReact,
+  GettingStartedSuggestions,
+  Resources,
+  Alternatives,
 ];
 
 

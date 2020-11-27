@@ -9,5 +9,5 @@ function Components(props) {
 }
 
 render(
-    <Components test={test} />,
+  <Components test={test} />,
 );

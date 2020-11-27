@@ -9,5 +9,5 @@ function ClassComponents(props) {
 }
 
 render(
-    <ClassComponents test={test} />,
+  <ClassComponents test={test} />,
 );

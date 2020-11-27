@@ -1,0 +1,13 @@
+/**
+ * Render the Components and Props example
+ * @param props props for the object
+ * @return {object}
+ */
+function ComponentsandProps(props) {
+  const {test} = props;
+  return (<span>Components and Props of {test}</span>);
+}
+
+render(
+  <ComponentsandProps test={test} />,
+);
