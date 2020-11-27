@@ -58,7 +58,7 @@ function App() {
             <Route path={'/'} exact={true}>
               <Welcome />
             </Route>
-            <Route path={'/app/:activeId'}>
+            <Route path={'/example/:activeId'}>
               <ExampleWrapper />
             </Route>
           </Switch>

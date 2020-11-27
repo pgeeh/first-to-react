@@ -32,7 +32,7 @@ CustomLink.propTypes = {
  * @return {object}
  */
 function generateExampleLink(example) {
-  const link = `/app/${example.id}/${example.name}`;
+  const link = `/example/${example.id}/${example.name}`;
   return (
     <div className='toc-link'>
       <CustomLink
