@@ -5,13 +5,13 @@ import Resources from './Resources';
 import GettingStartedSuggestions from './GettingStartedSuggestions';
 import BuildingonReact from './BuildingonReact';
 import Hooks from './Hooks';
-import Intro from './Intro';
+// import Intro from './Intro';
 import WhatIsReact from './WhatisReact';
 import Components from './Components';
 import MainConcepts from './MainConcepts';
 
 const examples = [
-  Intro,
+  // Intro,
   WhatIsReact,
   Components,
   JSX,

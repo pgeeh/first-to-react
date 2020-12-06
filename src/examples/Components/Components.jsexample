@@ -1,13 +1,22 @@
-/**
- * Render the Components example
- * @param props props for the object
- * @return {object}
- */
-function Components(props) {
-  const {test} = props;
-  return (<span>Components of {test}</span>);
+class ClassComponent extends React.Component {
+  render() {
+    const {note} = this.props;
+    return (<center>Class Component example {note}</center>);
+  }
 }
 
+function FunctionalComponent(props) {
+  const {note} = props;
+  return (<center>Functional Component example {note}</center>);
+}
+
+const initial = {
+  note: 'Change me'
+};
+
 render(
-  <Components test={test} />,
+  <PropOverride initial={initial}>
+    <ClassComponent />
+    <FunctionalComponent />
+  </PropOverride>
 );

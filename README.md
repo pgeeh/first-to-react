@@ -26,3 +26,5 @@ Thanks to [rafgraph](https://github.com/rafgraph/spa-github-pages) for a fix for
 # Thanks
 
 Thanks to [freelogodesign.org](freelogodesign.org) for the logo.
+
+Thanks to [favicon.io](https://favicon.io/favicon-converter/) for the favicon conversion.
