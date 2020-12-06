@@ -1,0 +1,3 @@
+# Alternatives
+
+Default information

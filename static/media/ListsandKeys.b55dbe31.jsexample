@@ -1,0 +1,86 @@
+function ListItem({count, name, index}) {
+  const [innerCount, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(innerCount + 1);
+  }, [innerCount]);
+
+  return (
+    <li onClick={onClick} style={{margin: '10px', padding: '5px'}}>
+      Parent has been clicked {count} times and {name} (index {index}) {innerCount} times!
+    </li>
+  );
+}
+
+class ClassList extends React.Component {
+  constructor(props) {
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+      other: 'Still Here',
+    };
+
+    // Bind once in the constructor
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    // Class components have a generic method to update state
+    // It does a shallow (first-level only) assign of values, so
+    // not every value has to be sent, only the ones you wish to change
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    return (
+      // By the time render is called, 
+      // `this.onClick` will be bound via the constructor
+      <div onClick={this.onClick}>
+        <div>Class {this.props.name} has been clicked {this.state.count} times! ({this.state.other})</div>
+        <ul>
+          {this.props.members.map((member, index) => {
+            return <ListItem key={index} index={index} count={this.state.count} name={member}/>
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
+
+function FunctionalList(props) {
+  const [count, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div onClick={onClick}>
+      <div>Functional {props.name} has been clicked {count} times!</div>
+      <ul>
+          {props.members.map((member, index) => {
+            return <ListItem key={member} index={index} count={count} name={member}/>
+          })}
+        </ul>
+    </div>
+  )
+}
+
+const initial = {
+  name: 'Conditional Example',
+  members: [
+    'John',
+    'Paul',
+    'Ringo',
+    'George'
+  ]
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassList name={initial.name} members={initial.members}/>
+    <FunctionalList name={initial.name} members={initial.members}/>
+  </PropOverride>
+);

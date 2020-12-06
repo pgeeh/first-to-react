@@ -1,0 +1,13 @@
+/**
+ * Render the useContext example
+ * @param props props for the object
+ * @return {object}
+ */
+function useContext(props) {
+  const {test} = props;
+  return (<span>useContext of {test}</span>);
+}
+
+render(
+  <useContext test={test} />,
+);
