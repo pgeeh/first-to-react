@@ -56,8 +56,11 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar bg='dark' variant='dark'>
-          <Navbar.Brand to="/" as={NavLink}>First-To-React</Navbar.Brand>
+        <Navbar bg='light' variant='light'>
+          <Navbar.Brand to={fullLinkPath('/')} as={NavLink}>
+            <img src={fullLinkPath('/f2r-logo.png')} style={{height: '40px'}} />
+            First-To-React
+          </Navbar.Brand>
         </Navbar>
         {/* <header>First To React</header> */}
         <Container className="main" fluid>
