@@ -1,16 +1,33 @@
-/**
- * Render the Components and Props example
- * @param props props for the object
- * @return {object}
- */
-function Person(props) {
+class ClassPerson extends React.Component {
+  render() {
+    const {name, age, Display, style} = this.props;
+    return (
+      <div style={style}>
+        <center>
+          Class
+          <br/><br/>
+          <div>
+            {/* Note: When dynamically passing or using components, 
+              React requires that they be capitalized in the JSX. */}
+            Hi <Display name={name}/>, you are {age} years old.
+          </div>
+          <br/><br/>
+          <div>
+            If you update the override object, then the props will be updaed and should be changed accordingly.
+          </div>
+        </center>
+      </div>
+    );  
+  }
+}
+
+function FunctionalPerson(props) {
   // Props can be accessed as an object and decomposed
-  const {name, age, Display} = props;
-  const [count, setCount] = React.useState(0);
+  const {name, age, Display, style} = props;
   return (
-    <div onClick={() => setCount(count + 1)}>
+    <div style={style}>
       <center>
-        <div>Click anywhere in this area to increase the count of {count}</div>
+        Functional
         <br/><br/>
         <div>
           {/* Note: When dynamically passing or using components, 
@@ -19,19 +36,12 @@ function Person(props) {
         </div>
         <br/><br/>
         <div>
-           If you update the editor, then the component will be recreated and the state tracking of the counter {count} will be lost.
-          <br/><br/>
-           However, if you modify the property override by changing name or age then the props will change, but the component state will persist and the count of {count} will continue to increase.
+           If you update the override object, then the props will be updaed and should be changed accordingly.
         </div>
       </center>
     </div>
   );
 }
-
-const info = {
-  name: 'Billy',
-  age: 7,
-};
 
 // Display the name of a friend
 function FriendComponent({name}) {
@@ -40,8 +50,18 @@ function FriendComponent({name}) {
   return (<span style={{color: 'green'}}>{name}</span>)
 }
 
+const initial = {
+  name: 'Billy',
+  age: 7,
+  style: {
+    border: '1px solid black',
+    margin: '5px',
+  }
+};
+
 render(
-  <PropOverride>
-    <Person name={info.name} age={info.age} Display={FriendComponent} />
+  <PropOverride initial={initial}>
+    <ClassPerson name={initial.name} age={initial.age} Display={FriendComponent} style={initial.style}/>
+    <FunctionalPerson name={initial.name} age={initial.age} Display={FriendComponent} style={initial.style}/>
   </PropOverride>
 );

@@ -80,6 +80,12 @@
         }
       }
 
+      .actualPreview {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+      }
+
       .previewHeader {
         margin: 5px;
         padding: 5px;

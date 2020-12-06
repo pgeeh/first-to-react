@@ -4,7 +4,6 @@ import HandlingEvents from './HandlingEvents';
 import ConditionalRendering from './ConditionalRendering';
 import ListsandKeys from './ListsandKeys';
 import FormsControlled from './FormsControlled';
-import FormsUncontrolled from './FormsUncontrolled';
 import CompositionoverInheritance from './CompositionoverInheritance';
 
 
@@ -20,7 +19,6 @@ const config = {
     ConditionalRendering,
     ListsandKeys,
     FormsControlled,
-    FormsUncontrolled,
     CompositionoverInheritance,
   ],
 };

@@ -1,13 +1,52 @@
-/**
- * Render the Forms Controlled example
- * @param props props for the object
- * @return {object}
- */
 function FormsControlled(props) {
-  const {test} = props;
-  return (<span>Forms Controlled of {test}</span>);
+  const {name, age} = props;
+  const [formName, setName] = React.useState(name);
+  const [formAge, setAge] = React.useState(age);
+
+  const update = React.useCallback((e) => {
+    if (e.target.name === 'name') {
+      setName(e.target.value);
+    } else if (e.target.name === 'age') {
+      setAge(e.target.value);
+    }
+  }, []);
+
+  const onSubmit = React.useCallback((e) => {
+    e.preventDefault();
+    alert(`${formName} is ${formAge} years old`);
+  }, [formName, formAge]);
+
+  const onReset = React.useCallback(() => {
+    setName(name);
+    setAge(age);
+  }, [name, age]);
+
+  return (
+    <form onSubmit={onSubmit} onReset={onReset}>
+      <label>
+        Name:
+        <input type="text" value={formName} name='name' onChange={update} />
+      </label>
+      <br/>
+      
+      <label>
+        Age:
+        <input type="number" value={formAge} name='age' onChange={update} />
+      </label>
+      <br/>
+      <input type="reset" value="Reset" />
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+const initial = {
+  name: '',
+  age: 0
 }
 
 render(
-  <FormsControlled test={test} />,
+  <PropOverride initial={initial}>
+    <FormsControlled />
+  </PropOverride>
 );

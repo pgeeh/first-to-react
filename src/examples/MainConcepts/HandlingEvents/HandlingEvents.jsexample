@@ -1,13 +1,56 @@
-/**
- * Render the Handling Events example
- * @param props props for the object
- * @return {object}
- */
-function HandlingEvents(props) {
-  const {test} = props;
-  return (<span>Handling Events of {test}</span>);
+class ClassEvent extends React.Component {
+  constructor(props) {
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+      other: 'Still Here',
+    };
+
+    // Bind once in the constructor
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    // Class components have a generic method to update state
+    // It does a shallow (first-level only) assign of values, so
+    // not every value has to be sent, only the ones you wish to change
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    return (
+      // By the time render is called, 
+      // `this.onClick` will be bound via the constructor
+      <div onClick={this.onClick}>
+        Class {this.props.name} has been clicked {this.state.count} times! ({this.state.other})
+      </div>
+    );
+  }
 }
 
+function FunctionalEvent(props) {
+  const [count, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div onClick={onClick}>
+      Functional {props.name} has been clicked {count} times!
+    </div>
+  )
+}
+
+const initial = {
+  name: 'State Example',
+};
+
 render(
-  <HandlingEvents test={test} />,
+  <PropOverride initial={initial}>
+    <ClassEvent name={initial.name}/>
+    <FunctionalEvent name={initial.name}/>
+  </PropOverride>
 );

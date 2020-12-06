@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useContext} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import vsDark from 'prism-react-renderer/themes/vsDark';
@@ -9,17 +9,21 @@ import Container from 'react-bootstrap/Container';
 
 import {readFile} from '../../utils';
 import './Editor.scss';
+const overrideNote = {
+  '_note': 'Items here will override props from editor',
+};
 
-const OverrideContext = React.createContext({});
+// const OverrideContext = React.createContext({});
 
 /**
  * Display the prop override
  * @param {object} children children to render and override
  * @return {object}
  */
-function PropOverride({children}) {
-  const initial = useContext(OverrideContext);
-  const [scope, setScope] = useState(initial);
+function PropOverride({initial, children}) {
+  // const initial = useContext(OverrideContext);
+  const initialCombined = {...overrideNote, ...initial};
+  const [scope, setScope] = useState(initialCombined);
   const [scopeText, setScopeText] = useState(JSON.stringify(scope, null, 2));
   const [scopeError, setScopeError] = useState(null);
 
@@ -41,11 +45,11 @@ function PropOverride({children}) {
   }, [scope]);
 
   const onReset = useCallback(() => {
-    setScope(initial);
-    setScopeText(JSON.stringify(initial, null, 2));
+    setScope(initialCombined);
+    setScopeText(JSON.stringify(initialCombined, null, 2));
   }, [initial]);
 
-  // Convert to an array if we did not already have one.
+  // Convert to an array if not already one.
   const childs = Array.isArray(children) ? children : [children];
 
   return (
@@ -66,10 +70,13 @@ function PropOverride({children}) {
               <div className="styledError">Invalid Scope! {scopeError}</div> :
               null}
       </div>
-      <div className="previewHeader">
-        <center>Live Preview</center>
+      <div className="actualPreview">
+        <div className="previewHeader">
+          <center>Live Preview</center>
+        </div>
+        {/* Add the scope to the children as props */}
+        {childs.map((child) => React.cloneElement(child, scope))}
       </div>
-      {childs.map((child) => React.cloneElement(child, scope))}
     </>
   );
 }
@@ -89,9 +96,6 @@ PropOverride.propTypes = {
  */
 function Editor(props) {
   const {code} = props;
-  const originalOverride = {
-    '_note': 'Items here will override props from editor',
-  };
 
   const [content, setContent] = useState(null);
 
@@ -125,19 +129,19 @@ function Editor(props) {
       transformCode={onTransform}
       theme={vsDark}
     >
-      <OverrideContext.Provider value={originalOverride}>
-        <Container className="editorContainer" fluid>
-          <Row className="editorWrapper">
-            <Col>
-              <LiveEditor className="styledEditor" />
-            </Col>
-            <Col className="previewSection">
-              <LiveError className="styledError" />
-              <LivePreview className="styledPreview" />
-            </Col>
-          </Row>
-        </Container>
-      </OverrideContext.Provider>
+      {/* <OverrideContext.Provider value={originalOverride}> */}
+      <Container className="editorContainer" fluid>
+        <Row className="editorWrapper">
+          <Col>
+            <LiveEditor className="styledEditor" />
+          </Col>
+          <Col className="previewSection">
+            <LiveError className="styledError" />
+            <LivePreview className="styledPreview" />
+          </Col>
+        </Row>
+      </Container>
+      {/* </OverrideContext.Provider> */}
     </LiveProvider>
   );
 }
