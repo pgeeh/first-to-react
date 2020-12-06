@@ -1,0 +1,22 @@
+class ClassComponent extends React.Component {
+  render() {
+    const {note} = this.props;
+    return (<center>Class Component example {note}</center>);
+  }
+}
+
+function FunctionalComponent(props) {
+  const {note} = props;
+  return (<center>Functional Component example {note}</center>);
+}
+
+const initial = {
+  note: 'Change me'
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassComponent />
+    <FunctionalComponent />
+  </PropOverride>
+);

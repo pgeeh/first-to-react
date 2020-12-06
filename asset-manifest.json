@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/first-to-react/static/css/main.7c00c705.chunk.css",
-    "main.js": "/first-to-react/static/js/main.255b097f.chunk.js",
-    "main.js.map": "/first-to-react/static/js/main.255b097f.chunk.js.map",
+    "main.css": "/first-to-react/static/css/main.bcfc9e31.chunk.css",
+    "main.js": "/first-to-react/static/js/main.650fda2e.chunk.js",
+    "main.js.map": "/first-to-react/static/js/main.650fda2e.chunk.js.map",
     "runtime-main.js": "/first-to-react/static/js/runtime-main.c9260c89.js",
     "runtime-main.js.map": "/first-to-react/static/js/runtime-main.c9260c89.js.map",
     "static/css/2.1a02f21c.chunk.css": "/first-to-react/static/css/2.1a02f21c.chunk.css",
@@ -12,13 +12,13 @@
     "static/js/3.7c0ea691.chunk.js.map": "/first-to-react/static/js/3.7c0ea691.chunk.js.map",
     "index.html": "/first-to-react/index.html",
     "static/css/2.1a02f21c.chunk.css.map": "/first-to-react/static/css/2.1a02f21c.chunk.css.map",
-    "static/css/main.7c00c705.chunk.css.map": "/first-to-react/static/css/main.7c00c705.chunk.css.map",
+    "static/css/main.bcfc9e31.chunk.css.map": "/first-to-react/static/css/main.bcfc9e31.chunk.css.map",
     "static/js/2.6d0c7d0c.chunk.js.LICENSE.txt": "/first-to-react/static/js/2.6d0c7d0c.chunk.js.LICENSE.txt",
     "static/media/Alternatives.44890062.md": "/first-to-react/static/media/Alternatives.44890062.md",
     "static/media/BuildingonReact.5186a475.md": "/first-to-react/static/media/BuildingonReact.5186a475.md",
     "static/media/ClassComponents.10bed44b.jsexample": "/first-to-react/static/media/ClassComponents.10bed44b.jsexample",
     "static/media/ClassComponents.9131d434.md": "/first-to-react/static/media/ClassComponents.9131d434.md",
-    "static/media/Components.93adfd1d.jsexample": "/first-to-react/static/media/Components.93adfd1d.jsexample",
+    "static/media/Components.29d1343c.jsexample": "/first-to-react/static/media/Components.29d1343c.jsexample",
     "static/media/Components.c0632cb6.md": "/first-to-react/static/media/Components.c0632cb6.md",
     "static/media/ComponentsandProps.8576eb67.md": "/first-to-react/static/media/ComponentsandProps.8576eb67.md",
     "static/media/ComponentsandProps.99a34e6d.jsexample": "/first-to-react/static/media/ComponentsandProps.99a34e6d.jsexample",
@@ -37,8 +37,6 @@
     "static/media/HandlingEvents.c1500002.jsexample": "/first-to-react/static/media/HandlingEvents.c1500002.jsexample",
     "static/media/Hooks.943bec10.jsexample": "/first-to-react/static/media/Hooks.943bec10.jsexample",
     "static/media/Hooks.bcc7c7d9.md": "/first-to-react/static/media/Hooks.bcc7c7d9.md",
-    "static/media/Intro.5823b80b.md": "/first-to-react/static/media/Intro.5823b80b.md",
-    "static/media/Intro.5e6e88ee.jsexample": "/first-to-react/static/media/Intro.5e6e88ee.jsexample",
     "static/media/JSX.4dafeb5a.md": "/first-to-react/static/media/JSX.4dafeb5a.md",
     "static/media/JSX.8c9c9552.jsexample": "/first-to-react/static/media/JSX.8c9c9552.jsexample",
     "static/media/LayoutFrameworks.470807e2.jsexample": "/first-to-react/static/media/LayoutFrameworks.470807e2.jsexample",
@@ -69,7 +67,7 @@
     "static/js/runtime-main.c9260c89.js",
     "static/css/2.1a02f21c.chunk.css",
     "static/js/2.6d0c7d0c.chunk.js",
-    "static/css/main.7c00c705.chunk.css",
-    "static/js/main.255b097f.chunk.js"
+    "static/css/main.bcfc9e31.chunk.css",
+    "static/js/main.650fda2e.chunk.js"
   ]
 }
