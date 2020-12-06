@@ -17,10 +17,11 @@ import Example from './components/Example';
 import examples from './examples';
 import Welcome from './components/Welcome';
 
+import {fullLinkPath} from './utils';
+
 const examplesMap = {};
 
 const addIds = (items, prefix = '') => {
-  console.log(items);
   for (let i = 1; i <= items.length; i++) {
     const item = items[i - 1];
     const id = prefix + String(i);
@@ -67,10 +68,10 @@ function App() {
             </Col>
             <Col className="p-0" xs={10}>
               <Switch>
-                <Route path={'/'} exact={true}>
+                <Route path={fullLinkPath('/')} exact={true}>
                   <Welcome />
                 </Route>
-                <Route path={'/example/:activeId'}>
+                <Route path={fullLinkPath('/example/:activeId')}>
                   <ExampleWrapper />
                 </Route>
               </Switch>

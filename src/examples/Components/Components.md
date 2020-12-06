@@ -1,6 +1,6 @@
 ## Components
 
-Components each represent a single DOM element, which may or may not have children of DOM elements or additional Components.
+Components each represent a single DOM element, which may or may not have DOM elements or additional Components as children.
 
 #### Functional Components
 

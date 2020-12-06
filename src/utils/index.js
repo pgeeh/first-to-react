@@ -1,3 +1,5 @@
+import {PATH_ROOT} from '../constants';
+
 /**
  * Include only active classes by key when their value is true
  * @param {object} classes class to active mapping
@@ -33,3 +35,11 @@ export const readFile = (path, callback) => {
         callback(text);
       });
 };
+
+/**
+ * Create the full path, from the provided relative path.
+ * Relative path should start with /
+ * @param {string} path relative path
+ * @return {string} full path
+ */
+export const fullLinkPath = (path) => PATH_ROOT + path;

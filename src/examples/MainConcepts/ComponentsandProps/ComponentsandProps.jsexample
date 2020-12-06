@@ -3,11 +3,45 @@
  * @param props props for the object
  * @return {object}
  */
-function ComponentsandProps(props) {
-  const {test} = props;
-  return (<span>Components and Props of {test}</span>);
+function Person(props) {
+  // Props can be accessed as an object and decomposed
+  const {name, age, Display} = props;
+  const [count, setCount] = React.useState(0);
+  return (
+    <div onClick={() => setCount(count + 1)}>
+      <center>
+        <div>Click anywhere in this area to increase the count of {count}</div>
+        <br/><br/>
+        <div>
+          {/* Note: When dynamically passing or using components, 
+            React requires that they be capitalized in the JSX. */}
+          Hi <Display name={name}/>, you are {age} years old.
+        </div>
+        <br/><br/>
+        <div>
+           If you update the editor, then the component will be recreated and the state tracking of the counter {count} will be lost.
+          <br/><br/>
+           However, if you modify the property override by changing name or age then the props will change, but the component state will persist and the count of {count} will continue to increase.
+        </div>
+      </center>
+    </div>
+  );
+}
+
+const info = {
+  name: 'Billy',
+  age: 7,
+};
+
+// Display the name of a friend
+function FriendComponent({name}) {
+  // Props can also be decomposed directly in the argument list
+  // This is not unique to props, but is a common pattern
+  return (<span style={{color: 'green'}}>{name}</span>)
 }
 
 render(
-  <ComponentsandProps test={test} />,
+  <PropOverride>
+    <Person name={info.name} age={info.age} Display={FriendComponent} />
+  </PropOverride>
 );

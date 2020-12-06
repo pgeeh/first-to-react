@@ -1,3 +1,4 @@
+import JSX from './JSX';
 import OtherConcepts from './OtherConcepts';
 import Alternatives from './Alternatives';
 import Resources from './Resources';
@@ -13,6 +14,7 @@ const examples = [
   Intro,
   WhatIsReact,
   Components,
+  JSX,
   MainConcepts,
   Hooks,
   OtherConcepts,
