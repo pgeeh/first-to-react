@@ -1,3 +1,0 @@
-# Layout Frameworks
-
-Default information

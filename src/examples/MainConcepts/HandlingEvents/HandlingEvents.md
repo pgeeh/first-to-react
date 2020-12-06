@@ -1,3 +1,0 @@
-# Handling Events
-
-Default information

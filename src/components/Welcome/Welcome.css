@@ -1,9 +1,0 @@
-.welcome {
-  flex-grow: 1;
-  background-color: azure;
-}
-
-.welcome .active {
-  background-color: yellowgreen;
-  border: 1px solid black;
-}

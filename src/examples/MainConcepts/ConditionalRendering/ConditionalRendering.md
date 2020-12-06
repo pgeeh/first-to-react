@@ -1,3 +1,0 @@
-# Conditional Rendering
-
-Default information

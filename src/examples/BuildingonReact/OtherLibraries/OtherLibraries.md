@@ -1,3 +1,0 @@
-# Other Libraries
-
-Default information
