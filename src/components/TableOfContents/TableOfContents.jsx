@@ -3,6 +3,9 @@ import {
   NavLink,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import {fullLinkPath} from '../../utils';
+
 import './TableOfContents.scss';
 
 
@@ -32,7 +35,7 @@ CustomLink.propTypes = {
  * @return {object}
  */
 function ExampleLink(example) {
-  const link = `/example/${example.id}/${example.name}`;
+  const link = fullLinkPath(`/example/${example.id}/${example.name}`);
   return (
     <div key={example.id} className='toc-link'>
       <CustomLink
@@ -58,7 +61,7 @@ function TableOfContents(props) {
   return (
     <div className="tableOfContents">
       <div className='toc-link'>
-        <CustomLink key="home" to="/" exact={true}>
+        <CustomLink key="home" to={fullLinkPath('/')} exact={true}>
           <div className="toc-link-text">
               Home
           </div>

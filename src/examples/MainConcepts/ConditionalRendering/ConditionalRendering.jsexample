@@ -1,13 +1,72 @@
-/**
- * Render the Conditional Rendering example
- * @param props props for the object
- * @return {object}
- */
-function ConditionalRendering(props) {
-  const {test} = props;
-  return (<span>Conditional Rendering of {test}</span>);
+function Odd({name}) {
+  return (
+    <span style={{color: 'green'}}>{name}</span>
+  );
 }
 
+function Even({name}) {
+  return (
+    <span style={{color: 'Red'}}>{name}</span>
+  );
+}
+
+class ClassEvent extends React.Component {
+  constructor(props) {
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+      other: 'Still Here',
+    };
+
+    // Bind once in the constructor
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    // Class components have a generic method to update state
+    // It does a shallow (first-level only) assign of values, so
+    // not every value has to be sent, only the ones you wish to change
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    const Dynamic = this.state.count % 2 === 0 ? Even : Odd;
+    return (
+      // By the time render is called, 
+      // `this.onClick` will be bound via the constructor
+      <div onClick={this.onClick}>
+        <div>Class <Dynamic name={this.props.name}/> has been clicked {this.state.count} times! ({this.state.other})</div>
+        {this.state.count === 0 ? <div>I will display until you click!</div> : null}
+      </div>
+    );
+  }
+}
+
+function FunctionalEvent(props) {
+  const [count, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  const Dynamic = count % 2 === 0 ? Even : Odd;
+  return (
+    <div onClick={onClick}>
+      <div>Functional <Dynamic name={props.name}/> has been clicked {count} times!</div>
+      {count >= 10 ? <div>I will not display until you have clicked enough!</div> : null}
+    </div>
+  )
+}
+
+const initial = {
+  name: 'Conditional Example',
+};
+
 render(
-  <ConditionalRendering test={test} />,
+  <PropOverride initial={initial}>
+    <ClassEvent name={initial.name}/>
+    <FunctionalEvent name={initial.name}/>
+  </PropOverride>
 );

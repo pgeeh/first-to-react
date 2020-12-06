@@ -1,13 +1,73 @@
-/**
- * Render the Composition over Inheritance example
- * @param props props for the object
- * @return {object}
- */
-function CompositionoverInheritance(props) {
-  const {test} = props;
-  return (<span>Composition over Inheritance of {test}</span>);
+function Button({onClick, style, ...other}) {
+  console.log(other);
+  return (
+    <button style={style} onClick={onClick} {...other}>Click me!</button>
+  );
 }
 
+// This button styles the inner button as 'blue'
+function BlueButton({...other}) {
+  return (
+    <Button style={{color:'blue'}} {...other} />
+  );
+}
+
+// The '...other' syntax allows for passing through props to children
+function GreenButton({...other}) {
+  return (
+    <Button style={{color:'green'}} {...other} />
+  );
+}
+
+// This tracks a specific buttons clicks, as well as shows additional information
+// passed as child elements
+// 'button: ButtonToUse' converts the 'button' prop to uppercased 'ButtonToUse', so React
+// will render it as a component. This is an alternative to 
+function TrackedButton({children, onClick, button: ButtonToUse, ...other}) {
+  const [count, setCount] = React.useState(0);
+  
+  const innerClick = React.useCallback(() => {
+    setCount(count + 1);
+    onClick();
+  }, [count]);
+
+  return (
+    <div style={{margin: '10px'}}>
+      <div>This button has been clicked {count} times!</div>
+      <ButtonToUse onClick={innerClick} {...other} />
+      {children}
+    </div>
+  )
+}
+
+function CompositionoverInheritance(props) {
+  const {disabled} = props;
+  const [count, setCount] = React.useState(0);
+  
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+  
+  return (
+    <div>
+      <div>Either button has been clicked {count} times.</div>
+      <TrackedButton onClick={onClick} button={Button} disabled={disabled}>
+        {disabled === true ? <div>Cannot click - disabled!</div> : null}
+      </TrackedButton>
+      <TrackedButton onClick={onClick} button={GreenButton} />
+      <TrackedButton onClick={onClick} button={BlueButton}>
+        <div>Some additional information here</div>
+      </TrackedButton>
+    </div>
+  );
+}
+
+const initial = {
+  disabled: true
+};
+
 render(
-  <CompositionoverInheritance test={test} />,
+  <PropOverride initial={initial}>
+    <CompositionoverInheritance />
+  </PropOverride>
 );

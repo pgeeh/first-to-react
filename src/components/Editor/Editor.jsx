@@ -5,9 +5,89 @@ import vsDark from 'prism-react-renderer/themes/vsDark';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+// import assign from 'assign-deep';
 
-import './Editor.scss';
 import {readFile} from '../../utils';
+import './Editor.scss';
+const overrideNote = {
+  '_note': 'Items here will override props from editor',
+};
+
+// const OverrideContext = React.createContext({});
+
+/**
+ * Display the prop override
+ * @param {object} children children to render and override
+ * @return {object}
+ */
+function PropOverride({initial, children}) {
+  // const initial = useContext(OverrideContext);
+  const initialCombined = {...overrideNote, ...initial};
+  const [scope, setScope] = useState(initialCombined);
+  const [scopeText, setScopeText] = useState(JSON.stringify(scope, null, 2));
+  const [scopeError, setScopeError] = useState(null);
+
+  const onScopeChange = useCallback((e) => {
+    const update = e.target.value;
+    setScopeText(update);
+
+    try {
+      const s = JSON.parse(update);
+      setScope(s);
+      setScopeError(null);
+    } catch (e) {
+      setScopeError(String(e));
+    }
+  }, []);
+
+  const onPretty = useCallback(() => {
+    setScopeText(JSON.stringify(scope, null, 2));
+  }, [scope]);
+
+  const onReset = useCallback(() => {
+    setScope(initialCombined);
+    setScopeText(JSON.stringify(initialCombined, null, 2));
+  }, [initial]);
+
+  // Convert to an array if not already one.
+  const childs = Array.isArray(children) ? children : [children];
+
+  return (
+    <>
+      <div className="propOverride">
+        <div className="overrideHeader">
+          <div onClick={onPretty}>Pretty</div>
+          <div>Prop Override</div>
+          <div onClick={onReset}>Reset</div>
+        </div>
+        <textarea
+          style={{width: '100%'}}
+          rows={8}
+          className="styledOverride"
+          onChange={onScopeChange}
+          value={scopeText}></textarea>
+        {scopeError !== null ?
+              <div className="styledError">Invalid Scope! {scopeError}</div> :
+              null}
+      </div>
+      <div className="actualPreview">
+        <div className="previewHeader">
+          <center>Live Preview</center>
+        </div>
+        {/* Add the scope to the children as props */}
+        {childs.map((child) => React.cloneElement(child, scope))}
+      </div>
+    </>
+  );
+}
+
+PropOverride.propTypes = {
+  initial: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+};
 
 /**
  * Display an Editor
@@ -16,26 +96,8 @@ import {readFile} from '../../utils';
  */
 function Editor(props) {
   const {code} = props;
-  const originalScope = {test: 'SOMETHING'};
 
   const [content, setContent] = useState(null);
-  const [scope, setScope] = useState(originalScope);
-  const [scopeText, setScopeText] = useState(JSON.stringify(scope, null, 2));
-  const [scopeError, setScopeError] = useState(null);
-
-  const onScopeChange = useCallback((e) => {
-    const update = e.target.value;
-
-    try {
-      const s = JSON.parse(update);
-      setScope(s);
-      setScopeText(JSON.stringify(s, null, 2));
-      setScopeError(null);
-    } catch (e) {
-      setScopeText(update);
-      setScopeError(String(e));
-    }
-  }, []);
 
   // Save content changes so when the scope changes, they do not get lost
   const onTransform = useCallback((edited) => {
@@ -57,41 +119,29 @@ function Editor(props) {
     );
   }
 
+  // window.scope = {name: 'Bob'};
+
   return (
     <LiveProvider
       code={content}
       noInline={true}
-      scope={scope}
+      scope={{PropOverride}}
       transformCode={onTransform}
       theme={vsDark}
     >
+      {/* <OverrideContext.Provider value={originalOverride}> */}
       <Container className="editorContainer" fluid>
-        {/* Hide the scope editing for now until we decide if it is useful */}
-        <Row className="d-none">
-          <Col>
-            <textarea
-              className="styledScope"
-              onChange={onScopeChange}
-              value={scopeText}></textarea>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {scopeError !== null ?
-              <div className="styledError">Invalid Scope! {scopeError}</div> :
-              null}
-            <LiveError className="styledError" />
-          </Col>
-        </Row>
         <Row className="editorWrapper">
           <Col>
             <LiveEditor className="styledEditor" />
           </Col>
-          <Col>
+          <Col className="previewSection">
+            <LiveError className="styledError" />
             <LivePreview className="styledPreview" />
           </Col>
         </Row>
       </Container>
+      {/* </OverrideContext.Provider> */}
     </LiveProvider>
   );
 }
