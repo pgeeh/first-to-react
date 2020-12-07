@@ -1,13 +1,58 @@
-/**
- * Render the ClassComponents example
- * @param props props for the object
- * @return {object}
- */
-function ClassComponents(props) {
-  const {test} = props;
-  return (<span>ClassComponents of {test}</span>);
+class ClassComponents extends React.Component {
+  constructor(props) {
+    this.state = {
+      time: new Date()
+    };
+
+    this.updateTime = this.updateTime.bind(this);
+  }
+
+  updateTime() {
+    this.setState({
+      time: new Date(),
+    });
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.updateTime, 
+      this.props.interval || 0);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.interval !== prevProps.interval) {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.updateTime, 
+        this.props.interval || 0);
+    }
+  }
+
+  render() {
+    return (
+      <div onClick={this.updateTime}>
+        <div>
+          This will update every 
+          {this.props.interval || 0} milliseconds, 
+          or immediately if you click!
+        </div>
+        <br/>
+        <div>
+          The date & time is {this.state.time.toISOString()}
+        </div>
+      </div>
+    )
+  }
 }
 
+const initial = {
+  interval: 1000
+};
+
 render(
-  <ClassComponents test={test} />,
+  <PropOverride initial={initial}>
+    <ClassComponents />
+  </PropOverride>
 );

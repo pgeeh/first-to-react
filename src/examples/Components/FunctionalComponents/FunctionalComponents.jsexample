@@ -1,13 +1,37 @@
-/**
- * Render the FunctionalComponents example
- * @param props props for the object
- * @return {object}
- */
-function FunctionalComponents(props) {
-  const {test} = props;
-  return (<span>FunctionalComponents of {test}</span>);
+function FunctionalComponents({interval}) {
+  const [time, setTime] = React.useState(new Date());
+  const intervalRef = React.useRef();
+
+  const updateTime = React.useCallback(() => {
+    setTime(new Date());
+  }, []);
+
+  React.useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(updateTime, interval || 0);
+  }, [interval]);
+
+  return (
+    <div onClick={updateTime}>
+      <div>
+        This will update every 
+        {interval || 0} milliseconds, 
+        or immediately if you click!
+      </div>
+      <br/>
+      <div>
+        The date & time is {time.toISOString()}
+      </div>
+    </div>
+  );
 }
 
+const initial = {
+  interval: 1000
+};
+
 render(
-  <FunctionalComponents test={test} />,
+  <PropOverride initial={initial}>
+    <FunctionalComponents />
+  </PropOverride>
 );
