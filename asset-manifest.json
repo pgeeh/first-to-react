@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/first-to-react/static/css/main.c53bf82f.chunk.css",
-    "main.js": "/first-to-react/static/js/main.1d462c61.chunk.js",
-    "main.js.map": "/first-to-react/static/js/main.1d462c61.chunk.js.map",
+    "main.js": "/first-to-react/static/js/main.0faeec1b.chunk.js",
+    "main.js.map": "/first-to-react/static/js/main.0faeec1b.chunk.js.map",
     "runtime-main.js": "/first-to-react/static/js/runtime-main.c9260c89.js",
     "runtime-main.js.map": "/first-to-react/static/js/runtime-main.c9260c89.js.map",
     "static/css/2.1a02f21c.chunk.css": "/first-to-react/static/css/2.1a02f21c.chunk.css",
@@ -16,10 +16,10 @@
     "static/js/2.6d0c7d0c.chunk.js.LICENSE.txt": "/first-to-react/static/js/2.6d0c7d0c.chunk.js.LICENSE.txt",
     "static/media/Alternatives.44890062.md": "/first-to-react/static/media/Alternatives.44890062.md",
     "static/media/BuildingonReact.5186a475.md": "/first-to-react/static/media/BuildingonReact.5186a475.md",
-    "static/media/ClassComponents.10bed44b.jsexample": "/first-to-react/static/media/ClassComponents.10bed44b.jsexample",
-    "static/media/ClassComponents.7c1c25d5.md": "/first-to-react/static/media/ClassComponents.7c1c25d5.md",
+    "static/media/ClassComponents.0d63017d.md": "/first-to-react/static/media/ClassComponents.0d63017d.md",
+    "static/media/ClassComponents.19666a6a.jsexample": "/first-to-react/static/media/ClassComponents.19666a6a.jsexample",
     "static/media/Components.29d1343c.jsexample": "/first-to-react/static/media/Components.29d1343c.jsexample",
-    "static/media/Components.c0632cb6.md": "/first-to-react/static/media/Components.c0632cb6.md",
+    "static/media/Components.8556009b.md": "/first-to-react/static/media/Components.8556009b.md",
     "static/media/ComponentsandProps.8576eb67.md": "/first-to-react/static/media/ComponentsandProps.8576eb67.md",
     "static/media/ComponentsandProps.99a34e6d.jsexample": "/first-to-react/static/media/ComponentsandProps.99a34e6d.jsexample",
     "static/media/CompositionoverInheritance.3fde64b5.jsexample": "/first-to-react/static/media/CompositionoverInheritance.3fde64b5.jsexample",
@@ -30,14 +30,14 @@
     "static/media/FormsControlled.c9e3bbe9.md": "/first-to-react/static/media/FormsControlled.c9e3bbe9.md",
     "static/media/Fragments.176fb61b.md": "/first-to-react/static/media/Fragments.176fb61b.md",
     "static/media/Fragments.8a1f04da.jsexample": "/first-to-react/static/media/Fragments.8a1f04da.jsexample",
-    "static/media/FunctionalComponents.730d62a5.md": "/first-to-react/static/media/FunctionalComponents.730d62a5.md",
-    "static/media/FunctionalComponents.d190b92d.jsexample": "/first-to-react/static/media/FunctionalComponents.d190b92d.jsexample",
+    "static/media/FunctionalComponents.32b73202.md": "/first-to-react/static/media/FunctionalComponents.32b73202.md",
+    "static/media/FunctionalComponents.3c4c3393.jsexample": "/first-to-react/static/media/FunctionalComponents.3c4c3393.jsexample",
     "static/media/GettingStartedSuggestions.dc699965.md": "/first-to-react/static/media/GettingStartedSuggestions.dc699965.md",
     "static/media/HandlingEvents.2cc9fcca.md": "/first-to-react/static/media/HandlingEvents.2cc9fcca.md",
     "static/media/HandlingEvents.c1500002.jsexample": "/first-to-react/static/media/HandlingEvents.c1500002.jsexample",
     "static/media/Hooks.943bec10.jsexample": "/first-to-react/static/media/Hooks.943bec10.jsexample",
     "static/media/Hooks.bcc7c7d9.md": "/first-to-react/static/media/Hooks.bcc7c7d9.md",
-    "static/media/Intro.03fcee86.md": "/first-to-react/static/media/Intro.03fcee86.md",
+    "static/media/Intro.c520127e.md": "/first-to-react/static/media/Intro.c520127e.md",
     "static/media/Intro.f3dd0d22.jsexample": "/first-to-react/static/media/Intro.f3dd0d22.jsexample",
     "static/media/JSX.4dafeb5a.md": "/first-to-react/static/media/JSX.4dafeb5a.md",
     "static/media/JSX.8c9c9552.jsexample": "/first-to-react/static/media/JSX.8c9c9552.jsexample",
@@ -70,6 +70,6 @@
     "static/css/2.1a02f21c.chunk.css",
     "static/js/2.6d0c7d0c.chunk.js",
     "static/css/main.c53bf82f.chunk.css",
-    "static/js/main.1d462c61.chunk.js"
+    "static/js/main.0faeec1b.chunk.js"
   ]
 }
