@@ -1,3 +1,3 @@
 # ClassComponents
 
-Default information
+Class-based components extend

@@ -20,7 +20,7 @@ const overrideNote = {
  * @param {object} children children to render and override
  * @return {object}
  */
-function PropOverride({initial, children}) {
+function PropOverride({initial={}, children}) {
   // const initial = useContext(OverrideContext);
   const initialCombined = {...overrideNote, ...initial};
   const [scope, setScope] = useState(initialCombined);

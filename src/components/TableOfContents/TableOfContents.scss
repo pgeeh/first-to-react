@@ -1,18 +1,20 @@
 .tableOfContents {
   margin: 5px;
+  padding: 5px;
+
   background-color: antiquewhite;
 
   // min-width: 250px;
 
   // Add extra margin to nested ones
-  .toc-link .toc-link {
-    margin-left: 5px;
+  .toc-link .toc-link .toc-link-text {
+    padding-left: 20px;
   }
   
   .active .toc-link-text {
-    background-color: lighten(navy, 70%);
+    background-color: lighten(navy, 65%);
     color: navy;
-    text-decoration: underline;
+    // text-decoration: wavy;
     /* border: 1px solid black; */
   }
 
@@ -22,6 +24,10 @@
     white-space: nowrap;
     
     background-color: white;
+
+    &:hover {
+      background-color: darken(antiquewhite, 10%);
+    }
   }
 
   &:hover {
