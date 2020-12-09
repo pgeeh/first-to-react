@@ -15,9 +15,10 @@ import './App.scss';
 import TableOfContents from './components/TableOfContents';
 import Example from './components/Example';
 import examples from './examples';
-import Welcome from './components/Welcome';
+import General from './components/General';
 
 import {fullLinkPath} from './utils';
+import {PAGES} from './components/General';
 
 const examplesMap = {};
 
@@ -72,10 +73,13 @@ function App() {
             <Col className="p-0" xs={10}>
               <Switch>
                 <Route path={fullLinkPath('/')} exact={true}>
-                  <Welcome />
+                  <General page={PAGES.HOME} />
                 </Route>
                 <Route path={fullLinkPath('/example/:activeId')}>
                   <ExampleWrapper />
+                </Route>
+                <Route path={fullLinkPath('/about')} exact={true}>
+                  <General page={PAGES.ABOUT} />
                 </Route>
               </Switch>
             </Col>

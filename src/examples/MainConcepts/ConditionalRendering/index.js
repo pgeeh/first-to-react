@@ -5,7 +5,12 @@ import code from './ConditionalRendering.jsexample';
 const config = {
   info,
   name: 'Conditional Rendering',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

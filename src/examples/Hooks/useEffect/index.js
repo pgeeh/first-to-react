@@ -5,7 +5,12 @@ import code from './useEffect.jsexample';
 const config = {
   info,
   name: 'useEffect',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

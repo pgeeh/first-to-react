@@ -5,7 +5,12 @@ import code from './JSX.jsexample';
 const config = {
   info,
   name: 'JSX',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

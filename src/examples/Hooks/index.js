@@ -9,7 +9,12 @@ import code from './Hooks.jsexample';
 const config = {
   info,
   name: 'Hooks',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
     useState,
     useEffect,

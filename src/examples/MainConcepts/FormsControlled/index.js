@@ -5,7 +5,12 @@ import code from './FormsControlled.jsexample';
 const config = {
   info,
   name: 'Forms Controlled',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

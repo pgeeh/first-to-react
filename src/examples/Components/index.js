@@ -7,7 +7,12 @@ import code from './Components.jsexample';
 const config = {
   info,
   name: 'Components',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
     ClassComponents,
     FunctionalComponents,

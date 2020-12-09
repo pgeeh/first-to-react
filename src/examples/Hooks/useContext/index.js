@@ -5,7 +5,12 @@ import code from './useContext.jsexample';
 const config = {
   info,
   name: 'useContext',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

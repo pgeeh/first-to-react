@@ -5,7 +5,12 @@ import code from './CompositionoverInheritance.jsexample';
 const config = {
   info,
   name: 'Composition over Inheritance',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

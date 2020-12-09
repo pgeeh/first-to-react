@@ -5,7 +5,12 @@ import code from './StateandLifecycle.jsexample';
 const config = {
   info,
   name: 'State and Lifecycle',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

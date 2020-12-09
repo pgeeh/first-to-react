@@ -5,7 +5,12 @@ import code from './PerformanceandUsability.jsexample';
 const config = {
   info,
   name: 'Performance and Usability',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

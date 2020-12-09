@@ -5,7 +5,12 @@ import code from './ListsandKeys.jsexample';
 const config = {
   info,
   name: 'Lists and Keys',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

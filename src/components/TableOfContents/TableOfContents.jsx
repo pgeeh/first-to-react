@@ -68,6 +68,13 @@ function TableOfContents(props) {
         </CustomLink>
       </div>
       {examples.map(ExampleLink)}
+      <div className='toc-link'>
+        <CustomLink key="about" to={fullLinkPath('/about')} exact={true}>
+          <div className="toc-link-text">
+              About
+          </div>
+        </CustomLink>
+      </div>
     </div>
   );
 }

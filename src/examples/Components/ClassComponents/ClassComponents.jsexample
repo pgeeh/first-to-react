@@ -1,5 +1,6 @@
 class ClassComponents extends React.Component {
   constructor(props) {
+    super(props);
     this.state = {
       time: new Date()
     };
@@ -43,7 +44,7 @@ class ClassComponents extends React.Component {
           The date & time is {this.state.time.toISOString()}
         </div>
       </div>
-    )
+    );
   }
 }
 

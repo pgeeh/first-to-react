@@ -5,7 +5,12 @@ import code from './FunctionalComponents.jsexample';
 const config = {
   info,
   name: 'Functional Components',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
 };
 
 export default config;

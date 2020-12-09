@@ -5,7 +5,12 @@ import code from './Fragments.jsexample';
 const config = {
   info,
   name: 'Fragments',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

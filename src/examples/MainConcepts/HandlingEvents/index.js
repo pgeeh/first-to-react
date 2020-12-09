@@ -5,7 +5,12 @@ import code from './HandlingEvents.jsexample';
 const config = {
   info,
   name: 'Handling Events',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };

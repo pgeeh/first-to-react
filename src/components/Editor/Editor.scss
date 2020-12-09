@@ -23,7 +23,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: stretch;
-    background-color: cornsilk;
+    // background-color: cornsilk;
     flex-wrap: wrap;
     
     $editorBackground: #333333;
@@ -43,6 +43,33 @@
       display: flex;
       // flex: 1;
     }
+
+    .sectionHeader {
+      display: flex;
+      padding: 2px;
+      justify-content: space-between;
+      
+      & > div {
+        flex-grow: 0;
+        text-align: center;
+        cursor: default;
+        padding: 5px;
+
+        &:first-child {
+          cursor: pointer;
+          text-align: left;
+        }
+        
+        &:last-child {
+          cursor: pointer;
+          text-align: right;
+        }
+      }
+    }
+
+    .editorColumn {
+      flex-direction: column;
+    }
     
     .styledPreview {
       background-color: white;
@@ -56,28 +83,7 @@
           flex-grow: 0;
         }
     
-        .overrideHeader {
-          display: flex;
-          padding: 2px;
-          justify-content: space-between;
-          
-          & > div {
-            flex-grow: 0;
-            text-align: center;
-            cursor: default;
-            padding: 5px;
-    
-            &:first-child {
-              cursor: pointer;
-              text-align: left;
-            }
-            
-            &:last-child {
-              cursor: pointer;
-              text-align: right;
-            }
-          }
-        }
+        
       }
 
       .actualPreview {

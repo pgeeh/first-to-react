@@ -1,9 +1,9 @@
-.welcome {
+.general {
   flex-grow: 1;
   background-color: azure;
 }
 
-.welcome .active {
+.general .active {
   background-color: yellowgreen;
   border: 1px solid black;
 }

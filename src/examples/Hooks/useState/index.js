@@ -5,7 +5,12 @@ import code from './useState.jsexample';
 const config = {
   info,
   name: 'useState',
-  code,
+  code: [
+    {
+      name: 'Example 1',
+      code,
+    },
+  ],
   children: [
   ],
 };
