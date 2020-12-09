@@ -7,7 +7,7 @@ import info from './BuildingonReact.md';
 
 const config = {
   info,
-  name: 'Building on React',
+  name: 'React Ecosystem',
   children: [
     ReduxandFluxWorkflows,
     LayoutFrameworks,

@@ -4,7 +4,7 @@ import example from './ComponentsandProps.jsexample';
 
 const config = {
   info,
-  name: 'Components and Props',
+  name: 'Props',
   examples: [
     {
       name: 'Example 1',

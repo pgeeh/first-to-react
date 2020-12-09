@@ -4,7 +4,7 @@ import example from './StateandLifecycle.jsexample';
 
 const config = {
   info,
-  name: 'State and Lifecycle',
+  name: 'State',
   examples: [
     {
       name: 'Example 1',

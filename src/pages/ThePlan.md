@@ -21,8 +21,8 @@
     1. Props
     1. State
     1. Lifecycle
-        1. On Mount and Dismount
-        1. Handling Props changes
+        1. (Ex) On Mount and Dismount
+        1. (Ex) Handling Props changes
     1. Event Handling
     1. Conditional Rendering
     1. Lists and Keys

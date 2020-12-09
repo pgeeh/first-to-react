@@ -4,7 +4,7 @@ import example from './FormsControlled.jsexample';
 
 const config = {
   info,
-  name: 'Forms Controlled',
+  name: 'Controlled Forms',
   examples: [
     {
       name: 'Example 1',

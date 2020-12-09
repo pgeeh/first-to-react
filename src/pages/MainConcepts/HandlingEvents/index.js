@@ -4,7 +4,7 @@ import example from './HandlingEvents.jsexample';
 
 const config = {
   info,
-  name: 'Handling Events',
+  name: 'Event Handling',
   examples: [
     {
       name: 'Example 1',
