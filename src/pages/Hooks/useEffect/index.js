@@ -1,14 +1,14 @@
 
 import info from './useEffect.md';
-import code from './useEffect.jsexample';
+import example from './useEffect.jsexample';
 
 const config = {
   info,
   name: 'useEffect',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

@@ -1,14 +1,14 @@
 
 import info from './FunctionalComponents.md';
-import code from './FunctionalComponents.jsexample';
+import example from './FunctionalComponents.jsexample';
 
 const config = {
   info,
   name: 'Functional Components',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
 };

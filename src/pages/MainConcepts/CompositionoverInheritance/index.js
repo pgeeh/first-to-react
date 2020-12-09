@@ -1,14 +1,14 @@
 
 import info from './CompositionoverInheritance.md';
-import code from './CompositionoverInheritance.jsexample';
+import example from './CompositionoverInheritance.jsexample';
 
 const config = {
   info,
   name: 'Composition over Inheritance',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

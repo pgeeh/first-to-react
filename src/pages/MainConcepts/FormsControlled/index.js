@@ -1,14 +1,14 @@
 
 import info from './FormsControlled.md';
-import code from './FormsControlled.jsexample';
+import example from './FormsControlled.jsexample';
 
 const config = {
   info,
   name: 'Forms Controlled',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

@@ -1,14 +1,14 @@
 
 import info from './ClassComponents.md';
-import code from './ClassComponents.jsexample';
+import example from './ClassComponents.jsexample';
 
 const config = {
   info,
   name: 'Class Components',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
 };

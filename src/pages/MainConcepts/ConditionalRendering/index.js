@@ -1,14 +1,14 @@
 
 import info from './ConditionalRendering.md';
-import code from './ConditionalRendering.jsexample';
+import example from './ConditionalRendering.jsexample';
 
 const config = {
   info,
   name: 'Conditional Rendering',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

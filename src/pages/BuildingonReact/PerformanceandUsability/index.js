@@ -1,14 +1,14 @@
 
 import info from './PerformanceandUsability.md';
-import code from './PerformanceandUsability.jsexample';
+import example from './PerformanceandUsability.jsexample';
 
 const config = {
   info,
   name: 'Performance and Usability',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

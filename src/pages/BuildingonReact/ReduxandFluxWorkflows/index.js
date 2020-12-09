@@ -1,14 +1,14 @@
 
 import info from './ReduxandFluxWorkflows.md';
-import code from './ReduxandFluxWorkflows.jsexample';
+import example from './ReduxandFluxWorkflows.jsexample';
 
 const config = {
   info,
   name: 'Redux and Flux Workflows',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

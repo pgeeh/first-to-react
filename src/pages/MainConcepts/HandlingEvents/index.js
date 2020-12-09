@@ -1,14 +1,14 @@
 
 import info from './HandlingEvents.md';
-import code from './HandlingEvents.jsexample';
+import example from './HandlingEvents.jsexample';
 
 const config = {
   info,
   name: 'Handling Events',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

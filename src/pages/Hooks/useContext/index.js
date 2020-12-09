@@ -1,14 +1,14 @@
 
 import info from './useContext.md';
-import code from './useContext.jsexample';
+import example from './useContext.jsexample';
 
 const config = {
   info,
   name: 'useContext',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

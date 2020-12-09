@@ -1,14 +1,14 @@
 
 import info from './StateandLifecycle.md';
-import code from './StateandLifecycle.jsexample';
+import example from './StateandLifecycle.jsexample';
 
 const config = {
   info,
   name: 'State and Lifecycle',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

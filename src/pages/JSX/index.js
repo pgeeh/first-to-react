@@ -1,14 +1,14 @@
 
 import info from './JSX.md';
-import code from './JSX.jsexample';
+import example from './JSX.jsexample';
 
 const config = {
   info,
   name: 'JSX',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

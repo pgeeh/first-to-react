@@ -1,14 +1,14 @@
 
 import info from './ListsandKeys.md';
-import code from './ListsandKeys.jsexample';
+import example from './ListsandKeys.jsexample';
 
 const config = {
   info,
   name: 'Lists and Keys',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

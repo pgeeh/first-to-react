@@ -1,14 +1,14 @@
 
 import info from './useReducer.md';
-import code from './useReducer.jsexample';
+import example from './useReducer.jsexample';
 
 const config = {
   info,
   name: 'useReducer',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

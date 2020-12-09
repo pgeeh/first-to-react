@@ -25,7 +25,7 @@ module.exports = class extends Generator {
       },
       {
         type: 'number',
-        name: 'codeCount',
+        name: 'exampleCount',
         message: 'How many examples?',
         default: 0
       },
@@ -54,7 +54,7 @@ module.exports = class extends Generator {
       this.props,
     );
     
-    for (let i = 1; i <= this.props.codeCount; i++) {
+    for (let i = 1; i <= this.props.exampleCount; i++) {
       this.fs.copyTpl(
         this.templatePath('Template.jsexample'),
         this.destinationPath(`${this.props.cleanName}/${this.props.cleanName}${i}.jsexample`), 

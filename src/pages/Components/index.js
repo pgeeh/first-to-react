@@ -2,15 +2,15 @@ import ClassComponents from './ClassComponents';
 import FunctionalComponents from './FunctionalComponents';
 
 import info from './Components.md';
-import code from './Components.jsexample';
+import example from './Components.jsexample';
 
 const config = {
   info,
   name: 'Components',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

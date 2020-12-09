@@ -123,7 +123,7 @@ PropOverride.propTypes = {
  * @return {object}
  */
 function Editor(props) {
-  const {code, name} = props;
+  const {example, name} = props;
   const uniqueId =
     useMemo(() => Math.floor(Math.random() * 10000000 + 1), []);
 
@@ -141,12 +141,11 @@ function Editor(props) {
   }, [content]);
 
   useEffect(() => {
-    readFile(code, (data) => {
-      console.log(code);
+    readFile(example, (data) => {
       setContent(data);
       setOriginal(data);
     });
-  }, [code]);
+  }, [example]);
 
   const onReset = useCallback(() => {
     setContent(originalContent);
@@ -199,7 +198,7 @@ function Editor(props) {
 }
 
 Editor.propTypes = {
-  code: PropTypes.string.isRequired,
+  example: PropTypes.string.isRequired,
   name: PropTypes.string,
 };
 

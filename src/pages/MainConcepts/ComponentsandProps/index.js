@@ -1,14 +1,14 @@
 
 import info from './ComponentsandProps.md';
-import code from './ComponentsandProps.jsexample';
+import example from './ComponentsandProps.jsexample';
 
 const config = {
   info,
   name: 'Components and Props',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

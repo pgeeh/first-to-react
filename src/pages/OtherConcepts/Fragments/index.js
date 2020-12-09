@@ -1,14 +1,14 @@
 
 import info from './Fragments.md';
-import code from './Fragments.jsexample';
+import example from './Fragments.jsexample';
 
 const config = {
   info,
   name: 'Fragments',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

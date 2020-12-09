@@ -4,15 +4,15 @@ import useReducer from './useReducer';
 import useContext from './useContext';
 
 import info from './Hooks.md';
-import code from './Hooks.jsexample';
+import example from './Hooks.jsexample';
 
 const config = {
   info,
   name: 'Hooks',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [

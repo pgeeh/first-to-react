@@ -9,13 +9,13 @@ import {Button} from 'react-bootstrap';
 
 /**
  * Manages a group of examples
- * @param {array} code code examples
+ * @param {array} examples list of examples
  * @return {object}
  */
-function ExampleGroup({code}) {
-  const [codeNum, setCodeNum] = useState(0);
+function ExampleGroup({examples}) {
+  const [exampleNum, setExampleNum] = useState(0);
 
-  if (code.length < 1) {
+  if (examples.length < 1) {
     return (null);
   }
 
@@ -23,15 +23,15 @@ function ExampleGroup({code}) {
     <div>
       {/* Do not display the buttons if there is only one example. */}
       <div className={
-        code.length > 1 ? 'exampleSelectors' : 'exampleSelectors d-none'}
+        examples.length > 1 ? 'exampleSelectors' : 'exampleSelectors d-none'}
       >
-        {code.map((c, i) => {
+        {examples.map((c, i) => {
           return (
             <div key={c.name + String(i)}>
               <Button
                 variant='selector'
-                className={i === codeNum ? 'active' : ''}
-                onClick={() => setCodeNum(i)}
+                className={i === exampleNum ? 'active' : ''}
+                onClick={() => setExampleNum(i)}
               >
                 {c.name}
               </Button>
@@ -40,13 +40,13 @@ function ExampleGroup({code}) {
         })}
       </div>
       <div>
-        {code.map((c, i) => {
+        {examples.map((c, i) => {
           return (
             <div
               key={c.name + String(i)}
               // Do not remove the non-active examples - only hide them
               // so that their state and changes are not lost
-              className={i == codeNum ? '' : 'd-none'}
+              className={i == exampleNum ? '' : 'd-none'}
             >
               <Editor key={c.name + String(i)} {...c}/>
             </div>
@@ -58,7 +58,7 @@ function ExampleGroup({code}) {
 }
 
 ExampleGroup.propTypes = {
-  code: PropTypes.array.isRequired,
+  examples: PropTypes.array.isRequired,
 };
 
 /**
@@ -72,7 +72,7 @@ function Page(props) {
   return (
     <div className="page">
       {page.info !== undefined && <Info source={page.info} />}
-      {page.code !== undefined && <ExampleGroup code={page.code} />}
+      {page.examples !== undefined && <ExampleGroup examples={page.examples} />}
     </div>
   );
 }

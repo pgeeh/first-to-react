@@ -1,14 +1,14 @@
 
 import info from './useState.md';
-import code from './useState.jsexample';
+import example from './useState.jsexample';
 
 const config = {
   info,
   name: 'useState',
-  code: [
+  examples: [
     {
       name: 'Example 1',
-      code,
+      example,
     },
   ],
   children: [
