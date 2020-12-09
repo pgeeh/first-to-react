@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './General.css';
-import Example from '../Example';
+import Page from '../Page';
 
 import Home from './Home.md';
 import About from './About.md';
@@ -23,7 +23,7 @@ const PAGE_CONTENTS = {
  */
 function General({page}) {
   return (
-    <Example example={{info: PAGE_CONTENTS[page] || Home}} />
+    <Page page={{info: PAGE_CONTENTS[page] || Home}} />
   );
 }
 

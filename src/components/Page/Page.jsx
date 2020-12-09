@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Info from '../Info';
 import Editor from '../Editor';
 
-import './Example.scss';
+import './Page.scss';
 import {Button} from 'react-bootstrap';
 
 /**
@@ -62,23 +62,23 @@ ExampleGroup.propTypes = {
 };
 
 /**
- * Display an Example
+ * Display a Page
  * @param {object} props props for the object
  * @return {object}
  */
-function Example(props) {
-  const {example} = props;
+function Page(props) {
+  const {page} = props;
 
   return (
-    <div className="example">
-      {example.info !== undefined && <Info source={example.info} />}
-      {example.code !== undefined && <ExampleGroup code={example.code} />}
+    <div className="page">
+      {page.info !== undefined && <Info source={page.info} />}
+      {page.code !== undefined && <ExampleGroup code={page.code} />}
     </div>
   );
 }
 
-Example.propTypes = {
-  example: PropTypes.object.isRequired,
+Page.propTypes = {
+  page: PropTypes.object.isRequired,
 };
 
-export default Example;
+export default Page;

@@ -9,7 +9,7 @@ cd generator-f-2-r
 npm install
 npm link
 
-// From the examples directory
+// From the pages directory or any subdirectory
 yo f-2-r:example
 ```
 

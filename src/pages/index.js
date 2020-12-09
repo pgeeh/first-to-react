@@ -10,7 +10,7 @@ import WhatIsReact from './WhatisReact';
 import Components from './Components';
 import MainConcepts from './MainConcepts';
 
-const examples = [
+const pages = [
   Intro,
   WhatIsReact,
   Components,
@@ -25,4 +25,4 @@ const examples = [
 ];
 
 
-export default examples;
+export default pages;

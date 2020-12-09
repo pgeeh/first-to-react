@@ -30,22 +30,22 @@ CustomLink.propTypes = {
 };
 
 /**
- * Geneate the link for this example and any children
- * @param {object} example example with potential children
+ * Geneate the link for this page and any children
+ * @param {object} page page with potential children
  * @return {object}
  */
-function ExampleLink(example) {
-  const link = fullLinkPath(`/example/${example.id}/${example.name}`);
+function PageLink(page) {
+  const link = fullLinkPath(`/page/${page.id}/${page.name}`);
   return (
-    <div key={example.id} className='toc-link'>
+    <div key={page.id} className='toc-link'>
       <CustomLink
         to={link}
       >
         <div className="toc-link-text">
-          {example.id} - {example.name}
+          {page.id} - {page.name}
         </div>
       </CustomLink>
-      {(example.children || []).map(ExampleLink)}
+      {(page.children || []).map(PageLink)}
     </div>
   );
 }
@@ -56,7 +56,7 @@ function ExampleLink(example) {
  * @return {object}
  */
 function TableOfContents(props) {
-  const {examples} = props;
+  const {pages} = props;
 
   return (
     <div className="tableOfContents">
@@ -67,7 +67,7 @@ function TableOfContents(props) {
           </div>
         </CustomLink>
       </div>
-      {examples.map(ExampleLink)}
+      {pages.map(PageLink)}
       <div className='toc-link'>
         <CustomLink key="about" to={fullLinkPath('/about')} exact={true}>
           <div className="toc-link-text">
@@ -80,7 +80,7 @@ function TableOfContents(props) {
 }
 
 TableOfContents.propTypes = {
-  examples: PropTypes.array.isRequired,
+  pages: PropTypes.array.isRequired,
 };
 
 export default TableOfContents;

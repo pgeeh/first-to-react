@@ -13,14 +13,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import './App.scss';
 
 import TableOfContents from './components/TableOfContents';
-import Example from './components/Example';
-import examples from './examples';
+import Page from './components/Page';
+import pages from './pages';
 import General from './components/General';
 
 import {fullLinkPath} from './utils';
 import {PAGES} from './components/General';
 
-const examplesMap = {};
+const pagesMap = {};
 
 const addIds = (items, prefix = '') => {
   for (let i = 1; i <= items.length; i++) {
@@ -30,21 +30,21 @@ const addIds = (items, prefix = '') => {
     if (item.children) {
       addIds(item.children, id + '.');
     }
-    examplesMap[id] = item;
+    pagesMap[id] = item;
   }
 };
 
-addIds(examples);
+addIds(pages);
 
 /**
  * Create a wrapper to get the route params
- * @return {object} the wrapped example with route param
+ * @return {object} the wrapped page with route param
  */
-function ExampleWrapper() {
+function PageWrapper() {
   const {activeId} = useParams();
   console.log(activeId);
   return (
-    <Example key={activeId} example={examplesMap[activeId] || null} />
+    <Page key={activeId} page={pagesMap[activeId] || null} />
   );
 }
 
@@ -53,7 +53,7 @@ function ExampleWrapper() {
  * @return {object} The Tutorial App
  */
 function App() {
-  // Manage the active example
+  // Manage the active page
   return (
     <div className="App">
       <Router>
@@ -68,15 +68,15 @@ function App() {
           <Row className="justify-content-center">
             <Col className="p-0 toc-col" xs={2}>
               <TableOfContents
-                examples={examples}/>
+                pages={pages}/>
             </Col>
             <Col className="p-0" xs={10}>
               <Switch>
                 <Route path={fullLinkPath('/')} exact={true}>
                   <General page={PAGES.HOME} />
                 </Route>
-                <Route path={fullLinkPath('/example/:activeId')}>
-                  <ExampleWrapper />
+                <Route path={fullLinkPath('/page/:activeId')}>
+                  <PageWrapper />
                 </Route>
                 <Route path={fullLinkPath('/about')} exact={true}>
                   <General page={PAGES.ABOUT} />
