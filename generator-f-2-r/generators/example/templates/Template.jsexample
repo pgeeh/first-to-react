@@ -1,13 +1,14 @@
-/**
- * Render the <%= fullName %> example
- * @param props props for the object
- * @return {object}
- */
-function <%= cleanName %>(props) {
+function <%= cleanName %><%= i %>(props) {
   const {test} = props;
   return (<span><%= fullName %> of {test}</span>);
 }
 
+const initial = {
+  test: 'something interesting',
+};
+
 render(
-  <<%= cleanName %> test={test} />,
+  <PropOverride initial={initial}>
+    <<%= cleanName %> />
+  </PropOverride>
 );
