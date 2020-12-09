@@ -14,6 +14,7 @@ function ListItem({count, name, index}) {
 
 class ClassList extends React.Component {
   constructor(props) {
+    super(props);
     // State needs to be initialized in the constructor
     this.state = {
       count: 0,

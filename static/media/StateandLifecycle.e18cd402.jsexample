@@ -1,5 +1,6 @@
 class ClassState extends React.Component {
   constructor(props) {
+    super(props)
     // State needs to be initialized in the constructor
     this.state = {
       count: 0,
