@@ -58,12 +58,13 @@ function PropOverride({initial={}, children}) {
   }, [scope]);
 
   const onReset = useCallback((value) => {
+    const initialText = JSON.stringify(initialCombined, null, 2);
     onScopeChange({
       target: {
-        value: initialCombined,
+        value: initialText,
       },
     });
-    setScopeText(JSON.stringify(initialCombined, null, 2));
+    setScopeText(initialText);
   }, [initial]);
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function PropOverride({initial={}, children}) {
       <div className="propOverride">
         <div className="sectionHeader">
           <div onClick={onPretty}>Pretty</div>
-          <div>Prop Override</div>
+          <div><h4>Prop Override</h4></div>
           <div onClick={onReset}>Reset</div>
         </div>
         <textarea
@@ -97,7 +98,7 @@ function PropOverride({initial={}, children}) {
       </div>
       <div className="actualPreview">
         <div className="previewHeader">
-          <center>Live Preview</center>
+          <center><h4>Live Preview</h4></center>
         </div>
         {/* Add the scope to the children as props */}
         {childs.map((child, index) => React.cloneElement(child, {
@@ -129,6 +130,7 @@ function Editor(props) {
 
   const [content, setContent] = useState(null);
   const [originalContent, setOriginal] = useState(null);
+  const [containsOverride, setContainsOverride] = useState(false);
 
   // Save content changes so when the scope changes, they do not get lost
   const onTransform = useCallback((edited) => {
@@ -152,6 +154,10 @@ function Editor(props) {
   }, [originalContent]);
 
   useEffect(() => {
+    setContainsOverride((content || '').includes('<PropOverride'));
+  }, [content]);
+
+  useEffect(() => {
     // By returning a function, will be called on destruction
     return () => localStorage.removeItem(uniqueId);
   }, []);
@@ -172,7 +178,7 @@ function Editor(props) {
     >
       <EditorContext.Provider value={{uniqueId}}>
         <Container className="editorContainer" fluid>
-          {name ? <Row>
+          {name ? <Row className='headerRow'>
             <Col>
               <center><h3>{name}</h3></center>
             </Col>
@@ -181,13 +187,18 @@ function Editor(props) {
             <Col className="editorColumn">
               <div className="sectionHeader">
                 <div></div>
-                <div>Live Editor</div>
+                <div><h4>Live Editor</h4></div>
                 <div onClick={onReset}>Reset</div>
               </div>
               <LiveEditor className="styledEditor" />
             </Col>
             <Col className="previewSection">
               <LiveError className="styledError" />
+              { containsOverride === false ? <div className="sectionHeader">
+                <div></div>
+                <div><h4>Live Preview</h4></div>
+                <div></div>
+              </div> : null }
               <LivePreview className="styledPreview" />
             </Col>
           </Row>

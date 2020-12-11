@@ -1,0 +1,14 @@
+function LiveEditing2(props) {
+  const {test} = props;
+  return (<span>Live Editing of {test}</span>);
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <LiveEditing />
+  </PropOverride>
+);

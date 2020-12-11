@@ -1,20 +1,23 @@
-function Intro(props) {
-  const {goal, when} = props;
+// The next line should read: 
+// function Example(props) {
+function Example(props) 
   return (
     <div>
-      <div>What do we want to do? {goal}</div>
-      <div>When do we want to do it? {when}</div>
+      <div>
+        Syntax errors will show up 
+        at the top of the right column.
+      </div>
+      <div>
+        This Component is missing the curly brace
+        at the end of the function line.
+      </div>
+      <div>
+        Add it and the error will disappear.
+      </div>
     </div>
   );
 }
 
-const initial = {
-  goal: 'Learn React!',
-  when: 'Now!'
-}
-
 render(
-  <PropOverride initial={initial}>
-    <Intro/>
-  </PropOverride>
+  <Example/>
 );

@@ -46,7 +46,7 @@ function FunctionalEvent(props) {
 }
 
 const initial = {
-  name: 'State Example',
+  name: 'Event Example',
 };
 
 render(

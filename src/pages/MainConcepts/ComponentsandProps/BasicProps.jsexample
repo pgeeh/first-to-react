@@ -1,0 +1,38 @@
+class ClassQuestion extends React.Component {
+  render() {
+    // Note that props must be accessed with 'this' in a Class Component
+    const {question, a, b} = this.props;
+    return (
+      <div>
+        <center>
+          Class {question} {a + b}
+        </center>
+      </div>
+    );  
+  }
+}
+
+function FunctionalQuestion(props) {
+  // Props is in scope, so can be accessed without 'this'
+  const {question, a, b} = props;
+  return (
+    <div>
+      <center>
+        Functional {question} {a + b}
+      </center>
+    </div>
+  );
+}
+
+const initial = {
+  question: 'What is a + b?',
+  a: 7,
+  b: 8,
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassQuestion />
+    <FunctionalQuestion />
+  </PropOverride>
+);

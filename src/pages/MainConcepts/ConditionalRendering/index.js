@@ -1,14 +1,19 @@
 
 import info from './ConditionalRendering.md';
-import example from './ConditionalRendering.jsexample';
+import example1 from './ConditionalRendering.jsexample';
+import example2 from './DynamicRendering.jsexample';
 
 const config = {
   info,
   name: 'Conditional Rendering',
   examples: [
     {
-      name: 'Example 1',
-      example,
+      name: 'Conditional Rendering',
+      example: example1,
+    },
+    {
+      name: 'Dynamic Rendering',
+      example: example2,
     },
   ],
   children: [

@@ -1,4 +1,4 @@
-import BackgroundInformation from './BackgroundInformation';
+// import BackgroundInformation from './BackgroundInformation';
 import OtherConcepts from './OtherConcepts';
 import Alternatives from './Alternatives';
 import Resources from './Resources';
@@ -9,9 +9,9 @@ import WhatIsReact from './WhatisReact';
 import MainConcepts from './MainConcepts';
 
 const pages = [
-  Intro,
   WhatIsReact,
-  BackgroundInformation,
+  // BackgroundInformation,
+  Intro,
   MainConcepts,
   OtherConcepts,
   BuildingonReact,

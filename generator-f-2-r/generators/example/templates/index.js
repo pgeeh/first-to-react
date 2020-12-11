@@ -9,7 +9,8 @@ const config = {
     <% for(let i = 1; i <= exampleCount; i++) { %>{
       name: 'Example<%= i %>',
       example: example<%= i %>,
-    },<% } %>
+    },
+    <% } %>
   ],<% } %>
   children: [
   ],

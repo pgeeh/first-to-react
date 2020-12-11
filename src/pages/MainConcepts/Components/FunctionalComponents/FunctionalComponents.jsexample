@@ -15,8 +15,7 @@ function FunctionalComponents({interval}) {
     <div onClick={updateTime}>
       <div>
         This will update every 
-        {interval || 0} milliseconds, 
-        or immediately if you click!
+        {interval || 0} milliseconds.
       </div>
       <br/>
       <div>

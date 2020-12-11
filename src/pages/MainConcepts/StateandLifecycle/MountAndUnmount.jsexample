@@ -20,7 +20,6 @@ class ClassState extends React.Component {
     // Class components have a generic method to update state
     // It does a shallow (first-level only) assign of values, so
     // not every value has to be sent, only the ones you wish to change
-    window.console.log('Setting class count');
     this.setState({
       count: this.state.count + 1,
     });
@@ -37,21 +36,29 @@ class ClassState extends React.Component {
 
 function FunctionalState(props) {
   const [count, setCount] = React.useState(0);
-  const callback = React.useRef();
+
+  // useRef creates a wrapper so that we
+  // can change the function to be called during the
+  // interval.
+  const callbackRef = React.useRef();
 
   // Update the callback when count changes
   React.useEffect(() => {
-    callback.current = () => setCount(count + 1);
+    callbackRef.current = () => setCount(count + 1);
   }, [count]);
 
+  // Since this useEffect has no updateProperties,
+  // it will only run once on Component creation,
+  // similar to componentDidMount
   React.useEffect(() => {
     // Call the current callback on the interval
     const interval = setInterval(() => {
-      window.console.log('Setting functional count');
-      callback.current();
+      callbackRef.current();
     }, 1000);
 
-    // By returning
+    // The returned function will be called at the
+    // destruction of the Component - similar to
+    // componentWillUnmount
     return () => clearInterval(interval);
   }, []);
 
@@ -59,16 +66,17 @@ function FunctionalState(props) {
     <div>
       Functional {props.name} has been counted {count} times!
     </div>
-  )
+  );
 }
 
 const initial = {
-  name: 'State Example',
+  name: 'Mount/Unmount Example',
 };
 
 render(
   <PropOverride initial={initial}>
     <ClassState name={initial.name}/>
+    <br />
     <FunctionalState name={initial.name}/>
   </PropOverride>
 );

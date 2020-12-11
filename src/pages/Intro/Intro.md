@@ -1,16 +1,23 @@
-# F2R Intro
+# How to Use Examples
 
-First-To-React contains interactive and on-the-fly compiled examples, right in your browser.
+Most examples will only require clicking or typing into the `Live Preview` section.
 
-Most examples will only require clicking or typing into the `Live Preview` section. If you wish to go into more detail on a later pass-through, here are some details about the examples.
+Pages may have 1 or more examples. If there are multiple examples, there will be buttons to select which example to view.
 
-Or dive right in! It cannot break, just reload the page or go to another section and it will reload.
+The example __Live Editor__ guides through basic usage of the Live Editor.
+
+The example __Fix An Error__ shows what an error looks like.
+
+The example __Prop Override__ guides through using the `PropOverride` Component.
+
+__Important__: If a change is made in the Live Editor, it will completely re-render the Live Preview and remove all state. Keep that in mind if you are editing the Override.
+
+__Additional details about the Example Area:__
 
 The left side of an example contains:
-* Live Editor - The Live Editor is on the left side of the example area. You can edit and try out new ideas directly in the Live Editor and it will compile and render into the Live Preview on the right Side.
+* Live Editor - The Live Editor is the full left side of the example area. You can edit and try out new ideas directly in the Live Editor and it will compile and render into the Live Preview on the right Side.
     * The Live Editor generally follows the structure of the components and other information at the top, and at the very bottom is the `render` method. This is the location to specify any top level component(s) you wish to render.
     * The `<PropOverride>` component is available and provides an ability to override the _props_ passed in to the top level components. It optionally takes in an `intial` property. It is edited via the `<PropOverride>` section described below.
-    * __Important__: If a change is made in the Live Editor, it will completely re-render the Live Preview and remove all state. As well, it will reset the Prop Override section as the Prop Override is rendered as part of the example itself. Keep that in mind if you are editing the Override.
     * To access React pieces such as `useState` or `Component`, prefix them with `React.` - for instance `React.useState`. Examples on the web will generally directly import `useState` or `Component`, but the Live Editor library only provides the `React` module itself.
 
 The right side of an example contains:

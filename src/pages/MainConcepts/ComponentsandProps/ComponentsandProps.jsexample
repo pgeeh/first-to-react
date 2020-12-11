@@ -1,6 +1,7 @@
 class ClassPerson extends React.Component {
   render() {
-    const {name, age, Display, style} = this.props;
+    // Note that props must be accessed with 'this' in a Class Component
+    const {name, age, display: Display, style} = this.props;
     return (
       <div style={style}>
         <center>
@@ -13,7 +14,7 @@ class ClassPerson extends React.Component {
           </div>
           <br/><br/>
           <div>
-            If you update the override object, then the props will be updaed and should be changed accordingly.
+            If you update the override object, then the props will be updated and should be changed accordingly.
           </div>
         </center>
       </div>
@@ -23,7 +24,7 @@ class ClassPerson extends React.Component {
 
 function FunctionalPerson(props) {
   // Props can be accessed as an object and decomposed
-  const {name, age, Display, style} = props;
+  const {name, age, display: Display, style} = props;
   return (
     <div style={style}>
       <center>
@@ -36,7 +37,7 @@ function FunctionalPerson(props) {
         </div>
         <br/><br/>
         <div>
-           If you update the override object, then the props will be updaed and should be changed accordingly.
+           If you update the override object, then the props will be updated and should be changed accordingly.
         </div>
       </center>
     </div>
@@ -46,7 +47,7 @@ function FunctionalPerson(props) {
 // Display the name of a friend
 function FriendComponent({name}) {
   // Props can also be decomposed directly in the argument list
-  // This is not unique to props, but is a common pattern
+  // This is not unique to props in React, but is a common pattern
   return (<span style={{color: 'green'}}>{name}</span>)
 }
 
@@ -61,7 +62,9 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <ClassPerson name={initial.name} age={initial.age} Display={FriendComponent} style={initial.style}/>
-    <FunctionalPerson name={initial.name} age={initial.age} Display={FriendComponent} style={initial.style}/>
+    {/* For this example, display is not used in initial
+        because it is a function */}
+    <ClassPerson display={FriendComponent}/>
+    <FunctionalPerson display={FriendComponent}/>
   </PropOverride>
 );

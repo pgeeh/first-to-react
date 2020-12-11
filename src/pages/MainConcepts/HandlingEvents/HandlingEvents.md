@@ -2,7 +2,7 @@
 
 React has _prop_ shortcuts for most DOM related events, and will automatically attach functions to the event handlers for the DOM elements.
 
-They generally follow the pattern of `onAction` where action is `click` (`onClick`) or `change` (`onChange`).
+They generally follow the pattern of `onAction` where action is, for example, `click` (`onClick`) or `change` (`onChange`).
 
 This is most commonly used with `click` actions or form related actions, such as `change` or `blur`.
 

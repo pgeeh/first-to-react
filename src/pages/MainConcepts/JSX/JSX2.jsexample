@@ -1,0 +1,21 @@
+function NoJSX(props) {
+  // Contains styling
+  const style = {
+    color: 'red',
+  };
+
+  // This template uses JSX, which is similar
+  // to HTML
+  return (
+    // Native HTML elements can be used
+    <center>
+      <p>
+        Today is day <span style={style}>{new Date().getDate()}</span> of this month
+      </p>
+    </center>
+  );
+}
+
+render(
+  <NoJSX />,
+);

@@ -9,7 +9,7 @@ const config = {
   name: 'Components',
   examples: [
     {
-      name: 'Example 1',
+      name: 'Class Vs Functional',
       example,
     },
   ],

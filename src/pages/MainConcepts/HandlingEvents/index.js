@@ -7,7 +7,7 @@ const config = {
   name: 'Event Handling',
   examples: [
     {
-      name: 'Example 1',
+      name: 'Event Example',
       example,
     },
   ],

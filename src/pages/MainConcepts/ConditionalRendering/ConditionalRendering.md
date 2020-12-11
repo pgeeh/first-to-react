@@ -8,4 +8,7 @@ Components can also be dynamically chosen and stored as variables. These variabl
 
 `null` is an allowable value inside of a `render` method and can be used in place of a component which you wish to exclude.
 
+__Conditional Rendering__ example shows how components can be included or excluded, using `null` in their place when they should not be included.
+
+__Dynamic Rendering__ shows an example of dynamically choosing a Component and then using that during the render.
 

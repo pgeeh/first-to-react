@@ -7,7 +7,7 @@ const config = {
   name: 'Functional Components',
   examples: [
     {
-      name: 'Example 1',
+      name: 'Functional Components',
       example,
     },
   ],

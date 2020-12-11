@@ -1,0 +1,22 @@
+function NoJSX(props) {
+  // Contains styling
+  const style = {
+    color: 'red',
+  };
+
+  // This template has no JSX, which uses
+  // React.createElement to manage the elements
+  // to display.
+  return React.createElement('center', null, 
+    React.createElement('p', null, [
+      'Today is day ',
+      // The second parameter are props to 
+      // provide to the newly created element.
+      React.createElement('span', {style: style}, new Date().getDate()),
+      ' of this month'
+    ]));
+}
+
+render(
+  <NoJSX />,
+);

@@ -1,0 +1,14 @@
+function useEffect3(props) {
+  const {test} = props;
+  return (<span>useEffect of {test}</span>);
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <useEffect />
+  </PropOverride>
+);

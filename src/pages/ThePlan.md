@@ -1,19 +1,19 @@
-1. Intro to F2R (who is this for)
-    1. Overview of the Parts of the Page
-    1. Live Editing example
-    1. Prop Override Example
 1. What is React?
-    1. Benefits (ecosystem, more later in Building on React)
-    1. Drawbacks / Limitations
-    1. When to use? When not to use?
-    1. Major Websites and Users
-    1. Stackshare, Stackoverflow
-1. Background Information
-    1. JavaScript & TypeScript
+    <!-- 1. Benefits (ecosystem, more later in Building on React)
+    1. Drawbacks / Limitations -->
+    <!-- 1. When to use? When not to use? -->
+    1. Users of React
+    <!-- 1. Stackshare, Stackoverflow -->
+1. How to Use Examples
+    <!-- 1. Overview of the Parts of the Page
+    1. Live Editing example
+    1. Prop Override Example -->
+<!-- 1. Background Information (Leave out?)
+    1. JavaScript & TypeScript -->
+1. Main Concepts
     1. JSX - What is it? As close to HTML as you need to get (usually)
         1. Leveraging {} for JS code, () for markup
         1. Attributes as props - what they mean?
-1. Main Concepts
     1. Components (basic overview. Each page has advantage/disadvantage)
         1. Class Components - Remember this!
         1. Functional Components
@@ -35,7 +35,7 @@
         1. useReducer
         1. useCallback
         1. useMemo
-        1. useContext (maybe)
+        1. useContext (maybe?) (How tools like Redux work)
     1. Fragments
 1. React Ecosystem
     1. Redux and Flux
@@ -43,7 +43,7 @@
     1. Performance and Usability
     1. Other
 1. Getting Started Suggestions
-1. Additional Resources
+1. Resources
 1. Alternatives
 
 

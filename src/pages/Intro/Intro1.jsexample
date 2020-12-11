@@ -1,20 +1,24 @@
-function Intro(props) {
-  const {goal, when} = props;
+function Example(props) {
   return (
     <div>
-      <div>What do we want to do? {goal}</div>
-      <div>When do we want to do it? {when}</div>
+      <div>
+        This Functional Component
+        will render into the Live Preview
+      </div>
+      <br/>
+      <div>
+        Change any text inside of this area
+        and the Preview will auto-update
+      </div>
+      <br/>
+      <div>
+        After making changes, click the Reset button
+        at the top of the Editor to reset the example.
+      </div>
     </div>
   );
 }
 
-const initial = {
-  goal: 'Learn React!',
-  when: 'Now!'
-}
-
 render(
-  <PropOverride initial={initial}>
-    <Intro/>
-  </PropOverride>
+  <Example/>
 );

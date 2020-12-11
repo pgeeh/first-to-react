@@ -1,0 +1,67 @@
+function Odd(props) {
+  return (
+    <span style={{color: 'green'}}>{props.text}</span>
+  );
+}
+
+function Even(props) {
+  return (
+    <span style={{color: 'Red'}}>{props.text}</span>
+  );
+}
+
+class ClassEvent extends React.Component {
+  constructor(props) {
+    super(props);
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+    };
+
+    // Bind once in the constructor
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    const Dynamic = this.state.count % 2 === 0 ? Even : Odd;
+    return (
+      // By the time render is called, 
+      // `this.onClick` will be bound via the constructor
+      <div onClick={this.onClick}>
+        <div>Class <Dynamic text={this.props.name}/> has been clicked <Dynamic text={this.state.count} /> times!</div>
+      </div>
+    );
+  }
+}
+
+function FunctionalEvent(props) {
+  const [count, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  const Dynamic = count % 2 === 0 ? Even : Odd;
+  return (
+    <div onClick={onClick}>
+      <div>Functional <Dynamic text={props.name}/> has been clicked <Dynamic text={count} /> times!</div>
+    </div>
+  )
+}
+
+const initial = {
+  name: 'Conditional Example',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassEvent name={initial.name}/>
+    <FunctionalEvent name={initial.name}/>
+  </PropOverride>
+);
