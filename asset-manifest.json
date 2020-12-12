@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/first-to-react/static/css/main.86ed0c29.chunk.css",
-    "main.js": "/first-to-react/static/js/main.80bd6976.chunk.js",
-    "main.js.map": "/first-to-react/static/js/main.80bd6976.chunk.js.map",
+    "main.js": "/first-to-react/static/js/main.e31589e6.chunk.js",
+    "main.js.map": "/first-to-react/static/js/main.e31589e6.chunk.js.map",
     "runtime-main.js": "/first-to-react/static/js/runtime-main.42c35c98.js",
     "runtime-main.js.map": "/first-to-react/static/js/runtime-main.42c35c98.js.map",
     "static/css/2.1a02f21c.chunk.css": "/first-to-react/static/css/2.1a02f21c.chunk.css",
@@ -89,10 +89,10 @@
     "static/media/useMemo.962c5e65.md": "/first-to-react/static/media/useMemo.962c5e65.md",
     "static/media/useMemo1.c7d60b68.jsexample": "/first-to-react/static/media/useMemo1.c7d60b68.jsexample",
     "static/media/useMemo2.719e61a2.jsexample": "/first-to-react/static/media/useMemo2.719e61a2.jsexample",
-    "static/media/useReducer.f0d3ad55.md": "/first-to-react/static/media/useReducer.f0d3ad55.md",
-    "static/media/useReducer1.569d47f3.jsexample": "/first-to-react/static/media/useReducer1.569d47f3.jsexample",
-    "static/media/useReducer2.4d9018c0.jsexample": "/first-to-react/static/media/useReducer2.4d9018c0.jsexample",
-    "static/media/useReducer3.0492a1ff.jsexample": "/first-to-react/static/media/useReducer3.0492a1ff.jsexample",
+    "static/media/useReducer.d6663cc3.md": "/first-to-react/static/media/useReducer.d6663cc3.md",
+    "static/media/useReducer1.7cba8900.jsexample": "/first-to-react/static/media/useReducer1.7cba8900.jsexample",
+    "static/media/useReducer2.b8053081.jsexample": "/first-to-react/static/media/useReducer2.b8053081.jsexample",
+    "static/media/useReducer3.07f8ee6c.jsexample": "/first-to-react/static/media/useReducer3.07f8ee6c.jsexample",
     "static/media/useReducer4.64a90eb2.jsexample": "/first-to-react/static/media/useReducer4.64a90eb2.jsexample",
     "static/media/useState.df4a5e99.md": "/first-to-react/static/media/useState.df4a5e99.md"
   },
@@ -101,6 +101,6 @@
     "static/css/2.1a02f21c.chunk.css",
     "static/js/2.038e7cdb.chunk.js",
     "static/css/main.86ed0c29.chunk.css",
-    "static/js/main.80bd6976.chunk.js"
+    "static/js/main.e31589e6.chunk.js"
   ]
 }

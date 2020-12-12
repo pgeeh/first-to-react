@@ -21,4 +21,6 @@ The _reducer_ pattern is similar to MapReducer or other reduce functions. Starti
 
 __Basic Reducer__ shows a common example of dispatching actions to modify a counter using an action.
 
-__Init__ shows an example of using an init function to create the initial state.
+__Init__ shows an example of using an init function to create the initial state. Starting count is used to seed the count, and the init function adds a counter for number of changes.
+
+__Todo__ shows an example of a todo list using actions for state management. By sharing the `dispatch` method, the TodoList and the individual Todos can make changes to the shared state.
