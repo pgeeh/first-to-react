@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/first-to-react/static/css/main.86ed0c29.chunk.css",
-    "main.js": "/first-to-react/static/js/main.ea09c320.chunk.js",
-    "main.js.map": "/first-to-react/static/js/main.ea09c320.chunk.js.map",
+    "main.js": "/first-to-react/static/js/main.80bd6976.chunk.js",
+    "main.js.map": "/first-to-react/static/js/main.80bd6976.chunk.js.map",
     "runtime-main.js": "/first-to-react/static/js/runtime-main.42c35c98.js",
     "runtime-main.js.map": "/first-to-react/static/js/runtime-main.42c35c98.js.map",
     "static/css/2.1a02f21c.chunk.css": "/first-to-react/static/css/2.1a02f21c.chunk.css",
@@ -14,7 +14,7 @@
     "static/css/2.1a02f21c.chunk.css.map": "/first-to-react/static/css/2.1a02f21c.chunk.css.map",
     "static/css/main.86ed0c29.chunk.css.map": "/first-to-react/static/css/main.86ed0c29.chunk.css.map",
     "static/js/2.038e7cdb.chunk.js.LICENSE.txt": "/first-to-react/static/js/2.038e7cdb.chunk.js.LICENSE.txt",
-    "static/media/About.21300ca7.md": "/first-to-react/static/media/About.21300ca7.md",
+    "static/media/About.72f1900e.md": "/first-to-react/static/media/About.72f1900e.md",
     "static/media/Alternatives.44890062.md": "/first-to-react/static/media/Alternatives.44890062.md",
     "static/media/BasicFragments.a55257d3.jsexample": "/first-to-react/static/media/BasicFragments.a55257d3.jsexample",
     "static/media/BasicProps.20064fa2.jsexample": "/first-to-react/static/media/BasicProps.20064fa2.jsexample",
@@ -46,7 +46,7 @@
     "static/media/HandlingEvents.c9391030.jsexample": "/first-to-react/static/media/HandlingEvents.c9391030.jsexample",
     "static/media/HandlingEvents.fbe76706.md": "/first-to-react/static/media/HandlingEvents.fbe76706.md",
     "static/media/Home.40c170ed.md": "/first-to-react/static/media/Home.40c170ed.md",
-    "static/media/Hooks.4479fb33.md": "/first-to-react/static/media/Hooks.4479fb33.md",
+    "static/media/Hooks.fe328ab1.md": "/first-to-react/static/media/Hooks.fe328ab1.md",
     "static/media/IncorrectKeys.135193fe.jsexample": "/first-to-react/static/media/IncorrectKeys.135193fe.jsexample",
     "static/media/Intro.26a9124e.md": "/first-to-react/static/media/Intro.26a9124e.md",
     "static/media/Intro1.be9cd907.jsexample": "/first-to-react/static/media/Intro1.be9cd907.jsexample",
@@ -75,11 +75,9 @@
     "static/media/StateandLifecycle.b1322753.md": "/first-to-react/static/media/StateandLifecycle.b1322753.md",
     "static/media/TableRows.b5745472.jsexample": "/first-to-react/static/media/TableRows.b5745472.jsexample",
     "static/media/WhatisReact.33f44984.md": "/first-to-react/static/media/WhatisReact.33f44984.md",
-    "static/media/useCallback.53306fe6.md": "/first-to-react/static/media/useCallback.53306fe6.md",
-    "static/media/useCallback1.4516190c.jsexample": "/first-to-react/static/media/useCallback1.4516190c.jsexample",
-    "static/media/useCallback2.6765df62.jsexample": "/first-to-react/static/media/useCallback2.6765df62.jsexample",
-    "static/media/useCallback3.da248ac1.jsexample": "/first-to-react/static/media/useCallback3.da248ac1.jsexample",
-    "static/media/useCallback4.afb3aba8.jsexample": "/first-to-react/static/media/useCallback4.afb3aba8.jsexample",
+    "static/media/useCallback.caf27d5c.md": "/first-to-react/static/media/useCallback.caf27d5c.md",
+    "static/media/useCallback1.cb324c38.jsexample": "/first-to-react/static/media/useCallback1.cb324c38.jsexample",
+    "static/media/useCallback2.bba9c54a.jsexample": "/first-to-react/static/media/useCallback2.bba9c54a.jsexample",
     "static/media/useContext.3573e0c5.md": "/first-to-react/static/media/useContext.3573e0c5.md",
     "static/media/useContext1.f329ddc4.jsexample": "/first-to-react/static/media/useContext1.f329ddc4.jsexample",
     "static/media/useContext2.7249abe3.jsexample": "/first-to-react/static/media/useContext2.7249abe3.jsexample",
@@ -91,7 +89,7 @@
     "static/media/useMemo.962c5e65.md": "/first-to-react/static/media/useMemo.962c5e65.md",
     "static/media/useMemo1.c7d60b68.jsexample": "/first-to-react/static/media/useMemo1.c7d60b68.jsexample",
     "static/media/useMemo2.719e61a2.jsexample": "/first-to-react/static/media/useMemo2.719e61a2.jsexample",
-    "static/media/useReducer.a8ee33de.md": "/first-to-react/static/media/useReducer.a8ee33de.md",
+    "static/media/useReducer.f0d3ad55.md": "/first-to-react/static/media/useReducer.f0d3ad55.md",
     "static/media/useReducer1.569d47f3.jsexample": "/first-to-react/static/media/useReducer1.569d47f3.jsexample",
     "static/media/useReducer2.4d9018c0.jsexample": "/first-to-react/static/media/useReducer2.4d9018c0.jsexample",
     "static/media/useReducer3.0492a1ff.jsexample": "/first-to-react/static/media/useReducer3.0492a1ff.jsexample",
@@ -103,6 +101,6 @@
     "static/css/2.1a02f21c.chunk.css",
     "static/js/2.038e7cdb.chunk.js",
     "static/css/main.86ed0c29.chunk.css",
-    "static/js/main.ea09c320.chunk.js"
+    "static/js/main.80bd6976.chunk.js"
   ]
 }

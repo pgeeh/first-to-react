@@ -1,0 +1,21 @@
+function BasicCallback(props) {
+  const {test} = props;
+
+  const doAlert = React.useCallback(() => {
+    alert(test);
+  }, [test]);
+  
+  return (
+    <span onClick={doAlert}>Click me to say the current test prop</span>
+  );
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <BasicCallback />
+  </PropOverride>
+);

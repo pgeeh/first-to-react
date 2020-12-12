@@ -1,3 +1,0 @@
-# useCallback
-
-Default information
