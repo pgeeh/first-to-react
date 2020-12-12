@@ -12,7 +12,7 @@ function FunctionalComponents({interval}) {
   }, [interval]);
 
   return (
-    <div onClick={updateTime}>
+    <div>
       <div>
         This will update every 
         {interval || 0} milliseconds.

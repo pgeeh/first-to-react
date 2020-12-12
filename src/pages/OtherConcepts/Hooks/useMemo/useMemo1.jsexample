@@ -1,6 +1,16 @@
-function useMemo1(props) {
+function BasicMemo(props) {
   const {test} = props;
-  return (<span>useMemo of {test}</span>);
+  
+  // Calculate the length of the string
+  const length = React.useMemo(() => {
+    return test.length;
+  }, [test]);
+
+  return (
+    <span>
+      {test} is of length {length}
+    </span>
+  );
 }
 
 const initial = {
@@ -9,6 +19,6 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <useMemo />
+    <BasicMemo />
   </PropOverride>
 );

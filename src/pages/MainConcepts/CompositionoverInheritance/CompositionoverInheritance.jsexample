@@ -1,46 +1,46 @@
-function Button({onClick, style, ...other}) {
-  console.log(other);
+// The '...extra' syntax allows for passing through props to children
+function Button({onClick, style, ...extra}) {
   return (
-    <button style={style} onClick={onClick} {...other}>Click me!</button>
+    <button style={style} onClick={onClick} {...extra}>Click me!</button>
   );
 }
 
 // This button styles the inner button as 'blue'
-function BlueButton({...other}) {
+function BlueButton({...extra}) {
   return (
-    <Button style={{color:'blue'}} {...other} />
+    <Button style={{color:'blue'}} {...extra} />
   );
 }
 
-// The '...other' syntax allows for passing through props to children
-function GreenButton({...other}) {
+function GreenButton({...extra}) {
   return (
-    <Button style={{color:'green'}} {...other} />
+    <Button style={{color:'green'}} {...extra} />
   );
 }
 
-// This tracks a specific buttons clicks, as well as shows additional information
-// passed as child elements
+// This tracks a specific button's clicks, as well as shows additional information
+// passed as child elements.
 // 'button: ButtonToUse' converts the 'button' prop to uppercased 'ButtonToUse', so React
-// will render it as a component. This is an alternative to 
-function TrackedButton({children, onClick, button: ButtonToUse, ...other}) {
+// will render it as a component. This is an alternative to passing
+// directly as a capitalized prop, which is generally avoided.
+function TrackedButton({children, onClick, button: ButtonToUse, ...extra}) {
   const [count, setCount] = React.useState(0);
   
   const innerClick = React.useCallback(() => {
     setCount(count + 1);
     onClick();
-  }, [count]);
+  }, [count, onClick]);
 
   return (
     <div style={{margin: '10px'}}>
       <div>This button has been clicked {count} times!</div>
-      <ButtonToUse onClick={innerClick} {...other} />
+      <ButtonToUse onClick={innerClick} {...extra} />
       {children}
     </div>
   )
 }
 
-function CompositionoverInheritance(props) {
+function Composition(props) {
   const {disabled} = props;
   const [count, setCount] = React.useState(0);
   
@@ -50,7 +50,7 @@ function CompositionoverInheritance(props) {
   
   return (
     <div>
-      <div>Either button has been clicked {count} times.</div>
+      <div>Any button has been clicked {count} times.</div>
       <TrackedButton onClick={onClick} button={Button} disabled={disabled}>
         {disabled === true ? <div>Cannot click - disabled!</div> : null}
       </TrackedButton>
@@ -68,6 +68,6 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <CompositionoverInheritance />
+    <Composition />
   </PropOverride>
 );

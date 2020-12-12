@@ -12,13 +12,16 @@ const config = {
     {
       name: 'Example1',
       example: example1,
-    },{
+    },
+    {
       name: 'Example2',
       example: example2,
-    },{
+    },
+    {
       name: 'Example3',
       example: example3,
-    },{
+    },
+    {
       name: 'Example4',
       example: example4,
     },

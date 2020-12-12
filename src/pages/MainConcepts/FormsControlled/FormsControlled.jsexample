@@ -1,42 +1,115 @@
-function FormsControlled(props) {
-  const {name, age} = props;
-  const [formName, setName] = React.useState(name);
-  const [formAge, setAge] = React.useState(age);
+class ClassControlledForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const update = React.useCallback((e) => {
-    if (e.target.name === 'name') {
-      setName(e.target.value);
-    } else if (e.target.name === 'age') {
-      setAge(e.target.value);
-    }
-  }, []);
+    this.state = {
+      name: props.name,
+      age: props.age,
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onReset = this.onReset.bind(this);
+  }
+
+  onChange(e) {
+    // Shortcut for setting the state. Use the 'name'
+    // prop off the target input to choose which
+    // state prop we are going to update.
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    alert(`${this.state.name} is ${this.state.age} years old`);
+  }
+
+  onReset(e) {
+    this.setState({
+      name: this.props.name,
+      age: this.props.age,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div>Class</div>
+        <form onSubmit={this.onSubmit} onReset={this.onReset}>
+          <label>
+            Name:
+            <input type="text" value={this.state.name} name='name' onChange={this.onChange} />
+          </label>
+          <br/>
+          <label>
+            Age:
+            <input type="number" value={this.state.age} name='age' onChange={this.onChange} />
+          </label>
+          <br/>
+          <input type="reset" value="Reset" />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    );
+  };
+}
+
+function FunctionalControlledForm(props) {
+  const {name, age} = props;
+
+  // Shortcut for useState - it can store an object instead of a
+  // single value, so we do not need separate methods to update the state.
+  // This can be useful when multiple pieces of state are similarly
+  // managed.
+  const [state, setState] = React.useState({
+    name,
+    age,
+  });
+
+  const onChange = React.useCallback((e) => {
+    // Difference from a Class Component,
+    // Since the state update method just replaces,
+    // that means we have to first expand the current
+    // state so data is not lost.
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  }, [state]);
 
   const onSubmit = React.useCallback((e) => {
     e.preventDefault();
-    alert(`${formName} is ${formAge} years old`);
-  }, [formName, formAge]);
+    alert(`${state.name} is ${state.age} years old`);
+  }, [state]);
 
+  // The reset callback is updated if either of the props change.
   const onReset = React.useCallback(() => {
-    setName(name);
-    setAge(age);
+    setState({
+      name,
+      age,
+    });
   }, [name, age]);
 
   return (
-    <form onSubmit={onSubmit} onReset={onReset}>
-      <label>
-        Name:
-        <input type="text" value={formName} name='name' onChange={update} />
-      </label>
-      <br/>
-      
-      <label>
-        Age:
-        <input type="number" value={formAge} name='age' onChange={update} />
-      </label>
-      <br/>
-      <input type="reset" value="Reset" />
-      <input type="submit" value="Submit" />
-    </form>
+    <div>
+      <div>Functional</div>
+      <form onSubmit={onSubmit} onReset={onReset}>
+        <label>
+          Name:
+          <input type="text" value={state.name} name='name' onChange={onChange} />
+        </label>
+        <br/>
+        <label>
+          Age:
+          <input type="number" value={state.age} name='age' onChange={onChange} />
+        </label>
+        <br/>
+        <input type="reset" value="Reset" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
   );
 }
 
@@ -47,6 +120,8 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <FormsControlled />
+    <ClassControlledForm />
+    <br />
+    <FunctionalControlledForm />
   </PropOverride>
 );

@@ -70,7 +70,7 @@ function FunctionalList(props) {
 }
 
 const initial = {
-  name: 'Conditional Example',
+  name: 'Correct Key Example',
   members: [
     'John',
     'Paul',
@@ -81,7 +81,7 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <ClassList name={initial.name} members={initial.members}/>
-    <FunctionalList name={initial.name} members={initial.members}/>
+    <ClassList />
+    <FunctionalList />
   </PropOverride>
 );

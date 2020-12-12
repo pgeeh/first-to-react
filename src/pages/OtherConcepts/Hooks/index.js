@@ -6,21 +6,21 @@ import useMemo from './useMemo';
 import useCallback from './useCallback';
 
 import info from './Hooks.md';
-import example from './Hooks.jsexample';
+// import example from './Hooks.jsexample';
 
 const config = {
   info,
   name: 'Hooks',
   examples: [
-    {
-      name: 'Example 1',
-      example,
-    },
+    // {
+    //   name: 'Example 1',
+    //   example,
+    // },
   ],
   children: [
     useState,
-    useEffect,
     useMemo,
+    useEffect,
     useCallback,
     useReducer,
     useContext,

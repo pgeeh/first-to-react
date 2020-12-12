@@ -23,7 +23,7 @@
     1. Lifecycle
         1. (Ex) On Mount and Dismount
         1. (Ex) Handling Props changes
-    1. Event Handling
+    1. Event Handling (preventDefault, stopPropagation)
     1. Conditional Rendering
     1. Lists and Keys
     1. Controlled Forms

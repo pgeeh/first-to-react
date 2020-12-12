@@ -7,7 +7,7 @@ const config = {
   name: 'Controlled Forms',
   examples: [
     {
-      name: 'Example 1',
+      name: 'Controlled Form',
       example,
     },
   ],

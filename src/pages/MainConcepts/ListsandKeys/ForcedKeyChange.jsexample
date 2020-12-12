@@ -1,8 +1,11 @@
 function ListItem({count, name, index}) {
   const [innerCount, setCount] = React.useState(0);
 
-  const onClick = React.useCallback(() => {
+  const onClick = React.useCallback((e) => {
     setCount(innerCount + 1);
+    
+    // Do not propagate to the parent.
+    e.stopPropagation();
   }, [innerCount]);
 
   return (
@@ -18,7 +21,6 @@ class ClassList extends React.Component {
     // State needs to be initialized in the constructor
     this.state = {
       count: 0,
-      other: 'Still Here',
     };
 
     // Bind once in the constructor
@@ -26,9 +28,6 @@ class ClassList extends React.Component {
   }
 
   onClick() {
-    // Class components have a generic method to update state
-    // It does a shallow (first-level only) assign of values, so
-    // not every value has to be sent, only the ones you wish to change
     this.setState({
       count: this.state.count + 1,
     });
@@ -39,10 +38,10 @@ class ClassList extends React.Component {
       // By the time render is called, 
       // `this.onClick` will be bound via the constructor
       <div onClick={this.onClick}>
-        <div>Class {this.props.name} has been clicked {this.state.count} times! ({this.state.other})</div>
+        <div>Class {this.props.name} has been clicked {this.state.count} times!</div>
         <ul>
           {this.props.members.map((member, index) => {
-            return <ListItem key={index} index={index} count={this.state.count} name={member}/>
+            return <ListItem key={this.props.keyBase + member} index={index} count={this.state.count} name={member}/>
           })}
         </ul>
       </div>
@@ -62,7 +61,7 @@ function FunctionalList(props) {
       <div>Functional {props.name} has been clicked {count} times!</div>
       <ul>
           {props.members.map((member, index) => {
-            return <ListItem key={member} index={index} count={count} name={member}/>
+            return <ListItem key={props.keyBase + member} index={index} count={count} name={member}/>
           })}
         </ul>
     </div>
@@ -70,7 +69,8 @@ function FunctionalList(props) {
 }
 
 const initial = {
-  name: 'Conditional Example',
+  name: 'Forced Key Change Example',
+  keyBase: 'base',
   members: [
     'John',
     'Paul',
@@ -81,7 +81,7 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <ClassList name={initial.name} members={initial.members}/>
-    <FunctionalList name={initial.name} members={initial.members}/>
+    <ClassList />
+    <FunctionalList />
   </PropOverride>
 );

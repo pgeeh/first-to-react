@@ -10,7 +10,8 @@ const config = {
     {
       name: 'Example1',
       example: example1,
-    },{
+    },
+    {
       name: 'Example2',
       example: example2,
     },

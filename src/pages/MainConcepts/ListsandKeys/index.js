@@ -3,6 +3,7 @@ import info from './ListsandKeys.md';
 import example1 from './CorrectKeys.jsexample';
 import example2 from './IncorrectKeys.jsexample';
 import example3 from './ForcedKeyChange.jsexample';
+import example4 from './SortExample.jsexample';
 
 const config = {
   info,
@@ -19,6 +20,10 @@ const config = {
     {
       name: 'Forced Key Change',
       example: example3,
+    },
+    {
+      name: 'Sort Example',
+      example: example4,
     },
   ],
   children: [

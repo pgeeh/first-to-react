@@ -1,3 +1,3 @@
 # Other Concepts
 
-Default information
+Other React Concepts, including more details about Hooks and Fragments.
