@@ -1,6 +1,13 @@
-function useCallback1(props) {
+function BasicCallback(props) {
   const {test} = props;
-  return (<span>useCallback of {test}</span>);
+
+  const doAlert = React.useCallback(() => {
+    alert(test);
+  }, [test]);
+  
+  return (
+    <span onClick={doAlert}>Click me to say the current test prop</span>
+  );
 }
 
 const initial = {
@@ -9,6 +16,6 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <useCallback />
+    <BasicCallback />
   </PropOverride>
 );
