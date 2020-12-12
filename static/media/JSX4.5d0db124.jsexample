@@ -1,0 +1,26 @@
+function JSX(props) {
+  // Style attributes can be passed via an object
+  const style = {
+    color: 'red',
+  };
+
+  // This template is JSX, which looks like
+  // HTML but has extended capabilities
+  // JSX Markup is wrapped in parenthesis ()
+  return (
+    <center>
+      <p>
+        {/* Javascript values are able to be placed
+            inside of the template in any location, 
+            both inside tag content or the tags themselves. */}
+        {/* JavaScript code can be parsed inline using curly braces {}
+            Below the current day of the month is retrieved inline  */}
+        Today is day <span style={style}>{new Date().getDate()}</span> of this month
+      </p>
+    </center>
+  );
+}
+
+render(
+  <JSX />,
+);

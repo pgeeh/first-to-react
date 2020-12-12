@@ -1,0 +1,14 @@
+function useContext3(props) {
+  const {test} = props;
+  return (<span>useContext of {test}</span>);
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <useContext />
+  </PropOverride>
+);

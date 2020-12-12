@@ -1,0 +1,41 @@
+function FunctionalComponents(props) {
+  const [time, setTime] = React.useState(new Date());
+  const intervalRef = React.useRef();
+
+  const updateTime = React.useCallback(() => {
+    setTime(new Date());
+  }, []);
+
+  React.useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(updateTime, props.interval || 0);
+
+    return () => clearInterval(intervalRef.current);
+  }, [props.interval]);
+
+  return (
+    <div onClick={updateTime}>
+      <div>
+        This will update every 
+        {props.interval || 0} milliseconds, 
+        or immediately if you click!
+      </div>
+      <br/>
+      <div>
+        The date & time is {time.toISOString()} and
+        {props.text}
+      </div>
+    </div>
+  );
+}
+
+const initial = {
+  interval: 1000,
+  text: 'this is extra information',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <FunctionalComponents />
+  </PropOverride>
+);

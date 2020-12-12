@@ -1,0 +1,14 @@
+function useCallback3(props) {
+  const {test} = props;
+  return (<span>useCallback of {test}</span>);
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <useCallback />
+  </PropOverride>
+);

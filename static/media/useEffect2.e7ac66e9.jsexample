@@ -1,0 +1,101 @@
+
+function User({userId}) {
+  const [info, setInfo] = React.useState(null);
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoaded(false);
+    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTimeout(() => {
+          setInfo(data);
+          setLoaded(true);
+        }, 500);
+      });
+  }, [userId]);
+
+  if (loaded !== true) {
+    return (
+      <span>User {userId}</span>
+    );
+  }
+
+  return (
+    <>
+      <span>{info.name}</span> (<span>{info.email}</span>)
+    </>
+  );
+}
+
+function Post({postId}) {
+  const [info, setInfo] = React.useState(null);
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoaded(false);
+    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTimeout(() => {
+          setInfo(data);
+          setLoaded(true);
+        }, 500);
+      });
+  }, [postId]);
+
+  if (loaded !== true) {
+    return (
+      <span>Loading post {postId} info</span>
+    );
+  }
+
+  return (
+    <>
+      <div>
+        Post {postId} by: <User userId={info.userId} />
+        <br/>
+        <div><i>{info.title}</i></div>
+        <br/>
+        <div>{info.body}</div>
+      </div>
+    </>
+  );
+}
+
+const maxPosts = 100;
+
+function Fetch({interval}) {
+  const [current, setCurrent] = React.useState(1);
+
+  const changePost = React.useCallback((change) => {
+    let newIndex = current + change;
+    if (newIndex < 1) {
+      newIndex = 1;
+    }
+    if (newIndex > maxPosts) {
+      newIndex = maxPosts;
+    }
+    setCurrent(newIndex);
+  }, [current]);
+
+  return (
+    <div>
+      <button onClick={() => changePost(-1)}>Prev</button>
+      <br/>
+      <button onClick={() => changePost(1)}>Next</button>
+      <br/>
+      <Post postId={current} />
+    </div>
+  );
+}
+
+const initial = {
+  interval: 1000
+};
+
+render(
+  <PropOverride initial={initial}>
+    <Fetch />
+  </PropOverride>
+);

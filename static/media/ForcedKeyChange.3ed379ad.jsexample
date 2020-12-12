@@ -1,0 +1,87 @@
+function ListItem({count, name, index}) {
+  const [innerCount, setCount] = React.useState(0);
+
+  const onClick = React.useCallback((e) => {
+    setCount(innerCount + 1);
+    
+    // Do not propagate to the parent.
+    e.stopPropagation();
+  }, [innerCount]);
+
+  return (
+    <li onClick={onClick} style={{margin: '10px', padding: '5px'}}>
+      Parent has been clicked {count} times and {name} (index {index}) {innerCount} times!
+    </li>
+  );
+}
+
+class ClassList extends React.Component {
+  constructor(props) {
+    super(props);
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+    };
+
+    // Bind once in the constructor
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    return (
+      // By the time render is called, 
+      // `this.onClick` will be bound via the constructor
+      <div onClick={this.onClick}>
+        <div>Class {this.props.name} has been clicked {this.state.count} times!</div>
+        <ul>
+          {this.props.members.map((member, index) => {
+            return <ListItem key={this.props.keyBase + member} index={index} count={this.state.count} name={member}/>
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
+
+function FunctionalList(props) {
+  const [count, setCount] = React.useState(0);
+
+  const onClick = React.useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div onClick={onClick}>
+      <div>Functional {props.name} has been clicked {count} times!</div>
+      <ul>
+          {props.members.map((member, index) => {
+            return <ListItem key={props.keyBase + member} index={index} count={count} name={member}/>
+          })}
+        </ul>
+    </div>
+  )
+}
+
+const initial = {
+  name: 'Forced Key Change Example',
+  keyBase: 'base',
+  members: [
+    'John',
+    'Paul',
+    'Ringo',
+    'George'
+  ]
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassList />
+    <FunctionalList />
+  </PropOverride>
+);

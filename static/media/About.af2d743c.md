@@ -1,3 +1,0 @@
-# About
-
-First-To-React is...

@@ -1,0 +1,69 @@
+class ClassComponents extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: new Date()
+    };
+
+    this.updateTime = this.updateTime.bind(this);
+  }
+
+  updateTime() {
+    this.setState({
+      time: new Date(),
+    });
+  }
+
+  // Lifecycle method which is called when a component
+  // is added to the DOM
+  componentDidMount() {
+    this.interval = setInterval(this.updateTime, 
+      this.props.interval || 0);
+  }
+  
+  // Lifecycle method which is called prior to removing
+  // the component. Similar to destructor in other languages.
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  // Lifecycle method which is called when props or state changes
+  // so additional logic can be performed
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // If the interval prop has changed, then update the
+    // setInterval
+    if (this.props.interval !== prevProps.interval) {
+      clearInterval(this.interval);
+      this.interval = setInterval(this.updateTime, 
+        this.props.interval || 0);
+    }
+  }
+
+  render() {
+    return (
+      <div onClick={this.updateTime}>
+        <div>
+          This will update every 
+          {this.props.interval || 0} milliseconds, 
+          or immediately if you click inside this area!
+        </div>
+        <br/>
+        <div>
+          The date & time is {this.state.time.toISOString()} and
+          {this.props.text}
+        </div>
+      </div>
+    );
+  }
+}
+
+const initial = {
+  interval: 1000,
+  text: 'this is extra information',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassComponents />
+  </PropOverride>
+);

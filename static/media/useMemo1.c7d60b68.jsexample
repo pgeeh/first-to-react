@@ -1,0 +1,24 @@
+function BasicMemo(props) {
+  const {test} = props;
+  
+  // Calculate the length of the string
+  const length = React.useMemo(() => {
+    return test.length;
+  }, [test]);
+
+  return (
+    <span>
+      {test} is of length {length}
+    </span>
+  );
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <BasicMemo />
+  </PropOverride>
+);
