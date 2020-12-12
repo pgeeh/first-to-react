@@ -1,14 +1,80 @@
-function useReducer2(props) {
-  const {test} = props;
-  return (<span>useReducer of {test}</span>);
+const ACTIONS = {
+  INCREMENT: 'increment',
+  DECREMENT: 'decrement',
+  RESET: 'reset',
+};
+
+function init(initialCount) {
+  return {
+    count: initialCount,
+    changes: 0,
+  };
+}
+
+function reduce(state, action) {
+  switch (action.type) {
+    case ACTIONS.INCREMENT: {
+      return {
+        ...state,
+        count: state.count + 1,
+        changes: state.changes + 1,
+      };
+    }
+    case ACTIONS.DECREMENT: {
+      return {
+        ...state,
+        count: state.count - 1,
+        changes: state.changes + 1,
+      };
+    }
+    case ACTIONS.RESET: {
+      return init(action.payload);
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+function BasicReducer(props) {
+  const {startingCount} = props;
+  const [state, dispatch] = React.useReducer(reduce, startingCount, init);
+
+  const increment = React.useCallback(() => {
+    dispatch({
+      type: ACTIONS.INCREMENT,
+    });
+  }, [dispatch]);
+
+  const decrement = React.useCallback(() => {
+    dispatch({
+      type: ACTIONS.DECREMENT,
+    });
+  }, [dispatch]);
+
+  const reset = React.useCallback(() => {
+    dispatch({
+      type: ACTIONS.RESET,
+      payload: startingCount,
+    });
+  }, [dispatch, startingCount]);
+
+  return (
+    <div>
+      <div>Current count is {state.count} and changed {state.changes} times</div>
+      <button onClick={increment}>Add 1</button>
+      <button onClick={decrement}>Subtract 1</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
 }
 
 const initial = {
-  test: 'something interesting',
+  startingCount: 0,
 };
 
 render(
   <PropOverride initial={initial}>
-    <useReducer />
+    <BasicReducer />
   </PropOverride>
 );
