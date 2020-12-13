@@ -1,6 +1,6 @@
 import ReduxandFluxWorkflows from './ReduxandFluxWorkflows';
 import LayoutFrameworks from './LayoutFrameworks';
-import PerformanceandUsability from './PerformanceandUsability';
+// import PerformanceandUsability from './PerformanceandUsability';
 import OtherLibraries from './OtherLibraries';
 
 import info from './BuildingonReact.md';
@@ -11,7 +11,7 @@ const config = {
   children: [
     ReduxandFluxWorkflows,
     LayoutFrameworks,
-    PerformanceandUsability,
+    // PerformanceandUsability,
     OtherLibraries,
   ],
 };

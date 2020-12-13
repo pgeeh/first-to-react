@@ -4,8 +4,8 @@
 
 _An overview and interactive intro into using and working with ReactJS._
 
-_Who is this for?_ Developers interested in learning more about and/or getting started with React.
+___Who is this for?___ Developers interested in learning more about and/or getting started with React.
 
-_What can I do here?_ Read through the information and play & modify the examples right in the browser!
+___What can I do here?___ Read through the information and play & modify the examples right in the browser!
 
-A basic understanding of JavaScript syntax and features will benefit the examples contained.
+_A basic understanding of JavaScript syntax and features will benefit the examples contained._

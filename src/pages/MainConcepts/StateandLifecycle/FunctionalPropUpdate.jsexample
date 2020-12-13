@@ -14,7 +14,7 @@ function FunctionalComponents(props) {
   }, [props.interval]);
 
   return (
-    <div onClick={updateTime}>
+    <div>
       <div>
         This will update every 
         {props.interval || 0} milliseconds, 

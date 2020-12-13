@@ -69,7 +69,7 @@ function Todo(props) {
         id: todo.id,
       },
     });
-  }, [dispatch, todo]);
+  }, [todo]);
 
   const remove = React.useCallback(() => {
     dispatch({
@@ -78,7 +78,7 @@ function Todo(props) {
         id: todo.id,
       },
     });
-  }, [dispatch, todo]);
+  }, [todo]);
 
   const text = todo.finished !== true ?
     todo.text : (<i>{todo.text}</i>);
@@ -103,27 +103,31 @@ function TodoList(props) {
         text,
       }
     });
-  }, [dispatch, text]);
+  }, [text]);
 
   const clear = React.useCallback(() => {
     setText('');
     dispatch({
       type: ACTIONS.CLEAR,
     });
-  }, [dispatch, setText]);
+  }, []);
 
   const onChange = React.useCallback((e) => {
     setText(e.target.value);
-  }, [setText]);
+  }, []);
 
   return (
     <div>
       <div><input type='text' value={text} onChange={onChange}/></div>
+      <br/>
       <div>
         <button onClick={create}>Create</button>
         <button onClick={clear}>Reset</button>
       </div>
+      <br/>
+      <div>Todo List</div>
       <ul>
+        {state.todos.length < 1 ? (<li>'Empty'</li>) : null}
         {state.todos.map((todo) => (
           <Todo key={todo.id} dispatch={dispatch} todo={todo} />
         ))}

@@ -1,8 +1,8 @@
 # About
 
-First-To-React is hosted with GitHub Pages and stored at [pgeeh/first-to-react](https://github.com/pgeeh/first-to-react/)
+First-To-React is hosted with GitHub Pages.
 
-__Libraries and other tools used__:
+##### Libraries and other tools used
 
 * React
 * Bootstrap & React-Bootstrap
@@ -11,4 +11,8 @@ __Libraries and other tools used__:
 * SASS
 * [reqres.in](https://reqres.in/) for API Sample Data
 
-For additional tools and notes, check out the [github repo](https://github.com/pgeeh/first-to-react/)
+For additional tools, see the [README](https://github.com/pgeeh/first-to-react/blob/master/README.md)
+
+##### Issue or Feedback
+
+Found an issue? Have feedback? Feel free to create an issue at [pgeeh/first-to-react](https://github.com/pgeeh/first-to-react/).

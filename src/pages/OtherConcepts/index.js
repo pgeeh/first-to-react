@@ -7,8 +7,8 @@ const config = {
   info,
   name: 'Other Concepts',
   children: [
-    Hooks,
     Fragments,
+    Hooks,
   ],
 };
 

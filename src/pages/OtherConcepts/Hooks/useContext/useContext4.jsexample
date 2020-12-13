@@ -1,14 +1,33 @@
-function useContext4(props) {
-  const {test} = props;
-  return (<span>useContext of {test}</span>);
+const ExampleContext = React.createContext();
+
+function User() {
+  const info = React.useContext(ExampleContext);
+
+  return (
+    <div>
+      <div>Name: {info.name}</div>
+      <div>Age: {info.age}</div>
+    </div>
+  );
 }
 
-const initial = {
-  test: 'something interesting',
-};
+const erin = {name: 'Erin', age: 26};
+const joe = {name: 'Joe', age: 28};
+
+function MultiContext(props) {  
+  return (
+    <>
+      <ExampleContext.Provider value={erin}>
+        <User />
+      </ExampleContext.Provider>
+      <br/>
+      <ExampleContext.Provider value={joe}>
+        <User />
+      </ExampleContext.Provider>
+    </>
+  );
+}
 
 render(
-  <PropOverride initial={initial}>
-    <useContext />
-  </PropOverride>
+  <MultiContext />
 );

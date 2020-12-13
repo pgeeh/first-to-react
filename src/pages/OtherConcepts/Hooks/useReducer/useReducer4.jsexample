@@ -1,6 +1,6 @@
-function useReducer4(props) {
+function UseReducer(props) {
   const {test} = props;
-  return (<span>useReducer of {test}</span>);
+  return (<span>UseReducer of {test}</span>);
 }
 
 const initial = {
@@ -9,6 +9,6 @@ const initial = {
 
 render(
   <PropOverride initial={initial}>
-    <useReducer />
+    <UseReducer />
   </PropOverride>
 );

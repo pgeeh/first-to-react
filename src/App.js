@@ -42,9 +42,16 @@ addIds(pages);
  */
 function PageWrapper() {
   const {activeId} = useParams();
-  console.log(activeId);
+  const page = pagesMap[activeId] || null;
+
+  if (page === null) {
+    return (
+      <General page={PAGES.HOME} />
+    );
+  }
+
   return (
-    <Page key={activeId} page={pagesMap[activeId] || null} />
+    <Page key={activeId} page={page} />
   );
 }
 

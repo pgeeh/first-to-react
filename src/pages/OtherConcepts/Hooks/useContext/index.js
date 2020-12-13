@@ -10,19 +10,19 @@ const config = {
   name: 'useContext',
   examples: [
     {
-      name: 'Example1',
+      name: 'Basic Context',
       example: example1,
     },
     {
-      name: 'Example2',
+      name: 'Consumer',
       example: example2,
     },
     {
-      name: 'Example3',
+      name: 'Todo Reducer',
       example: example3,
     },
     {
-      name: 'Example4',
+      name: 'Multi Context',
       example: example4,
     },
   ],

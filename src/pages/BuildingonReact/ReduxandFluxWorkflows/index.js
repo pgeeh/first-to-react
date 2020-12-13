@@ -1,15 +1,15 @@
 
 import info from './ReduxandFluxWorkflows.md';
-import example from './ReduxandFluxWorkflows.jsexample';
+// import example from './ReduxandFluxWorkflows.jsexample';
 
 const config = {
   info,
-  name: 'Redux and Flux Workflows',
+  name: 'Flux and Redux Workflows',
   examples: [
-    {
-      name: 'Example 1',
-      example,
-    },
+    // {
+    //   name: 'Example 1',
+    //   example,
+    // },
   ],
   children: [
   ],
