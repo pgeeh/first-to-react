@@ -6,7 +6,13 @@ Both types of components manage the same two sets of data: _props_ and _state_. 
 * _props_ is the information passed into a Component from a parent.
 * _state_ is the information tracked and managed by the Component. This can be either used directly in the component, or passed to one or more children Components.
 
+__State and Props__ shows how props make their way down from parent components into children, while state stays inside of a component.
+
 ![State and Props](/first-to-react/diagrams/stateandprops.png)
+
+__React Data Flow__ shows how the _view_ of a component can make use of a callback to modify its _state_ and how _state_ and _props_ combine to create the view. As well as how a component takes in _props_, but maintains its own _state_.
+
+![React Data Flow](/first-to-react/diagrams/reactdataflow.png)
 
 ##### Class Components
 
@@ -24,4 +30,6 @@ Which to use will depend on the needs of each component. Is it a very basic disp
 
 Many examples will show both a Class Component and Functional Component in order to constrast between them and show how certain situations are handled in the different ways.
 
-The __Class Vs Functional__ example below shows basic version of each a Class Component and Functional Component.
+The __Minimal__ example below shows the most minimal version of each a Class Component and Functional Component.
+
+The __With Props__ example below how each a Class Component and Functional Component access _props_.

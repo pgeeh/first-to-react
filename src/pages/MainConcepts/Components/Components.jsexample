@@ -1,13 +1,12 @@
-// Class Components extend React.Component and 
-// include a render function.
 class ClassComponent extends React.Component {
   // Class Components take a single object argument, props,
   // which needs to be passed to the parent.
-  // This method is optional if nothing else needs
-  // to be done during the constructor.
+  // The constructor method is optional if nothing else needs
+  // to be done, such as initializing state.
   constructor(props) {
     super(props);
   }
+
   render() {
     const {text} = this.props;
     return (
@@ -16,8 +15,6 @@ class ClassComponent extends React.Component {
   }
 }
 
-// Functional Components are similar to the render function
-// of a class component, without the additional structure.
 // Functional Components also take a single argument, which
 // is an object containing all provided props.
 function FunctionalComponent(props) {

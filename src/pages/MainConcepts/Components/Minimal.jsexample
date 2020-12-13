@@ -1,0 +1,24 @@
+// Class Components extend React.Component and 
+// include a render function.
+class ClassComponent extends React.Component {
+  render() {
+    return (
+      <center>Class Component example</center>
+    );
+  }
+}
+
+// Functional Components are similar to the render function
+// of a class component, without the additional structure.
+function FunctionalComponent() {
+  return (
+    <center>Functional Component example</center>
+  );
+}
+
+render(
+  <div>
+    <ClassComponent />
+    <FunctionalComponent />
+  </div>
+);

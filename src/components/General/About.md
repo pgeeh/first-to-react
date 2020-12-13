@@ -9,6 +9,9 @@ First-To-React is hosted with GitHub Pages.
 * Material-UI Icons
 * Create-React-App
 * SASS
+* React-Markdown
+* React-Live
+* React-Router
 * [reqres.in](https://reqres.in/) for API Sample Data
 
 For additional tools, see the [README](https://github.com/pgeeh/first-to-react/blob/master/README.md)

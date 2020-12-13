@@ -1,7 +1,7 @@
 // import BackgroundInformation from './BackgroundInformation';
 import OtherConcepts from './OtherConcepts';
 import Alternatives from './Alternatives';
-import Resources from './Resources';
+// import Resources from './Resources';
 import GettingStartedSuggestions from './GettingStartedSuggestions';
 import BuildingonReact from './BuildingonReact';
 import Intro from './Intro';
@@ -13,7 +13,7 @@ const pages = [
   // BackgroundInformation,
   BuildingonReact,
   GettingStartedSuggestions,
-  Resources,
+  // Resources,
   Alternatives,
   Intro,
   MainConcepts,
