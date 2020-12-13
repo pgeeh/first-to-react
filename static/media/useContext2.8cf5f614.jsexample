@@ -1,0 +1,50 @@
+// Context is created and
+const ValueContext = React.createContext();
+
+function Information(props) {
+  const {infoKey} = props;
+
+  return (
+    <ValueContext.Consumer>
+      {(value) => (
+        <li>{infoKey}({typeof(value[infoKey])}) is {String(value[infoKey])}</li>
+      )}
+    </ValueContext.Consumer>
+  );
+}
+
+function InformationList() {
+  return (
+    // The consumer must have a function as a child, which
+    // is provided the value as the first argument
+    <ValueContext.Consumer>
+      {(value) => Object.keys(value).map((key) => {
+        return (
+          <Information key={key} infoKey={key} />
+        );
+      })}
+    </ValueContext.Consumer>
+  )
+}
+
+function ConsumerExample(props) {
+  return (
+    // This context provides an object as the `value`
+    <ValueContext.Provider value={props}>
+      <div>Current information:</div>
+      <ul>
+        <InformationList />
+      </ul>
+    </ValueContext.Provider>
+  );
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ConsumerExample />
+  </PropOverride>
+);

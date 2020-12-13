@@ -1,3 +1,0 @@
-# Resources
-
-Default information

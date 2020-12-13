@@ -1,3 +1,0 @@
-# useContext
-
-Default information
