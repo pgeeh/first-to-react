@@ -40,7 +40,7 @@ class ClassList extends React.Component {
       <div onClick={this.onClick}>
         <div>Class {this.props.name} has been clicked {this.state.count} times!</div>
         <ul>
-          {/* By using inline javascript, a dynamic list of components can be created */}
+          {/* By using inline JavaScript, a dynamic list of components can be created */}
           {this.props.members.map((member, index) => {
             return <ListItem key={member} index={index} count={this.state.count} name={member}/>
           })}

@@ -22,7 +22,7 @@ const config = {
       example: example3,
     },
     {
-      name: 'Sort Example',
+      name: 'Sorted',
       example: example4,
     },
   ],

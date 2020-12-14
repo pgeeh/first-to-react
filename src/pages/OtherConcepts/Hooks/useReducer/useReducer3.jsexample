@@ -31,15 +31,15 @@ function reduce(state, action) {
       };
     }
     case ACTIONS.FINISH: {
-      const updatedTodos = [...state.todos];
-      updatedTodos.forEach((todo) => {
+      const updatedToDos = [...state.todos];
+      updatedToDos.forEach((todo) => {
         if (todo.id === action.payload.id) {
           todo.finished = true;
         }
       });
       return {
         ...state,
-        todos: updatedTodos,
+        todos: updatedToDos,
       };
     }
     case ACTIONS.REMOVE: {
@@ -59,7 +59,7 @@ function reduce(state, action) {
   }
 }
 
-function Todo(props) {
+function ToDo(props) {
   const {dispatch, todo} = props;
 
   const finish = React.useCallback(() => {
@@ -91,7 +91,7 @@ function Todo(props) {
   );
 }
 
-function TodoList(props) {
+function ToDoList(props) {
   const [state, dispatch] = React.useReducer(reduce, [], init);
   const [text, setText] = React.useState('');
 
@@ -125,11 +125,11 @@ function TodoList(props) {
         <button onClick={clear}>Reset</button>
       </div>
       <br/>
-      <div>Todo List</div>
+      <div>ToDo List</div>
       <ul>
-        {state.todos.length < 1 ? (<li>'Empty'</li>) : null}
+        {state.todos.length < 1 ? (<li>Empty</li>) : null}
         {state.todos.map((todo) => (
-          <Todo key={todo.id} dispatch={dispatch} todo={todo} />
+          <ToDo key={todo.id} dispatch={dispatch} todo={todo} />
         ))}
       </ul>
     </div>
@@ -137,5 +137,5 @@ function TodoList(props) {
 }
 
 render(
-  <TodoList />
+  <ToDoList />
 );

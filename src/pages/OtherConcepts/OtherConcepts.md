@@ -1,3 +1,3 @@
 # Other Concepts
 
-Other React Concepts, including Fragements and more details about Hooks.
+Other Concepts in React, including Fragments and more details about Hooks.

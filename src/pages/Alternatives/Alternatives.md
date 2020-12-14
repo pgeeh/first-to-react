@@ -1,6 +1,6 @@
 # Alternatives
 
-While ReactJS may be one of the most popular JavaScript UI Libraries, there are others - along with plenty of discussions and comparison to help decide which is right to use. Some of the most popular (and similar) include:
+While ReactJS may be one of the most popular JavaScript UI libraries, there are others - along with plenty of discussions and comparisons to help understand their differences and different use cases. Some of the most popular (and similar) include:
 
 __[Angular](https://angular.io/)__
 
@@ -18,7 +18,7 @@ __[Ember](https://emberjs.com/)__
 
 > Ember.js is a productive, battle-tested JavaScript framework for building modern web applications. It includes everything you need to build rich UIs that work on any device.
 
-Ember is a much more complete framework than React, with many additional features, components, and services built in.
+Ember is a much more complete framework than React, with many additional features, components, and services included.
 
 __[Backbone.js](http://backbonejs.org/)__
 

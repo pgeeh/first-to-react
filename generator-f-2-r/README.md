@@ -3,17 +3,17 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-f-2-r using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-f-2-r using [npm](https://www.npmjs.com/) (we assume [node.js](https://nodejs.org/) is already installed).
 
 ```bash
 npm install -g yo
 npm install -g generator-f-2-r
 ```
 
-Then generate your new project:
+Then generate the new example:
 
 ```bash
-yo f-2-r
+yo f-2-r:example
 ```
 
 ## Getting To Know Yeoman
@@ -25,7 +25,7 @@ yo f-2-r
 
 ## License
 
-MIT © [Peter Hilton]()
+MIT © 2020 Peter G. Hilton
 
 
 [npm-image]: https://badge.fury.io/js/generator-f-2-r.svg

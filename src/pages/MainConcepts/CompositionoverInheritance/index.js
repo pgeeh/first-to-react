@@ -7,7 +7,7 @@ const config = {
   name: 'Composition over Inheritance',
   examples: [
     {
-      name: 'Example 1',
+      name: 'Composition',
       example,
     },
   ],

@@ -33,15 +33,15 @@ function reduce(state, action) {
       };
     }
     case ACTIONS.FINISH: {
-      const updatedTodos = [...state.todos];
-      updatedTodos.forEach((todo) => {
+      const updatedToDos = [...state.todos];
+      updatedToDos.forEach((todo) => {
         if (todo.id === action.payload.id) {
           todo.finished = true;
         }
       });
       return {
         ...state,
-        todos: updatedTodos,
+        todos: updatedToDos,
       };
     }
     case ACTIONS.REMOVE: {
@@ -61,10 +61,10 @@ function reduce(state, action) {
   }
 }
 
-function Todo(props) {
+function ToDo(props) {
   const {todo} = props;
 
-  // Todo only needs dispatch, and not state
+  // ToDo only needs dispatch, and not state
   const {dispatch} = React.useContext(StateContext);
 
   const finish = React.useCallback(() => {
@@ -98,26 +98,26 @@ function Todo(props) {
 }
 
 
-function TodoList(props) {
-  // The TodoList only needs state, so we only 
+function ToDoList(props) {
+  // The ToDoList only needs state, so we only 
   // expand state out of the context.
   const {state} = React.useContext(StateContext);
 
   return (
       <>
-        <div>Todo List</div>
+        <div>ToDo List</div>
         <ul>
-          {state.todos.length < 1 ? (<li>'Empty'</li>) : null}
+          {state.todos.length < 1 ? (<li>Empty</li>) : null}
           {state.todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} />
+            <ToDo key={todo.id} todo={todo} />
           ))}
         </ul>
       </>
   );
 }
 
-function AddTodo(props) {
-  // This state and dispatch will be the same as in TodoManager
+function AddToDo(props) {
+  // This state and dispatch will be the same as in ToDoManager
   const {state, dispatch} = React.useContext(StateContext);
   const [text, setText] = React.useState('');
 
@@ -154,7 +154,7 @@ function AddTodo(props) {
   );
 }
 
-function TodoManager(props) {
+function ToDoManager(props) {
   const [state, dispatch] = React.useReducer(reduce, [], init);
 
   // Best practice uses a memo function to calculate the value
@@ -166,14 +166,14 @@ function TodoManager(props) {
   return (
     <StateContext.Provider value={contextValue}>
       <div>
-        <AddTodo />
+        <AddToDo />
         <br/>
-        <TodoList />
+        <ToDoList />
       </div>
     </StateContext.Provider>
   );
 }
 
 render(
-  <TodoManager />
+  <ToDoManager />
 );
