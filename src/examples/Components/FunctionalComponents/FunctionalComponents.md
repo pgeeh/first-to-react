@@ -1,3 +1,0 @@
-# FunctionalComponents
-
-Default information

@@ -1,3 +1,0 @@
-# ClassComponents
-
-Default information

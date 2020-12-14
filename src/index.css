@@ -2,7 +2,7 @@ body {
   /* height: 100vh; */
   display: grid;
   /* grid-template: auto 1fr auto / auto 1fr auto; */
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
   margin: 0;
 }
 

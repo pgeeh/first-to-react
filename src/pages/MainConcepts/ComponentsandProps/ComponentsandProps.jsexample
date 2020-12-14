@@ -1,0 +1,70 @@
+class ClassPerson extends React.Component {
+  render() {
+    // Note that props must be accessed with 'this' in a Class Component
+    const {name, age, display: Display, style} = this.props;
+    return (
+      <div style={style}>
+        <center>
+          Class
+          <br/><br/>
+          <div>
+            {/* Note: When dynamically passing or using components, 
+              React requires that they be capitalized in the JSX. */}
+            Hi <Display name={name}/>, you are {age} years old.
+          </div>
+          <br/><br/>
+          <div>
+            If you update the override object, then the props will be updated and should be changed accordingly.
+          </div>
+        </center>
+      </div>
+    );  
+  }
+}
+
+function FunctionalPerson(props) {
+  // Props can be accessed as an object and decomposed
+  const {name, age, display: Display, style} = props;
+  return (
+    <div style={style}>
+      <center>
+        Functional
+        <br/><br/>
+        <div>
+          {/* Note: When dynamically passing or using components, 
+            React requires that they be capitalized in the JSX. */}
+          Hi <Display name={name}/>, you are {age} years old.
+        </div>
+        <br/><br/>
+        <div>
+           If you update the override object, then the props will be updated and should be changed accordingly.
+        </div>
+      </center>
+    </div>
+  );
+}
+
+// Display the name of a friend
+function FriendComponent({name}) {
+  // Props can also be decomposed directly in the argument list
+  // This is not unique to props in React, but is a common pattern
+  return (<span style={{color: 'green'}}>{name}</span>)
+}
+
+const initial = {
+  name: 'Billy',
+  age: 7,
+  style: {
+    border: '1px solid black',
+    margin: '5px',
+  }
+};
+
+render(
+  <PropOverride initial={initial}>
+    {/* For this example, display is not used in initial
+        because it is a function */}
+    <ClassPerson display={FriendComponent}/>
+    <FunctionalPerson display={FriendComponent}/>
+  </PropOverride>
+);

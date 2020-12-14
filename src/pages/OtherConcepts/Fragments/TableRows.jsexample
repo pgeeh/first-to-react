@@ -1,0 +1,55 @@
+// Returns the person information as 
+// individual table cells
+function PersonInfo(props) {
+  return (
+    <React.Fragment>
+      <td>{props.name}</td>
+      <td>{props.age}</td>
+    </React.Fragment>
+  )
+}
+
+function FragmentTable(props) {
+  return (
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+      </tr>
+      {props.people.map((person) => {
+        return (
+          <tr key={person.name}>
+            <PersonInfo {...person} />
+          </tr>
+        );
+      })}
+    </table>
+  );
+}
+
+const initial = {
+  people: [
+    {
+      name: 'John',
+      age: 28,
+    },
+    {
+      name: 'Sally',
+      age: 24,
+    },
+    {
+      name: 'Bob',
+      age: 22,
+    },
+    {
+      name: 'Jessie',
+      age: 30,
+    },
+  ],
+};
+
+render(
+  <PropOverride initial={initial}>
+    <FragmentTable />
+  </PropOverride>
+);

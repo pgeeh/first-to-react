@@ -1,0 +1,30 @@
+/**
+ * Render the JSX example
+ * @param props props for the object
+ * @return {object}
+ */
+function JSX(props) {
+  const info = {
+    day: new Date().getDate(),
+  };
+
+  // Objects can be placed as
+  const style = {
+    color: 'red',
+  };
+
+  // This template is JSX, which looks like
+  // HTML but has extended capabilities
+  return (
+    <center>
+      {/* JavaScript values are able to be placed
+       inside of the template in any location, 
+       both inside tag content or the tags themselves */}
+      <p>Today is day <span style={style}>{info.day}</span> of this month</p>
+    </center>
+  );
+}
+
+render(
+  <JSX />,
+);

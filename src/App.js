@@ -13,13 +13,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import './App.scss';
 
 import TableOfContents from './components/TableOfContents';
-import Example from './components/Example';
-import examples from './examples';
-import Welcome from './components/Welcome';
+import Page from './components/Page';
+import pages from './pages';
+import General from './components/General';
 
 import {fullLinkPath} from './utils';
+import {PAGES} from './components/General';
 
-const examplesMap = {};
+const pagesMap = {};
 
 const addIds = (items, prefix = '') => {
   for (let i = 1; i <= items.length; i++) {
@@ -29,21 +30,28 @@ const addIds = (items, prefix = '') => {
     if (item.children) {
       addIds(item.children, id + '.');
     }
-    examplesMap[id] = item;
+    pagesMap[id] = item;
   }
 };
 
-addIds(examples);
+addIds(pages);
 
 /**
  * Create a wrapper to get the route params
- * @return {object} the wrapped example with route param
+ * @return {object} the wrapped page with route param
  */
-function ExampleWrapper() {
+function PageWrapper() {
   const {activeId} = useParams();
-  console.log(activeId);
+  const page = pagesMap[activeId] || null;
+
+  if (page === null) {
+    return (
+      <General page={PAGES.HOME} />
+    );
+  }
+
   return (
-    <Example key={activeId} example={examplesMap[activeId] || null} />
+    <Page key={activeId} page={page} />
   );
 }
 
@@ -52,27 +60,33 @@ function ExampleWrapper() {
  * @return {object} The Tutorial App
  */
 function App() {
-  // Manage the active example
+  // Manage the active page
   return (
     <div className="App">
       <Router>
-        <Navbar bg='dark' variant='dark'>
-          <Navbar.Brand to="/" as={NavLink}>First-To-React</Navbar.Brand>
+        <Navbar bg='light' variant='light'>
+          <Navbar.Brand to={fullLinkPath('/')} as={NavLink}>
+            <img src={fullLinkPath('/f2r-logo.png')} style={{height: '40px'}} />
+            First-To-React
+          </Navbar.Brand>
         </Navbar>
         {/* <header>First To React</header> */}
         <Container className="main" fluid>
           <Row className="justify-content-center">
             <Col className="p-0 toc-col" xs={2}>
               <TableOfContents
-                examples={examples}/>
+                pages={pages}/>
             </Col>
             <Col className="p-0" xs={10}>
               <Switch>
                 <Route path={fullLinkPath('/')} exact={true}>
-                  <Welcome />
+                  <General page={PAGES.HOME} />
                 </Route>
-                <Route path={fullLinkPath('/example/:activeId')}>
-                  <ExampleWrapper />
+                <Route path={fullLinkPath('/page/:activeId')}>
+                  <PageWrapper />
+                </Route>
+                <Route path={fullLinkPath('/about')} exact={true}>
+                  <General page={PAGES.ABOUT} />
                 </Route>
               </Switch>
             </Col>

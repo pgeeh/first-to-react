@@ -24,10 +24,10 @@ module.exports = class extends Generator {
         default: 'NewExample'
       },
       {
-        type: 'confirm',
-        name: 'includeCode',
-        message: 'Would you like to include a code file?',
-        default: true
+        type: 'number',
+        name: 'exampleCount',
+        message: 'How many examples?',
+        default: 0
       },
     ];
 
@@ -54,13 +54,17 @@ module.exports = class extends Generator {
       this.props,
     );
     
-    if (this.props.includeCode) {
+    for (let i = 1; i <= this.props.exampleCount; i++) {
       this.fs.copyTpl(
         this.templatePath('Template.jsexample'),
-        this.destinationPath(`${this.props.cleanName}/${this.props.cleanName}.jsexample`), 
-        this.props,
+        this.destinationPath(`${this.props.cleanName}/${this.props.cleanName}${i}.jsexample`), 
+        {
+          ...this.props,
+          i,
+        },
       );
     }
+
     const indexPath = this.destinationPath('index.js');
     if(this.fs.exists(indexPath)) {
       const original = this.fs.read(indexPath); 

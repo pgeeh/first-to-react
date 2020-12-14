@@ -1,0 +1,30 @@
+function EmptyTag(props) {
+  return (
+    <>
+      <li>First Empty Tag Item</li>
+      <li>Second Empty Tag Item</li>
+    </>
+  );
+}
+
+function ReactFragment(props) {
+  return (
+    <React.Fragment>
+      <li>First React.Fragment Item</li>
+      <li>Second React.Fragment Item</li>
+    </React.Fragment>
+  )
+}
+
+function Fragments(props) {
+  return (
+    <ul>
+      <EmptyTag />
+      <ReactFragment />
+    </ul>
+  );
+}
+
+render(
+  <Fragments />,
+);

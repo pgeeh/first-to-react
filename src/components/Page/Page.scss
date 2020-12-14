@@ -1,0 +1,23 @@
+@use 'bootstrap';
+@use '../../scss/colors';
+
+.page {
+  flex: 1;
+  // background-color: blanchedalmond;
+  margin: 5px;
+  
+  .active {
+    // background-color: yellowgreen;
+    border: 1px solid black;
+  }
+
+  .exampleSelectors {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .btn-selector {
+      @include bootstrap.button-variant(lighten(colors.$main-color, 10%), colors.$secondary-color);
+    }
+  }
+}

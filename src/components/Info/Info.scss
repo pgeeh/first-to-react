@@ -2,22 +2,8 @@
   flex-grow: 1;
   background-color: white;
   
-  .active {
-    background-color: yellowgreen;
-    border: 1px solid black;
-  }
-
   blockquote {
-    padding-left: 3em;
+    padding-left: 1em;
     border-left: .5em #ccc solid;
-  }
-
-  pre code {
-    // display: block;
-    // margin: 15px;
-    // padding: 10px;
-    // font-family: monospace !important;
-    // background-color: #dddddd;
-    // width: fit-content;
   }
 }

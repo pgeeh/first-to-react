@@ -1,0 +1,44 @@
+function Interval({interval}) {
+  const [time, setTime] = React.useState(new Date());
+
+  // intervalRef stays a consistent object, so
+  // we do not need to include it in the array arg
+  // to the useEffect.
+  const intervalRef = React.useRef();
+
+  const updateTime = React.useCallback(() => {
+    setTime(new Date());
+  }, []);
+
+  React.useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(updateTime, interval || 0);
+
+    // Return a cleanup method to clear the interval
+    return () => clearInterval(intervalRef.current);
+  }, [interval]);
+
+  return (
+    <div onClick={updateTime}>
+      <div>
+        This will update every 
+        {interval || 0} milliseconds,
+        or immediately if clicked!
+      </div>
+      <br/>
+      <div>
+        The date & time is {time.toISOString()}
+      </div>
+    </div>
+  );
+}
+
+const initial = {
+  interval: 1000
+};
+
+render(
+  <PropOverride initial={initial}>
+    <Interval />
+  </PropOverride>
+);

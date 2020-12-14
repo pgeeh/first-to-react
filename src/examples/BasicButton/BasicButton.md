@@ -1,3 +1,0 @@
-# Basic Button
-
-Default information

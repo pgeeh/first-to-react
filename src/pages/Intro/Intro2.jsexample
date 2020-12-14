@@ -1,0 +1,23 @@
+// The next line should read: 
+// function Example(props) {
+function Example(props) 
+  return (
+    <div>
+      <div>
+        Syntax errors will show up 
+        at the top of the right column.
+      </div>
+      <div>
+        This Component is missing the curly brace
+        at the end of the function line.
+      </div>
+      <div>
+        Add it and the error will disappear.
+      </div>
+    </div>
+  );
+}
+
+render(
+  <Example/>
+);

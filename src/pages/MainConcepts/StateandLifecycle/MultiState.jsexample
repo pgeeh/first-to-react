@@ -1,0 +1,78 @@
+function FizzBuzz(count) {
+  let fb = '';
+  if (count % 3 === 0) {
+    fb = fb + 'Fizz';
+  }
+  if (count % 5 === 0) {
+    fb = fb + 'Buzz';
+  }
+  return fb;
+}
+
+class ClassState extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      count: 0,
+      fizzbuzz: '',
+    };
+
+    // Since this will be passed as a callback, we need to
+    // bind it to the class' scope
+    this.update = this.update.bind(this);
+  }
+
+  update() {
+    // Class Components can set multiple parts of
+    // the state in one call.
+    const newCount = this.state.count + 1;
+    this.setState({
+      count: newCount,
+      fizzbuzz: FizzBuzz(newCount),
+    });
+  }
+
+  render() {
+    return (
+      <div onClick={this.update}>
+        Class {this.props.name} has clicked {this.state.count} times!
+        <br />
+        {this.state.fizzbuzz}
+      </div>
+    );
+  }
+}
+
+function FunctionalState(props) {
+  const [count, setCount] = React.useState(0);
+  const [fizzbuzz, setFizzbuzz] = React.useState('');
+
+  const update = React.useCallback(() => {
+    const newCount = count + 1;
+
+    // If the state pieces are tracked separatly,
+    // each one needs to be updated using its own callback.
+    setCount(newCount);
+    setFizzbuzz(FizzBuzz(newCount));
+  }, [count]);
+
+  return (
+    <div onClick={update}>
+      Functional {props.name} has been clicked {count} times!
+      <br />
+      {fizzbuzz}
+    </div>
+  )
+}
+
+const initial = {
+  name: 'Multi State Example',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassState name={initial.name}/>
+    <br />
+    <FunctionalState name={initial.name}/>
+  </PropOverride>
+);

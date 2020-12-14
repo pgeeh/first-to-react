@@ -1,0 +1,36 @@
+class ClassComponent extends React.Component {
+  // Class Components take a single object argument, props,
+  // which needs to be passed to the parent.
+  // The constructor method is optional if nothing else needs
+  // to be done, such as initializing state.
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const {text} = this.props;
+    return (
+      <center>Class Component example: {text}</center>
+    );
+  }
+}
+
+// Functional Components also take a single argument, which
+// is an object containing all provided props.
+function FunctionalComponent(props) {
+  const {text} = props;
+  return (
+    <center>Functional Component example: {text}</center>
+  );
+}
+
+const initial = {
+  text: 'Change me'
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassComponent />
+    <FunctionalComponent />
+  </PropOverride>
+);

@@ -1,0 +1,36 @@
+function Add(props) {
+  const {onClick, increment} = props;
+
+  return (
+    <div>
+      <button onClick={() => onClick(increment)}>Add {increment}</button>
+    </div>
+  );
+}
+
+function PassedCallback(props) {
+  const [count, setCount] = React.useState(0);
+
+  const add = React.useCallback((increment) => {
+    setCount(count + increment);
+  }, [count]);
+  // Try removing count from the previous line.
+  // What happens?
+  // Since an empty array is passed, the callback
+  // is never recreated so count stays constant with
+  // the value it was when the callback was first created: 0
+  
+  return (
+    <div>
+      <div>Current count is {count}</div>
+      <Add onClick={add} increment={1} />
+      <Add onClick={add} increment={5} />
+      <Add onClick={add} increment={10} />
+      <Add onClick={add} increment={100} />
+    </div>
+  );
+}
+
+render(
+  <PassedCallback />
+);

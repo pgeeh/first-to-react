@@ -1,0 +1,25 @@
+function BasicState(props) {
+  const {value} = props;
+  const [stateValue, setValue] = React.useState(value);
+
+  React.useEffect(() => {
+    setValue(value);
+  }, [value]);
+
+  return (
+    <>
+      <div>Current value is: {String(value)}</div>
+      <div>Type of value is: {typeof(value)}</div>
+    </>
+  );
+}
+
+const initial = {
+  value: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <BasicState />
+  </PropOverride>
+);

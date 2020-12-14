@@ -1,3 +1,0 @@
-# Other Concepts
-
-Default information
