@@ -1,6 +1,7 @@
 class ClassQuestion extends React.Component {
   render() {
-    // Note that props must be accessed with 'this' in a Class Component
+    // Note that props must be accessed
+    // with 'this' in a Class Component
     const {question, a, b} = this.props;
     return (
       <div>
@@ -13,7 +14,8 @@ class ClassQuestion extends React.Component {
 }
 
 function FunctionalQuestion(props) {
-  // Props is in scope, so can be accessed without 'this'
+  // Props is in scope of the entire function, 
+  // so can be accessed without 'this'
   const {question, a, b} = props;
   return (
     <div>

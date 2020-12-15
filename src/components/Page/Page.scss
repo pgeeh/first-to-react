@@ -3,11 +3,9 @@
 
 .page {
   flex: 1;
-  // background-color: blanchedalmond;
   margin: 5px;
   
   .active {
-    // background-color: yellowgreen;
     border: 1px solid black;
   }
 
@@ -20,6 +18,8 @@
 
     border: colors.$general-border;
     border-radius: colors.$general-border-radius;
+
+    background-color: colors.$light-background;
 
     .btn-selector {
       @include bootstrap.button-variant(lighten(colors.$main-color, 15%), colors.$secondary-color);

@@ -2,7 +2,7 @@
 
 “A JavaScript library for building user interfaces” - https://reactjs.org/
 
-Combines stateful, efficient rendering with declarative one-way data binding.
+Combines stateful, efficient rendering and DOM management with declarative one-way data binding.
 
 #### History
 
@@ -12,7 +12,7 @@ A rich ecosystem of libraries, frameworks, and tools have been built around and 
 
 #### Basics
 
-React manages the [DOM (document object model)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) using components, which represent one or more native DOM elements. 
+React manages the [DOM (document object model)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) using components, which represent one or more native HTML elements. 
 
 These components can be stand-alone, use provided information (called _props_), or manage their own stored information (called _state_). components can pass information down to child components.
 
