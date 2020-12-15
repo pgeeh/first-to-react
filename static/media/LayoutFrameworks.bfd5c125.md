@@ -12,6 +12,7 @@ Both libraries provide:
 
 * __Layout__ utilities that assist with creating responsive layouts
 * __Form__ inputs that help style and manage simple to complex forms
-* __Modal__ management for pop-ups
+* __Modal__ and __Toast__ management for pop-ups and notifications
+* __Button__ and other interactive components like __Dropdown__ and __Nav__
 
 and much, much more.

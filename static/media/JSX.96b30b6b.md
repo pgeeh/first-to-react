@@ -1,6 +1,6 @@
 # JSX
 
-React manages the creation, updating, and removal of HTML elements from the DOM. In order to accomplish this, either the `React.createElement` method or JSX can be used. 
+React manages the creation, updating, and removal of HTML elements from the web page. In order to accomplish this, either the `React.createElement` method or JSX can be used. 
 
 JSX is an extension of JavaScript that allows for including the HTML template inside of the same JavaScript file as the rest of the component logic.
 

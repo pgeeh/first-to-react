@@ -17,7 +17,7 @@ class ClassComponents extends React.Component {
   }
 
   // Lifecycle method which is called when a component
-  // is added to the DOM
+  // is added to the web page
   componentDidMount() {
     this.interval = setInterval(this.updateTime, 
       this.props.interval || 0);

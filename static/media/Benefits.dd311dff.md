@@ -6,7 +6,7 @@ __Easy to Learn__ - React's small, but very powerful, set of capabilities means 
 
 __Reusable Components__ - Build up complex UIs piece by piece, each component having a singular purpose, and each component can be reused in different areas of the application.
 
-<!-- __React Lifecycle__ - Manages _state_ and _props_ when components are added, updated, and removed in a consistent manner. -->
+__Removes DOM Management and Manipulation__ - React manages adding, updating, and removing Components from the web page.
 
 __Efficient__ - Using _state_, _props_, and a virtual DOM, ReactJS ensures that expensive changes to the actual DOM are kept to a minimum.
 
