@@ -3,7 +3,9 @@
 
 .editorContainer {
   .btn-editor-control {
-    @include bootstrap.button-variant(lighten(colors.$main-color, 15%), colors.$secondary-color);
+    @include bootstrap.button-variant(colors.$editor-button-color, colors.$secondary-color);
+
+    margin: auto 0;
   }
 
   .styledError {

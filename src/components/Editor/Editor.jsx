@@ -77,15 +77,27 @@ function PropOverride({initial={}, children}) {
   }, [uniqueId]);
 
   // Convert to an array if not already one.
-  const childs = Array.isArray(children) ? children : [children];
+  const childrenItems = Array.isArray(children) ? children : [children];
 
   return (
     <>
       <div className="propOverride">
         <div className="sectionHeader">
-          <Button variant='editor-control' onClick={onPretty}>Pretty</Button>
+          <Button
+            variant='editor-control'
+            onClick={onPretty}
+            title='Click to format the Prop Override input'
+          >
+            Pretty
+          </Button>
           <div><h4>Prop Override</h4></div>
-          <Button variant='editor-control' onClick={onReset}>Reset</Button>
+          <Button
+            variant='editor-control'
+            onClick={onReset}
+            title='Click to reset the Prop Override input'
+          >
+            Reset
+          </Button>
         </div>
         <textarea
           style={{width: '100%'}}
@@ -102,7 +114,7 @@ function PropOverride({initial={}, children}) {
           <center><h4>Live Preview</h4></center>
         </div>
         {/* Add the scope to the children as props */}
-        {childs.map((child, index) => React.cloneElement(child, {
+        {childrenItems.map((child, index) => React.cloneElement(child, {
           ...scope,
           key: 'child' + String(uniqueId) + String(index),
         }))}
@@ -190,7 +202,11 @@ function Editor(props) {
                 {/* Force width to stay more inline with button */}
                 <div style={{width: '40px'}}></div>
                 <div><h4>Live Editor</h4></div>
-                <Button variant='editor-control' onClick={onReset}>
+                <Button
+                  variant='editor-control'
+                  onClick={onReset}
+                  title='Click to reset the Editor'
+                >
                   Reset
                 </Button>
               </div>

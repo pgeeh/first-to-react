@@ -32,6 +32,7 @@ function ExampleGroup({examples}) {
                 variant='selector'
                 className={i === exampleNum ? 'active' : ''}
                 onClick={() => setExampleNum(i)}
+                title={`Click to view the ${c.name} Example`}
               >
                 {c.name}
               </Button>
