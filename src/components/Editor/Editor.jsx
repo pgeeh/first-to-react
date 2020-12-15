@@ -16,6 +16,7 @@ import vsDark from 'prism-react-renderer/themes/vsDark';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 import {readFile} from '../../utils';
 import './Editor.scss';
@@ -82,9 +83,9 @@ function PropOverride({initial={}, children}) {
     <>
       <div className="propOverride">
         <div className="sectionHeader">
-          <div onClick={onPretty}>Pretty</div>
+          <Button variant='editor-control' onClick={onPretty}>Pretty</Button>
           <div><h4>Prop Override</h4></div>
-          <div onClick={onReset}>Reset</div>
+          <Button variant='editor-control' onClick={onReset}>Reset</Button>
         </div>
         <textarea
           style={{width: '100%'}}
@@ -186,9 +187,12 @@ function Editor(props) {
           <Row className="editorWrapper">
             <Col className="editorColumn">
               <div className="sectionHeader">
-                <div></div>
+                {/* Force width to stay more inline with button */}
+                <div style={{width: '40px'}}></div>
                 <div><h4>Live Editor</h4></div>
-                <div onClick={onReset}>Reset</div>
+                <Button variant='editor-control' onClick={onReset}>
+                  Reset
+                </Button>
               </div>
               <LiveEditor className="styledEditor" />
             </Col>
