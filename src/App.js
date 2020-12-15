@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -67,6 +67,12 @@ function PageWrapper() {
  * @return {object} The Tutorial App
  */
 function App() {
+  // When the app mounts, clear the local storage so
+  // all of the examples reset.
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   // Manage the active page
   return (
     <div className="App">
