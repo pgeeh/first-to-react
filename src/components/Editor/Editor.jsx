@@ -49,8 +49,8 @@ function PropOverride({initial={}, children}) {
       localStorage.setItem(uniqueId, update);
       setScope(s);
       setScopeError(null);
-    } catch (e) {
-      setScopeError(String(e));
+    } catch (err) {
+      setScopeError(String(err));
     }
   }, []);
 
@@ -106,7 +106,7 @@ function PropOverride({initial={}, children}) {
           onChange={onScopeChange}
           value={scopeText}></textarea>
         {scopeError !== null ?
-              <div className="styledError">Invalid Scope! {scopeError}</div> :
+              <div className="styledError">{scopeError}</div> :
               null}
       </div>
       <div className="actualPreview">
