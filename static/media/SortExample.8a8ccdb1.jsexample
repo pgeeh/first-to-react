@@ -1,4 +1,5 @@
-function ListItem({count, name, index}) {
+function ListItem(props) {
+  const {count, name, index} = props;
   const [innerCount, setCount] = React.useState(0);
 
   const onClick = React.useCallback((e) => {
@@ -34,18 +35,17 @@ class ClassList extends React.Component {
   }
 
   render() {
-    // The dynamic list of items can also be stored as a variable, then included inline.
-    const list = this.props.members.map((member, index) => {
-      return <ListItem key={index} index={index} count={this.state.count} name={member}/>
-    });
-
+    const sorted = this.props.sort === true ? this.props.members.sort() : this.props.members;
     return (
       // By the time render is called, 
       // `this.onClick` will be bound via the constructor
       <div onClick={this.onClick}>
         <div>Class {this.props.name} has been clicked {this.state.count} times!</div>
         <ul>
-          {list}
+          {/* By using inline JavaScript, a dynamic list of components can be created */}
+          {this.props.members.map((member, index) => {
+            return <ListItem key={member} index={index} count={this.state.count} name={member}/>
+          })}
         </ul>
       </div>
     );
@@ -59,22 +59,23 @@ function FunctionalList(props) {
     setCount(count + 1);
   }, [count]);
 
-  const list = props.members.map((member, index) => {
-    return <ListItem key={index} index={index} count={count} name={member}/>
-  })
+  const sorted = props.sort === true ? props.members.sort() : props.members;
 
   return (
     <div onClick={onClick}>
       <div>Functional {props.name} has been clicked {count} times!</div>
       <ul>
-          {list}
+          {props.members.map((member, index) => {
+            return <ListItem key={member} index={index} count={count} name={member}/>
+          })}
         </ul>
     </div>
   )
 }
 
 const initial = {
-  name: 'Incorrect Key Example',
+  name: 'Correct Key Example',
+  sort: true,
   members: [
     'John',
     'Paul',

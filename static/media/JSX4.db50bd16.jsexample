@@ -1,4 +1,4 @@
-function JSX(props) {
+function InlineJS(props) {
   // Style attributes can be passed via an object
   const style = {
     color: 'red',
@@ -22,5 +22,5 @@ function JSX(props) {
 }
 
 render(
-  <JSX />,
+  <InlineJS />
 );

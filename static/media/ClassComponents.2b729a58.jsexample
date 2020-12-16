@@ -11,6 +11,7 @@ class ClassComponents extends React.Component {
   }
 
   updateTime() {
+    console.log("Update time class");
     this.setState({
       time: new Date(),
     });
@@ -30,7 +31,7 @@ class ClassComponents extends React.Component {
   }
 
   // Lifecycle method called if props or state changes
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.interval !== prevProps.interval) {
       clearInterval(this.interval);
       this.interval = setInterval(this.updateTime, 

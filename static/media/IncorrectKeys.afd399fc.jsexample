@@ -1,16 +1,17 @@
-function ListItem({count, name, index}) {
+function ListItem(props) {
+  const {count, name, index} = props;
   const [innerCount, setCount] = React.useState(0);
 
   const onClick = React.useCallback((e) => {
     setCount(innerCount + 1);
-    
+
     // Do not propagate to the parent.
     e.stopPropagation();
   }, [innerCount]);
 
   return (
     <li onClick={onClick} style={{margin: '10px', padding: '5px'}}>
-      Parent has been clicked {count} times and {name} (index {index}) {innerCount} times!
+      Parent {count} times and {name} (index {index}) {innerCount} times!
     </li>
   );
 }
@@ -34,15 +35,18 @@ class ClassList extends React.Component {
   }
 
   render() {
+    // The dynamic list of items can also be stored as a variable, then included inline.
+    const list = this.props.members.map((member, index) => {
+      return <ListItem key={index} index={index} count={this.state.count} name={member}/>
+    });
+
     return (
       // By the time render is called, 
       // `this.onClick` will be bound via the constructor
       <div onClick={this.onClick}>
         <div>Class {this.props.name} has been clicked {this.state.count} times!</div>
         <ul>
-          {this.props.members.map((member, index) => {
-            return <ListItem key={this.props.keyBase + member} index={index} count={this.state.count} name={member}/>
-          })}
+          {list}
         </ul>
       </div>
     );
@@ -56,21 +60,22 @@ function FunctionalList(props) {
     setCount(count + 1);
   }, [count]);
 
+  const list = props.members.map((member, index) => {
+    return <ListItem key={index} index={index} count={count} name={member}/>
+  })
+
   return (
     <div onClick={onClick}>
       <div>Functional {props.name} has been clicked {count} times!</div>
       <ul>
-          {props.members.map((member, index) => {
-            return <ListItem key={props.keyBase + member} index={index} count={count} name={member}/>
-          })}
+          {list}
         </ul>
     </div>
   )
 }
 
 const initial = {
-  name: 'Forced Key Change Example',
-  keyBase: 'base',
+  name: 'Incorrect Key Example',
   members: [
     'John',
     'Paul',

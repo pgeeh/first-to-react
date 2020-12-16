@@ -4,9 +4,9 @@ React's vast ecosystem extends into other areas, including and beyond the follow
 
 __Maps__
 
-[React-leaflet](https://react-leaflet.js.org/) provides React bindings for the widely used [leaflet](https://leafletjs.com/) mapping library. This enables ease of adding and removing items from the map, as well as managing the map position and view.
+[React-leaflet](https://react-leaflet.js.org/) provides React wrappers for the widely used [leaflet](https://leafletjs.com/) mapping library. This enables ease of adding and removing items from the map, as well as managing the map position and view.
 
-[React-geo](https://github.com/terrestris/react-geo) provides React bindings for the popular [OpenLayers](https://openlayers.org/) JavaScript mapping library.
+[React-geo](https://github.com/terrestris/react-geo) provides React wrappers for the popular [OpenLayers](https://openlayers.org/) JavaScript mapping library.
 
 __Static Website Generators__
 
@@ -24,9 +24,9 @@ Single Page Applications are becoming more and more popular, and React makes it 
 
 __Drawing and Diagrams__
 
-[Konva](https://konvajs.org/docs/react/index.html) has React Bindings for its powerful canvas-based drawing library.
+[Konva](https://konvajs.org/docs/react/index.html) has React wrappers for its powerful canvas-based drawing library.
 
-[D3.js](https://d3js.org/) and [C3.js](https://c3js.org/) are two of the most popular drawing and charting libraries. There are no popular React binding libraries for either, but there are many guides on how to use the React lifecycle methods and Hooks to make use of them.
+[D3.js](https://d3js.org/) and [C3.js](https://c3js.org/) are two of the most popular drawing and charting libraries. There are no popular React wrapper libraries for either, but there are many guides on how to use the React lifecycle methods and Hooks to make use of them.
 
 __Development Tools__
 
@@ -37,7 +37,7 @@ __Development Tools__
 * [eslint-config-google](https://github.com/google/eslint-config-google)
 * [eslint-config-airbnb](https://github.com/airbnb/javascript)
 
-__Browser Extensions & Development Tools__
+__Browser Extensions - Development Tools__
 
 Facebook has created an easy-to-use set of [development tools](https://www.npmjs.com/package/react-devtools) for React, which is also available as Firefox and Chrome extensions, which can greatly increase productivity and assist in debugging.
 
