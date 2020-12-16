@@ -47,9 +47,8 @@ function FunctionalPerson(props) {
 }
 
 // Display the name of a friend
-function FriendComponent({name}) {
-  // Props can also be decomposed directly in the argument list
-  // This is not unique to props in React, but is a common pattern
+function FriendComponent(props) {
+  const {name} = props;
   return (<span style={{color: 'green'}}>{name}</span>)
 }
 

@@ -1,4 +1,5 @@
-function Interval({interval}) {
+function Interval(props) {
+  const {interval} = props;
   const [time, setTime] = React.useState(new Date());
 
   // intervalRef stays a consistent object, so

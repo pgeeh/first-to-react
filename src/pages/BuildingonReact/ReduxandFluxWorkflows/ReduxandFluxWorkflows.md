@@ -17,4 +17,4 @@ Both libraries have a very similar data flow and parts.
 * __Store__ - contains the state of the application. After handling an action, it either notifies listeners that a change has been made (Flux) or changes are automatically picked up.
 * __View__ - The View, which in the case of React are the components, uses the information from the Store(s) and handles user interactions.
 
-[Reselect](https://github.com/reduxjs/reselect) is a powerful 'selector' library that helps to increase the performance of Flux, Redux, and other libraries by providing powerful [Memoization](https://en.wikipedia.org/wiki/Memoization) utilities. This helps reduce updates and renders across an application.
+[Reselect](https://github.com/reduxjs/reselect) is a powerful 'selector' library that helps to increase the performance of Flux, Redux, React, and other libraries by providing powerful [Memoization](https://en.wikipedia.org/wiki/Memoization) utilities. This helps reduce updates and renders across an application.

@@ -1,5 +1,5 @@
-
-function User({userId}) {
+function User(props) {
+  const {userId} = props;
   const [info, setInfo] = React.useState(null);
   const [loaded, setLoaded] = React.useState(false);
 
@@ -28,7 +28,8 @@ function User({userId}) {
   );
 }
 
-function Post({postId}) {
+function Post(props) {
+  const {postId} = props;
   const [info, setInfo] = React.useState(null);
   const [loaded, setLoaded] = React.useState(false);
 
@@ -65,7 +66,8 @@ function Post({postId}) {
 
 const maxPosts = 100;
 
-function Fetch({interval}) {
+function Fetch(props) {
+  const {interval} = props;
   const [current, setCurrent] = React.useState(1);
 
   const changePost = React.useCallback((change) => {

@@ -10,10 +10,11 @@ The use of JSX is not required to work with React, however there are many tools 
 
 ##### __Examples__:
 
-__No JSX__ shows an example using `React.createElement`. __With JSX__ shows the same example, but using JSX.
+__Basic JSX__ shows the basic markup for JSX.
 
 _Note: All JSX markup should be surrounded by parentheses `()` as a best practice, although it is not required in all situations._
 
-__Basic JSX__ shows the basic markup for JSX.
-
 __Inline JS__ shows how to use JavaScript inline with JSX by surrounding the JavaScript with curly braces `{}`.
+
+__No JSX__ shows the previous example using `React.createElement`.
+

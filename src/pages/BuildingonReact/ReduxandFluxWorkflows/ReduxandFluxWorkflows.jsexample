@@ -9,5 +9,5 @@ function ReduxandFluxWorkflows(props) {
 }
 
 render(
-  <ReduxandFluxWorkflows test={test} />,
+  <ReduxandFluxWorkflows test={test} />
 );

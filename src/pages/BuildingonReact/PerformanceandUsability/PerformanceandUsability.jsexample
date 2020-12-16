@@ -9,5 +9,5 @@ function PerformanceandUsability(props) {
 }
 
 render(
-  <PerformanceandUsability test={test} />,
+  <PerformanceandUsability test={test} />
 );

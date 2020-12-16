@@ -1,14 +1,18 @@
-function FunctionalComponents({interval}) {
+function FunctionalComponents(props) {
+  const {interval} = props;
   const [time, setTime] = React.useState(new Date());
   const intervalRef = React.useRef();
 
   const updateTime = React.useCallback(() => {
+    console.log('Update time functional');
     setTime(new Date());
   }, []);
 
   React.useEffect(() => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(updateTime, interval || 0);
+
+    return () => clearInterval(intervalRef.current);
   }, [interval]);
 
   return (

@@ -2,7 +2,7 @@
 
 ### Welcome to First-To-React
 
-_An overview and interactive introduction into using and working with ReactJS._
+_An overview and interactive introduction into using and working with React._
 
 ___Who is this for?___ Developers interested in learning more about and/or getting started with React.
 

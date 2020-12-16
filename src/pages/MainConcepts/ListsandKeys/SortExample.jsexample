@@ -1,4 +1,5 @@
-function ListItem({count, name, index}) {
+function ListItem(props) {
+  const {count, name, index} = props;
   const [innerCount, setCount] = React.useState(0);
 
   const onClick = React.useCallback((e) => {
