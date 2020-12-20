@@ -4,6 +4,9 @@ import ReactMarkdown from 'react-markdown';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {vscDarkPlus} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+
 import {readFile} from '../../utils';
 
 import './Info.scss';
@@ -29,8 +32,34 @@ CodeRenderer.propTypes = {
   value: PropTypes.string,
 };
 
+/**
+ * Render an image
+ * @param {string} alt
+ * @param {string} src
+ * @param {string} title
+ * @return {object}
+ */
+function ImageRenderer({alt, src, title}) {
+  return (
+    <Zoom>
+      <img
+        alt={alt}
+        src={src}
+        title={(title || '') + ' HI'}
+      />
+    </Zoom>
+  );
+}
+
+ImageRenderer.propTypes = {
+  alt: PropTypes.string,
+  src: PropTypes.string,
+  title: PropTypes.string,
+};
+
 const renderers = {
   code: CodeRenderer,
+  image: ImageRenderer,
 };
 
 /**

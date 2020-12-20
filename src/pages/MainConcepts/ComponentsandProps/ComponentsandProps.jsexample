@@ -1,6 +1,6 @@
 class ClassPerson extends React.Component {
   render() {
-    // Note that props must be accessed with 'this' in a Class Component
+    // Remember to use 'this' in a Class Component
     const {name, age, display: Display, style} = this.props;
     return (
       <div style={style}>
@@ -14,7 +14,8 @@ class ClassPerson extends React.Component {
           </div>
           <br/><br/>
           <div>
-            If you update the override object, then the props will be updated and should be changed accordingly.
+            If you update the override object, then the props will be
+            updated and should be changed accordingly.
           </div>
         </center>
       </div>
@@ -37,7 +38,8 @@ function FunctionalPerson(props) {
         </div>
         <br/><br/>
         <div>
-           If you update the override object, then the props will be updated and should be changed accordingly.
+           If you update the override object, then the props will be
+           updated and should be changed accordingly.
         </div>
       </center>
     </div>
@@ -45,9 +47,8 @@ function FunctionalPerson(props) {
 }
 
 // Display the name of a friend
-function FriendComponent({name}) {
-  // Props can also be decomposed directly in the argument list
-  // This is not unique to props in React, but is a common pattern
+function FriendComponent(props) {
+  const {name} = props;
   return (<span style={{color: 'green'}}>{name}</span>)
 }
 

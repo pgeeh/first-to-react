@@ -1,18 +1,21 @@
 // The '...extra' syntax allows for passing through props to children
-function Button({onClick, style, ...extra}) {
+function Button(props) {
+  const {onClick, style, ...extra} = props;
   return (
     <button style={style} onClick={onClick} {...extra}>Click me!</button>
   );
 }
 
 // This button styles the inner button as 'blue'
-function BlueButton({...extra}) {
+function BlueButton(props) {
+  const {...extra} = props;
   return (
     <Button style={{color:'blue'}} {...extra} />
   );
 }
 
-function GreenButton({...extra}) {
+function GreenButton(props) {
+  const {...extra} = props;
   return (
     <Button style={{color:'green'}} {...extra} />
   );
@@ -20,10 +23,17 @@ function GreenButton({...extra}) {
 
 // This tracks a specific button's clicks, as well as shows additional information
 // passed as child elements.
-// 'button: ButtonToUse' converts the 'button' prop to uppercased 'ButtonToUse', so React
-// will render it as a component. This is an alternative to passing
-// directly as a capitalized prop, which is generally avoided.
-function TrackedButton({children, onClick, button: ButtonToUse, ...extra}) {
+function TrackedButton(props) {
+  const {
+    children, 
+    onClick, 
+    // 'button: ButtonToUse' converts the 'button' prop to uppercased 'ButtonToUse',
+    // so React will render it as a component. This is an alternative to passing
+    // directly as a capitalized prop, which is generally avoided.
+    button: ButtonToUse, 
+    ...extra
+  } = props;
+
   const [count, setCount] = React.useState(0);
   
   const innerClick = React.useCallback(() => {

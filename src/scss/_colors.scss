@@ -1,3 +1,12 @@
 
 $main-color: rgb(66, 7, 91);
 $secondary-color: rgb(29, 41, 54);
+
+$light-background: #f8f9fa;
+$error-color: lightcoral;
+$editor-button-color: $light-background;
+
+$block-border-color: lighten($secondary-color, 60%);
+
+$general-border: 2px solid $block-border-color;
+$general-border-radius: 10px;

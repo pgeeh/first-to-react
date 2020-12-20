@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +22,12 @@ import {PAGES} from './components/General';
 
 const pagesMap = {};
 
+/**
+ * Dynamically create numerical IDs for the provided items
+ * based on their ordering and nesting.
+ * @param {array} items to add IDs
+ * @param {string} prefix to include when creating the id
+ */
 const addIds = (items, prefix = '') => {
   for (let i = 1; i <= items.length; i++) {
     const item = items[i - 1];
@@ -34,6 +40,7 @@ const addIds = (items, prefix = '') => {
   }
 };
 
+// Add the ids to all of the pages.
 addIds(pages);
 
 /**
@@ -60,6 +67,12 @@ function PageWrapper() {
  * @return {object} The Tutorial App
  */
 function App() {
+  // When the app mounts, clear the local storage so
+  // all of the examples reset.
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   // Manage the active page
   return (
     <div className="App">

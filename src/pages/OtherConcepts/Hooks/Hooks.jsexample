@@ -9,5 +9,5 @@ function Hooks(props) {
 }
 
 render(
-  <Hooks test={test} />,
+  <Hooks test={test} />
 );

@@ -4,7 +4,7 @@ function HelloWorld() {
   );
 }
 
-function JSX() {
+function BasicJSX() {
   // This template is JSX, which is similar to
   // HTML but has extended capabilities.
   // JSX Markup is wrapped in parenthesis ()
@@ -13,7 +13,7 @@ function JSX() {
       {/* JSX can use native HTML elements or
           use React Components */}
       <p>
-        Saying Hello! from JSX
+        Saying Hello! from BasicJSX
       </p>
       {/* React Components are capitalized, while
           native HTML elements are lowercase */}
@@ -23,5 +23,5 @@ function JSX() {
 }
 
 render(
-  <JSX />
+  <BasicJSX />
 );

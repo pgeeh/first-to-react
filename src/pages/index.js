@@ -11,13 +11,13 @@ import MainConcepts from './MainConcepts';
 const pages = [
   WhatIsReact,
   // BackgroundInformation,
+  Intro,
+  MainConcepts,
+  OtherConcepts,
   BuildingonReact,
   GettingStartedSuggestions,
   // Resources,
   Alternatives,
-  Intro,
-  MainConcepts,
-  OtherConcepts,
 ];
 
 

@@ -3,11 +3,10 @@
 
 .page {
   flex: 1;
-  // background-color: blanchedalmond;
   margin: 5px;
+  padding: 5px;
   
   .active {
-    // background-color: yellowgreen;
     border: 1px solid black;
   }
 
@@ -16,8 +15,15 @@
     flex-direction: row;
     justify-content: space-around;
 
+    padding: 5px;
+
+    border: colors.$general-border;
+    border-radius: colors.$general-border-radius;
+
+    background-color: colors.$light-background;
+
     .btn-selector {
-      @include bootstrap.button-variant(lighten(colors.$main-color, 10%), colors.$secondary-color);
+      @include bootstrap.button-variant(lighten(colors.$main-color, 15%), colors.$secondary-color);
     }
   }
 }

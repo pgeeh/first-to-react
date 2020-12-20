@@ -1,12 +1,12 @@
 # Flux and Redux Workflows
 
-React provides one-way data binding, which means that it uses data to help render the DOM, but changes to the DOM are not automatically transferred back to the data. 
+React provides one-way data binding, which means that it uses data to help render the web page, but changes to the web page are not automatically transferred back to the data. 
 
-For example, in the case of a text input in a form, React can set the value in the input, but when the input is changed, a function must be called and handled appropriately.
+For example, in the case of a text input in a form, React can set the value in the input, but when the input is changed, a function must be called and change the data in _state_ or another location appropriately, which then can be used by React to re-render.
 
-Facebook created a flow to handle this called [Flux](https://facebook.github.io/flux/) that, while not tied to React, is used to provide a '_unidirectional data flow_'.
+Facebook created a flow to handle this called [Flux](https://facebook.github.io/flux/) that is used to facilitate and manage a '_unidirectional data flow_'. It is a set of standalone tools that can be used with any library, even though it was originally designed for use with React.
 
-[Redux](https://redux.js.org/) is an evolution of Flux, and has a very similar flow. It is also not tied to React, but does have [wrappers](https://react-redux.js.org/) that make it easy to integrate and get started using.
+[Redux](https://redux.js.org/) is an evolution of Flux, and has a very similar flow. It is also a standalone library, but does have [wrappers](https://react-redux.js.org/) that make it easy to integrate with React and get started using.
 
 ![Flux and Redux](/first-to-react/diagrams/fluxreduxflow.png)
 
@@ -17,4 +17,4 @@ Both libraries have a very similar data flow and parts.
 * __Store__ - contains the state of the application. After handling an action, it either notifies listeners that a change has been made (Flux) or changes are automatically picked up.
 * __View__ - The View, which in the case of React are the components, uses the information from the Store(s) and handles user interactions.
 
-[Reselect](https://github.com/reduxjs/reselect) is a powerful 'selector' library that helps to increase the performance of Flux, Redux, and other libraries by providing powerful [Memoization](https://en.wikipedia.org/wiki/Memoization) utilities. This helps reduce updates and renders across an application.
+[Reselect](https://github.com/reduxjs/reselect) is a powerful 'selector' library that helps to increase the performance of Flux, Redux, React, and other libraries by providing powerful [Memoization](https://en.wikipedia.org/wiki/Memoization) utilities. This helps reduce updates and renders across an application.

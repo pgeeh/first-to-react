@@ -10,12 +10,14 @@ function NoJSX(props) {
     // Native HTML elements can be used
     <center>
       <p>
-        Today is day <span style={style}>{new Date().getDate()}</span> of this month
+        Today is day 
+        <span style={style}>{new Date().getDate()}</span> 
+        of this month
       </p>
     </center>
   );
 }
 
 render(
-  <NoJSX />,
+  <NoJSX />
 );

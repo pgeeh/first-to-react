@@ -16,7 +16,7 @@ __Multi State__ example shows how multiple pieces of _state_ are managed for bot
 
 __Mount and Unmount__ shows an example of a timer interval used to count up from zero. They both accomplish the same thing, just using their own patterns.
 
-* A class component makes use of two lifecycle methods `componentDidMount` and `componentWillUnmount`. These will be called when a component is added to the DOM and when it is about to be removed.
+* A class component makes use of two lifecycle methods `componentDidMount` and `componentWillUnmount`. These will be called when a component is added to the web page and when it is about to be removed.
 * A functional component makes use of two Hooks, `useRef` and `useEffect`. 
 
     * `useRef` provides a consistent object that can be used in the `interval` callback. 

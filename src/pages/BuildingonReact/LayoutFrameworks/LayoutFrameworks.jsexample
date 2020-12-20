@@ -9,5 +9,5 @@ function LayoutFrameworks(props) {
 }
 
 render(
-  <LayoutFrameworks test={test} />,
+  <LayoutFrameworks test={test} />
 );

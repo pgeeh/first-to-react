@@ -1,8 +1,8 @@
 # Handling Events
 
-React has _prop_ shortcuts for most DOM related events, and will automatically attach functions to the event handlers for the DOM elements.
+React has _prop_ shortcuts for most web page events, and will automatically attach functions to the event handlers for the HTML elements.
 
-They generally follow the pattern of `onAction` where action is one of the DOM event listeners, such as `click` (`onClick`) or `change` (`onChange`).
+They generally follow the pattern of `onAction` where action is one of the HTML event listeners, such as `click` (`onClick`) or `change` (`onChange`).
 
 This is most commonly used with `click` actions or form related actions, such as `change` or `blur`.
 

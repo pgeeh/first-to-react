@@ -1,20 +1,27 @@
+@use '../../scss/colors';
+
 .tableOfContents {
   margin: 5px;
   padding: 5px;
 
-  background-color: antiquewhite;
+  border: colors.$general-border;
+  border-radius: colors.$general-border-radius;
+
+  // from Bootstrap bg-light
+  background-color: colors.$light-background;
 
   .toc-link {
-    background-color: white;
+    background-color: colors.$light-background;
   }
+  
   // Add extra margin to nested ones
   .toc-link .toc-link {
     padding-left: 5px;
   }
   
   .active .toc-link-text {
-    background-color: lighten(navy, 65%);
-    color: navy;
+    background-color: lighten(colors.$main-color, 65%);
+    color: colors.$main-color;
   }
 
   .toc-link-text {
@@ -26,7 +33,7 @@
     padding-right: .5em;
 
     &:hover {
-      background-color: darken(antiquewhite, 10%);
+      background-color: darken(colors.$light-background, 10%);
     }
   }
 
