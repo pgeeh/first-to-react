@@ -1,0 +1,56 @@
+const ACTIONS = {
+  INCREMENT: 'increment',
+  DECREMENT: 'decrement',
+};
+
+function reduce(state, action) {
+  switch (action.type) {
+    case ACTIONS.INCREMENT: {
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    }
+    case ACTIONS.DECREMENT: {
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+const initialState = {
+  count: 0,
+};
+
+function BasicReducer(props) {
+  const [state, dispatch] = React.useReducer(reduce, initialState);
+
+  const increment = React.useCallback(() => {
+    dispatch({
+      type: ACTIONS.INCREMENT,
+    });
+  }, [dispatch]);
+
+  const decrement = React.useCallback(() => {
+    dispatch({
+      type: ACTIONS.DECREMENT,
+    });
+  }, [dispatch]);
+
+  return (
+    <div>
+      <div>Current count is {state.count}</div>
+      <button onClick={increment}>Add 1</button>
+      <button onClick={decrement}>Subtract 1</button>
+    </div>
+  );
+}
+
+render(
+  <BasicReducer />
+);

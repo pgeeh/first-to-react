@@ -1,0 +1,116 @@
+@use 'bootstrap';
+@use '../../scss/colors';
+
+.editorContainer {
+  .btn-editor-control {
+    @include bootstrap.button-variant(colors.$editor-button-color, colors.$secondary-color);
+
+    margin: auto 0;
+  }
+
+  .styledError {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+
+    white-space: break-spaces;
+
+    background-color: colors.$error-color;
+  }
+
+  .styledEditor,
+  .styledPreview,
+  .styledError,
+  .styledOverride {
+    flex-grow: 1;
+  }
+
+  .headerRow {
+    padding: 5px;
+    margin-top: 10px;
+
+    h3 {
+      margin-top: 5px;
+    }
+  }
+
+
+  .editorWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    & > div {
+      display: flex;
+
+      
+      border: colors.$general-border;
+      border-radius: colors.$general-border-radius;
+    }
+
+    .sectionHeader {
+      display: flex;
+      margin: 5px 0;
+      padding: 5px 0;
+      justify-content: space-between;
+
+      border-bottom: 2px solid colors.$block-border-color;
+      
+      & > div {
+        flex-grow: 0;
+        text-align: center;
+        cursor: default;
+        padding: 5px;
+        margin: auto 0;
+
+        &:first-child {
+          cursor: pointer;
+          text-align: left;
+        }
+        
+        &:last-child {
+          cursor: pointer;
+          text-align: right;
+        }
+      }
+    }
+
+    .editorColumn {
+      margin-right: 5px;
+      padding-bottom: 10px;
+      flex-direction: column;
+    }
+
+    
+    .previewSection {
+      margin-left: 5px;
+      flex-direction: column;
+    }
+    
+    .styledPreview {
+      .propOverride {
+        margin-bottom: 5px;
+    
+        .styledOverride {
+          white-space: pre-wrap;
+          flex-grow: 0;
+        }
+      }
+
+      .actualPreview {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .previewHeader {
+        margin: 5px;
+        padding: 5px;
+        
+        border-bottom: 2px solid colors.$block-border-color;
+      }
+    }
+  }
+}
