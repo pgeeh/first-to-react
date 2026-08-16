@@ -309,6 +309,132 @@ CI action versions, low-risk lib bumps, and a Node version pin.
 - Re-verified with a clean-room install + `npm run build:v17` +
   `npm run test:v17` after the lockfile deletion — all still pass.
 
+## Phase 3 findings
+
+`cp`'d `apps/v17` to `apps/v19` (no shared git history — a fresh copy, same as
+a fork) and bumped every React-coupled dependency to a version whose peer
+range covers React 19, keeping content identical. `homepage` and the
+`PATH_ROOT` constant (`src/constants/index.js`) both moved to
+`/first-to-react/v19`. Root `package.json` gained `start:v19`/`build:v19`/
+`test:v19` scripts; `pages.yml` is untouched (still only builds/deploys
+v17 — that's Phase 6).
+
+- **`react`/`react-dom` `^17.0.1` → `^19.0.0`**: `src/index.js`'s
+  `ReactDOM.render` was replaced with `createRoot(...).render(...)` —
+  `ReactDOM.render` was removed outright in React 19, not just deprecated.
+- **`react-router-dom` `^5.2.0` → `^7.18.2`**: v6 replaced `Switch` with
+  `Routes` and dropped the children-as-route-content pattern in favor of an
+  `element` prop, so `App.js`'s three routes were rewritten accordingly.
+  `NavLink`'s `activeClassName` prop was removed in favor of a
+  `className={({isActive}) => ...}` function
+  (`components/TableOfContents/TableOfContents.jsx`), and the `exact` prop
+  was replaced with `end` for the two top-level nav links. Separately, v6+
+  routes match exactly by default (v5 matched any URL with the route's path
+  as a *prefix* unless `exact` was set) — the page route's links are
+  `/page/<id>/<name>` (two segments) against a route declared as
+  `/page/:activeId` (one param), which silently stopped matching after the
+  bump. Fixed by adding a trailing `/*` to the route path
+  (`/page/:activeId/*`) to restore the old prefix-matching behavior; caught
+  only by clicking through the live app, not by the build or the test
+  suite — worth remembering for the `v18` scaffold too.
+- **`react-markdown` `^4.3.1` → `^10.1.0`**: the whole library was rewritten
+  onto remark/rehype/unified since v4. `Info.jsx` now passes markdown as
+  `children` instead of a `source` prop, and `components` instead of
+  `renderers`; the map is keyed by rendered HTML tag name (`code`/`img`) now
+  rather than markdown node type (`code`/`image`). The old dedicated
+  code-block renderer had no inline-code counterpart to worry about (v4
+  only called it for fenced blocks); v10 calls the same `code` component for
+  both, distinguished by checking for a `language-*` class name and falling
+  back to a plain `<code>` for inline spans. v10 also stopped wrapping
+  output in a container element, so the `className="info"` styling hook
+  moved onto a manually-added wrapping `<div>`.
+- **`react-live` `^2.2.2` → `^4.1.8`**: `LiveProvider`/`LiveEditor`/
+  `LiveError`/`LivePreview` and their props (`code`, `noInline`, `scope`,
+  `transformCode`, `theme`) are unchanged. Its `prism-react-renderer`
+  dependency jumped 1.x → 2.x, which dropped the per-theme subpath exports
+  (`prism-react-renderer/themes/vsDark`) for a single `themes` named export
+  (`themes.vsDark`) — `Editor.jsx` updated accordingly, and
+  `prism-react-renderer` was added as an explicit `apps/v19` dependency
+  since it's imported directly rather than only used transitively.
+- **`react-medium-image-zoom` `^4.4.3` → `^5.4.9`**: v5's peer range is the
+  first to explicitly cover React 19 (v4's tops out at 18). It's an
+  ESM-only rewrite, but the public API (default-exported `Zoom` wrapping an
+  `<img>`) is unchanged, so no source changes were needed beyond the
+  version bump and a Jest transform tweak (below).
+- **`@testing-library/react` `^11.2.7` → `^16.3.2`**, **`jest-dom` `^5.17.0`
+  → `^7.0.1`** (dropped the `/extend-expect` subpath — `setupTests.js` now
+  imports the package root directly, which auto-extends `expect` since
+  v6), **`user-event` `^12.8.3` → `^14.6.4`** (unused in `src`, safe
+  regardless).
+- **`react-bootstrap` `^1.4.0` → `^2.10.10`, `bootstrap` `^4.5.3` →
+  `^5.3.8`**: not React-19-driven on paper (v1's peer range is an open
+  `>=16.8.0`), but two real problems forced it. First, `apps/v17` and
+  `apps/v19` both wanting `react-bootstrap@^1.x` would have deduped to one
+  hoisted copy at the workspace root; that copy's own dependency on
+  `uncontrollable` (a hooks-based library, not a React peer dep) resolves
+  `react` from wherever *it* physically lives, which — being hoisted to the
+  root alongside v17's React 17 — silently broke v19 with "Invalid hook
+  call" (two React copies in one render tree). Bumping v19 to a distinct
+  major forces npm to nest a separate copy that resolves its own nested
+  React 19. Second, react-bootstrap v1 still falls back to
+  `ReactDOM.findDOMNode` in one code path (`safeFindDOMNode.js`), which
+  React 19 removed outright; v2 keeps the same fallback but only exercises
+  it for class-component refs, which this app doesn't use either way — v2
+  was the lower-risk choice regardless. No Bootstrap-4-only utility classes
+  (`ml-`/`mr-`/`badge-`/`.close`/`data-toggle`/etc.) were in use, so the
+  Bootstrap 5 CSS bump carried no visible content risk; confirmed visually
+  below.
+- **`config-overrides.js` additions**, all `apps/v19`-only:
+  - The existing `process`/`path` webpack fallback moved from
+    `process/browser` to the fully-specified `process/browser.js` —
+    react-router's package is `"type": "module"`, and strict ESM resolution
+    (unlike CJS) requires extensions on relative-style specifiers.
+  - `resolve.alias` forces `react`/`react-dom` to this app's own installed
+    copies, and `ModuleScopePlugin`'s `allowedFiles`/`allowedPaths` are
+    extended to allow-list them — CRA's default "no imports outside src/"
+    guard doesn't recognize an alias's absolute path as pointing into
+    `node_modules`, otherwise the build fails. This is the general fix for
+    the `uncontrollable` problem above: it guarantees a single React
+    instance in the v19 bundle regardless of what else gets hoisted.
+  - A `jest` override (react-app-rewired supports exporting
+    `{webpack, jest}` instead of a single function) adds: the same
+    `react`/`react-dom` aliasing via `moduleNameMapper`, for the same
+    reason, in the test environment; a `moduleNameMapper` entry resolving
+    `react-router/dom` to its concrete CJS build file, because Jest 27
+    (bundled with `react-scripts@5`) doesn't support the package.json
+    `exports` field at all and fails to resolve that subpath on its own; a
+    `transformIgnorePatterns` override letting Jest transform
+    `react-medium-image-zoom`'s ESM output; and a `moduleNameMapper` entry
+    mocking `react-markdown` entirely for tests
+    (`src/testMocks/react-markdown.js`) rather than trying to get Jest 27 to
+    transform its whole remark/rehype/unified dependency tree — that tree
+    leans on `exports` subpaths too (e.g.
+    `unist-util-visit-parents/do-not-use-color`), so the same Jest
+    limitation would keep resurfacing package by package. Real markdown
+    rendering is exercised in the browser instead (below), matching how
+    react-live's rendering is already untested by the Jest suite.
+  - `setupTests.js` also polyfills `TextEncoder`/`TextDecoder` from Node's
+    `util` module onto `global` — `jest-environment-jsdom` doesn't provide
+    them, but react-router depends on them being present at import time.
+- **Root `package.json` `overrides`**: the existing `react-markdown` →
+  `react` peer override (needed for v17's react-markdown@4 against React
+  17) was rescoped to key specifically off `"4.3.1"` rather than the bare
+  package name, since v19's react-markdown@10 already declares `react: '>=
+  18'` and applying the same override to it would have forced the wrong
+  peer value.
+- **Verified**: clean-room install (`rm -rf node_modules apps/*/node_modules
+  && npm install`) plus `npm run build:v17`/`test:v17` and
+  `build:v19`/`test:v19` all pass — v17 unaffected throughout. Verified
+  visually with the dev server driven by Playwright/Chromium on both apps
+  side by side: home page, the JSX page's syntax-highlighted code blocks,
+  and all three live editor/preview pairs render and work in v19, with
+  active-nav-link highlighting and routing behaving the same as v17. The
+  only console output on either app was two pre-existing, content-level
+  warnings present identically on both — the same `<img>`-in-`<div>`-in-`<p>`
+  nesting warning noted in the Phase 2 findings, and a missing-`key`-prop
+  warning from the "No JSX" example's own source — confirming they predate
+  this phase rather than being introduced by it.
+
 ## Status
 
 | Phase | Status |
@@ -317,7 +443,7 @@ CI action versions, low-risk lib bumps, and a Node version pin.
 | 0.5. react-scripts 4 → 5 | Done — see findings above |
 | 1. Repo restructure | Done — see findings above |
 | 2. `apps/v17` remaining hygiene cleanup | Done — see findings above |
-| 3. Scaffold `apps/v19` | Not started |
+| 3. Scaffold `apps/v19` | Done — see findings above |
 | 4. Scaffold `apps/v18` | Not started |
 | 5. Landing/selector page | Not started |
 | 6. CI/CD rewrite | Not started |

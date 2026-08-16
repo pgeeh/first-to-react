@@ -1,0 +1,82 @@
+class ClassState extends React.Component {
+  constructor(props) {
+    super(props)
+    // State needs to be initialized in the constructor
+    this.state = {
+      count: 0,
+      other: 'Still Here',
+    };
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.update.bind(this), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  update() {
+    // Class components have a generic method to update state
+    // It does a shallow (first-level only) assign of values, so
+    // not every value has to be sent, only the ones you wish to change
+    this.setState({
+      count: this.state.count + 1,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        Class {this.props.name} has counted {this.state.count} times! ({this.state.other})
+      </div>
+    );
+  }
+}
+
+function FunctionalState(props) {
+  const [count, setCount] = React.useState(0);
+
+  // useRef creates a wrapper so that we
+  // can change the function to be called during the
+  // interval.
+  const callbackRef = React.useRef();
+
+  // Update the callback when count changes
+  React.useEffect(() => {
+    callbackRef.current = () => setCount(count + 1);
+  }, [count]);
+
+  // Since this useEffect has no updateProperties,
+  // it will only run once on Component creation,
+  // similar to componentDidMount
+  React.useEffect(() => {
+    // Call the current callback on the interval
+    const interval = setInterval(() => {
+      callbackRef.current();
+    }, 1000);
+
+    // The returned function will be called at the
+    // destruction of the Component - similar to
+    // componentWillUnmount
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div>
+      Functional {props.name} has been counted {count} times!
+    </div>
+  );
+}
+
+const initial = {
+  name: 'Mount/Unmount Example',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassState name={initial.name}/>
+    <br />
+    <FunctionalState name={initial.name}/>
+  </PropOverride>
+);

@@ -6,13 +6,18 @@
   ],
   "overrides": {
     "react-markdown": {
-      "react": "^17.0.1"
+      "4.3.1": {
+        "react": "^17.0.1"
+      }
     }
   },
   "scripts": {
     "start:v17": "npm run start --workspace=apps/v17",
     "build:v17": "npm run build --workspace=apps/v17",
-    "test:v17": "npm run test --workspace=apps/v17"
+    "test:v17": "npm run test --workspace=apps/v17",
+    "start:v19": "npm run start --workspace=apps/v19",
+    "build:v19": "npm run build --workspace=apps/v19",
+    "test:v19": "npm run test --workspace=apps/v19"
   },
   "engines": {
     "node": ">=20"
