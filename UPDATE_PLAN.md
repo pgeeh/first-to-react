@@ -264,6 +264,51 @@ Yeoman dependency tree, not an npm workspace member.
   from the repo root — all pass, output lands at `apps/v17/build/` as
   expected, single test suite still green.
 
+## Phase 2 findings
+
+Covered the items left over from Phase 0.5/1's pulled-forward hygiene work:
+CI action versions, low-risk lib bumps, and a Node version pin.
+
+- **CI actions bumped**: `actions/checkout` `v2.3.1` → `v7`, `JamesIves/
+  github-pages-deploy-action` `3.7.1` → `v4`. The deploy action's v4 renamed
+  all its inputs to lowercase (`GITHUB_TOKEN`/`BRANCH`/`FOLDER`/`CLEAN` →
+  `token`/`branch`/`folder`/`clean`) and now expects the workflow to grant
+  `contents: write` itself rather than assuming it — added a top-level
+  `permissions: contents: write` block to `pages.yml`, without which the
+  push to the `docs` branch would likely fail under GitHub's now-default
+  read-only `GITHUB_TOKEN` permissions. Also bumped `actions/setup-node`
+  `v4` → `v7` even though the original audit didn't flag it — it's gone
+  equally stale since, and this file was already open for the same reason.
+- **Low-risk lib bumps, kept within their existing majors** (per the plan's
+  "patch/minor" wording, to avoid pulling in breaking API changes on a
+  frozen-content v17 app): `@testing-library/jest-dom` `^5.11.6` →
+  `^5.17.0` (last 5.x — v6+ drops the `/extend-expect` subpath
+  `setupTests.js` imports), `@testing-library/react` `^11.2.2` → `^11.2.7`
+  (last 11.x — v12 is the last major supporting React <18, saved for if a
+  future v17-track bump is worth a separate call), `@testing-library/
+  user-event` `^12.2.2` → `^12.8.3` (unused in `src`, safe regardless).
+  `react-medium-image-zoom` went further, `^4.3.1` → `^4.4.3` (latest 4.x,
+  peer range explicitly covers React 17; v5 is the ESM/breaking rewrite
+  noted in the original audit and stays out of scope here).
+- **Added `.nvmrc`** (`20`, matching `pages.yml`'s `node-version: 20`) and
+  an `"engines": { "node": ">=20" }` field on the root `package.json`.
+- **Deleted `apps/v17/package-lock.json`**: npm workspaces only read/write
+  the root lockfile — this per-app copy was a leftover from the Phase 1
+  `git mv` that Phase 1's own install had happened to leave in sync, but
+  this phase's dependency bumps updated only the root lockfile and left it
+  silently stale (still pinned `react-medium-image-zoom@^4.3.1`). Kept
+  around, it would mislead anyone running `npm ci` from inside `apps/v17`
+  directly. The root `package-lock.json` is the only one that matters now.
+- **Verified visually**: ran the dev server and drove it with Playwright/
+  Chromium — `react-medium-image-zoom` v4.4.3's zoom-button overlay
+  (`data-rmiz-btn-open`) rendered and opened correctly on a page with an
+  embedded diagram, confirming no regression from the version bump. The
+  only console output was a pre-existing `validateDOMNesting` warning from
+  `react-markdown` wrapping an `<img>` in a `<div>` inside a `<p>` —
+  unrelated to this phase's changes, present before and after.
+- Re-verified with a clean-room install + `npm run build:v17` +
+  `npm run test:v17` after the lockfile deletion — all still pass.
+
 ## Status
 
 | Phase | Status |
@@ -271,7 +316,7 @@ Yeoman dependency tree, not an npm workspace member.
 | 0. Safe vulnerability fixes | Done — lockfile-only, see findings above |
 | 0.5. react-scripts 4 → 5 | Done — see findings above |
 | 1. Repo restructure | Done — see findings above |
-| 2. `apps/v17` remaining hygiene cleanup | Not started |
+| 2. `apps/v17` remaining hygiene cleanup | Done — see findings above |
 | 3. Scaffold `apps/v19` | Not started |
 | 4. Scaffold `apps/v18` | Not started |
 | 5. Landing/selector page | Not started |
