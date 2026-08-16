@@ -559,6 +559,31 @@ scope ("linking to `/v17`, `/v18`, `/v19`"), not an oversight.
   redirect trick and renders the right page rather than 404ing or landing
   on the wrong route.
 
+## Phase 6 findings
+
+Extended `pages.yml` to build and deploy `apps/v18`/`apps/v19` alongside
+`apps/v17`, closing out the build/deploy gap Phase 5 deliberately left open.
+
+- **Build step** now runs `build:v17`, `build:v18`, and `build:v19` in
+  sequence (all three already had working, independently-verified build
+  scripts since Phases 3–4 — this just wires them into CI).
+- **Assemble deploy tree step** now copies all three apps' `build/` output
+  into `site/v17`, `site/v18`, `site/v19` alongside the landing page at the
+  tree root, so all three tracks are live and reachable by direct URL
+  (`/first-to-react/v18/`, `/first-to-react/v19/`) once deployed.
+- **By explicit request, `landing/index.html` is unchanged** — only the
+  React 17 card is present, and the "in progress" note about 18/19 stays as
+  written. v18/v19 are built and deployed, but not linked from anywhere in
+  the site, so they aren't discoverable by a visitor browsing normally —
+  "activating" them (adding their landing-page cards) is intentionally left
+  for a later, separate change.
+- **Verified**: clean-room install (`rm -rf node_modules apps/*/node_modules
+  && npm install`, no flags) plus `build:v17`/`test:v17`, `build:v18`/
+  `test:v18`, `build:v19`/`test:v19` all pass. Locally reproduced the exact
+  "Assemble deploy tree" step CI now runs and confirmed the resulting `site/`
+  tree has `index.html` plus `v17/`, `v18/`, `v19/` subdirectories each with
+  a complete, independent build.
+
 ## Status
 
 | Phase | Status |
@@ -570,5 +595,5 @@ scope ("linking to `/v17`, `/v18`, `/v19`"), not an oversight.
 | 3. Scaffold `apps/v19` | Done — see findings above |
 | 4. Scaffold `apps/v18` | Done — see findings above |
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
-| 6. CI/CD rewrite | Partially done (landing + v17 wired) — see Phase 5 findings; v18/v19 build/deploy still to come |
-| 7. Content divergence | Not started |
+| 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
+| 7. Content divergence | Not started — ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |

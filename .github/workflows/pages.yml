@@ -28,17 +28,22 @@ jobs:
         run: |
           npm install
           npm run build:v17
+          npm run build:v18
+          npm run build:v19
 
       - name: Assemble deploy tree 📦
         # Combines the static landing page (deployed at the site root) with
-        # v17's build (deployed under /v17) into one tree. v18/v19 aren't
-        # built or deployed here yet - they aren't linked from the landing
-        # page until their own tracks are ready to show.
+        # each app's build (deployed under /v17, /v18, /v19) into one tree.
+        # v18/v19 are built and deployed here so their tracks are reachable
+        # by direct URL, but the landing page doesn't link to them yet -
+        # they aren't "activated" until their own tracks are ready to show.
         run: |
           mkdir -p site
           cp -r landing/. site/
-          mkdir -p site/v17
+          mkdir -p site/v17 site/v18 site/v19
           cp -r apps/v17/build/. site/v17/
+          cp -r apps/v18/build/. site/v18/
+          cp -r apps/v19/build/. site/v19/
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
