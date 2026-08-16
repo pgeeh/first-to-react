@@ -19,11 +19,11 @@ jobs:
       - name: Setup Node 🧰
         uses: actions/setup-node@v4
         with:
-          node-version: 16 # react-scripts@4 (webpack 4) needs Node <=16; OpenSSL 3 in Node 17+ breaks its build hash.
+          node-version: 20
 
       - name: Install and Build 🔧
         run: |
-          npm install --legacy-peer-deps
+          npm install
           npm run build
 
       - name: Deploy 🚀

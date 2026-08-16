@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
-import {vscDarkPlus} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {vscDarkPlus} from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
