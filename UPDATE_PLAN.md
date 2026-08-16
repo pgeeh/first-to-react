@@ -435,6 +435,49 @@ v17 — that's Phase 6).
   warning from the "No JSX" example's own source — confirming they predate
   this phase rather than being introduced by it.
 
+## Phase 4 findings
+
+`cp`'d `apps/v19` to `apps/v18` (fresh copy, no shared git history) and lowered
+just `react`/`react-dom` to `^18.3.1`. Every other React-coupled dependency
+Phase 3 bumped for v19 — `react-router-dom@^7`, `react-live@^4`,
+`react-markdown@^10`, `react-medium-image-zoom@^5`, `react-bootstrap@^2`,
+`@testing-library/react@^16`, `jest-dom@^7` — already declares a peer range
+covering React 18 as well as 19 (checked each with `npm view <pkg> peerDependencies`
+before starting), so no source or dependency-version changes beyond that were
+needed: `apps/v19`'s router/markdown/live-editor rewrites and
+`config-overrides.js` (React-version-generic — it aliases whatever
+`react`/`react-dom` are actually installed in the app) carried over unchanged.
+
+- **`package.json`**: `name` → `first-to-react-v18`, `homepage` →
+  `/first-to-react/v18`, `react`/`react-dom` → `^18.3.1` (latest 18.x).
+- **`src/constants/index.js`**: `PATH_ROOT` → `/first-to-react/v18`.
+- **`config-overrides.js`**: comments referencing "v19"/"React 19" reworded to
+  "v18"/"React 18" — the aliasing logic itself needed no change.
+- Root `package.json` gained `start:v18`/`build:v18`/`test:v18` scripts,
+  following the same `--workspace=apps/v18` pattern as v17/v19. No change
+  needed to the `react-markdown` `overrides` entry — it's keyed to v17's
+  pinned `4.3.1`, and v18 uses the same `react-markdown@^10.1.0` as v19.
+- **Confirmed a single nested React copy**: after a clean-room `npm install`,
+  `apps/v18/node_modules/react` and `apps/v18/node_modules/react-dom` are
+  present as their own nested copies (18.3.1), distinct from the root-hoisted
+  17.0.2 and `apps/v19`'s own nested 19.x copy — same dedup behavior Phase 3
+  engineered `config-overrides.js`'s `resolve.alias`/`moduleNameMapper`
+  around, working identically for a third major.
+- **Verified**: clean-room install (`rm -rf node_modules apps/*/node_modules
+  package-lock.json && npm install`) plus `npm run build:v17`/`test:v17`,
+  `build:v18`/`test:v18`, and `build:v19`/`test:v19` all pass — v17/v19
+  unaffected. (`CI=true` makes CRA treat warnings as build errors and fails
+  all three apps identically on a pre-existing Bootstrap 5 `postcss-svgo`
+  warning unrelated to this phase — building without it, as the actual
+  `pages.yml` deploy does, succeeds.) Verified visually with the dev server
+  driven by Playwright/Chromium: home page renders with nav and
+  active-link highlighting, and the JSX page's syntax-highlighted code
+  blocks and live editor/preview pair render and work. The only console
+  output was the same two pre-existing, content-level warnings noted in the
+  Phase 2/3 findings (the `<img>`-in-`<div>`-in-`<p>` markdown nesting
+  warning and the missing-`key`-prop warning from the "No JSX" example),
+  confirming no regression introduced by this phase.
+
 ## Status
 
 | Phase | Status |
@@ -444,7 +487,7 @@ v17 — that's Phase 6).
 | 1. Repo restructure | Done — see findings above |
 | 2. `apps/v17` remaining hygiene cleanup | Done — see findings above |
 | 3. Scaffold `apps/v19` | Done — see findings above |
-| 4. Scaffold `apps/v18` | Not started |
+| 4. Scaffold `apps/v18` | Done — see findings above |
 | 5. Landing/selector page | Not started |
 | 6. CI/CD rewrite | Not started |
 | 7. Content divergence | Not started |
