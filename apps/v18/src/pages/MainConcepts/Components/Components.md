@@ -8,15 +8,15 @@ There are two types of components: class components and functional components. B
 
 __State and Props__ shows how _props_ make their way down from parent components into children, while _state_ stays inside of a component.
 
-![State and Props](/first-to-react/diagrams/stateandprops.png)
+![State and Props](/first-to-react/v18/diagrams/stateandprops.png)
 
 __Flow through Render__ shows how a components passes information to child components via _props_, which can come from the components own _props_ and/or _state.
 
-![Flow through Render](/first-to-react/diagrams/statepropsrender.png)
+![Flow through Render](/first-to-react/v18/diagrams/statepropsrender.png)
 
 __React Data Flow__ shows how the _view_ of a component can make use of a callback to modify its _state_ and how _state_ and _props_ combine to create the view. As well as how a component takes in _props_, but maintains its own _state_.
 
-![React Data Flow](/first-to-react/diagrams/reactdataflow.png)
+![React Data Flow](/first-to-react/v18/diagrams/reactdataflow.png)
 
 #### Component Types
 

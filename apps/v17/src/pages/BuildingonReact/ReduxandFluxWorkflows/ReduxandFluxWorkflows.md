@@ -8,7 +8,7 @@ Facebook created a flow to handle this called [Flux](https://facebook.github.io/
 
 [Redux](https://redux.js.org/) is an evolution of Flux, and has a very similar flow. It is also a standalone library, but does have [wrappers](https://react-redux.js.org/) that make it easy to integrate with React and get started using.
 
-![Flux and Redux](/first-to-react/diagrams/fluxreduxflow.png)
+![Flux and Redux](/first-to-react/v17/diagrams/fluxreduxflow.png)
 
 Both libraries have a very similar data flow and parts.
 

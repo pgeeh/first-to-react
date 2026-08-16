@@ -24,7 +24,7 @@ React Components main concepts include:
 * _state_ which is managed and maintained within a component
 * Render method which denotes the HTML elements or child components to display, and is re-run each time changes are made to _props_ or _state_
 
-![State and Props](/first-to-react/diagrams/stateandprops.png)
+![State and Props](/first-to-react/v19/diagrams/stateandprops.png)
 
-![Flow through Render](/first-to-react/diagrams/statepropsrender.png)
+![Flow through Render](/first-to-react/v19/diagrams/statepropsrender.png)
 
