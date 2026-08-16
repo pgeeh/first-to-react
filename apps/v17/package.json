@@ -27,7 +27,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
-  "homepage": "/first-to-react",
+  "homepage": "/first-to-react/v17",
   "browserslist": {
     "production": [
       ">0.2%",

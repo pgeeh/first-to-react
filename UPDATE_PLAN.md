@@ -478,6 +478,87 @@ needed: `apps/v19`'s router/markdown/live-editor rewrites and
   warning and the missing-`key`-prop warning from the "No JSX" example),
   confirming no regression introduced by this phase.
 
+## Phase 5 findings
+
+Added a `landing/` root entry page and moved `apps/v17` off the site root
+onto `/v17`, so the deployed tree becomes `docs/index.html` (landing),
+`docs/v17/…`. **By explicit request, only v17 is linked from the landing
+page and only v17 is built/deployed by CI — v18/v19 stay unbuilt in
+`pages.yml` and unlinked from the landing page** until their tracks are
+ready to show, even though both already scaffold and build correctly
+(Phases 3–4). This is a deliberate narrowing of the plan's original Phase 5
+scope ("linking to `/v17`, `/v18`, `/v19`"), not an oversight.
+
+- **`landing/`**: a small static page (plain HTML/CSS, no build step —
+  a single page with one live link doesn't need a 4th CRA app/workspace
+  member). Lists version tracks as cards; only a `React 17` card linking to
+  `v17/` is present right now, plus a one-line note that the 18/19 tracks
+  are on the way. Adding them later is just appending another `.version-card`
+  once Phase 6 wires their CI build/deploy — deliberately not built as a
+  data-driven list with a `hidden`/`available` flag for two entries that
+  don't exist in the rendered page yet. Reuses the site's existing
+  `f2r-logo.png`/favicon assets and the purple (`rgb(66, 7, 91)`) accent
+  color from `apps/*/src/scss/_colors.scss`.
+- **`apps/v17` homepage/basename move** (`/first-to-react` →
+  `/first-to-react/v17`, in both `package.json`'s `homepage` and
+  `src/constants/index.js`'s `PATH_ROOT`) — the change Phase 1 explicitly
+  deferred "until the landing page ships." No routing-logic changes needed:
+  v17 already prefixes every route/link through `fullLinkPath(PATH_ROOT)`
+  rather than a router `basename`, the same pattern Phase 3 proved out for
+  v19's own subpath.
+- **Fixed a latent bug surfaced by the move**: several `.md` files
+  (`Home.md`'s logo, and five diagram images across `MainConcepts`/
+  `BuildingonReact`/`WhatisReact`) hardcode absolute image paths
+  (`/first-to-react/f2r-logo.png` etc.) rather than going through
+  `fullLinkPath`, since markdown source can't call a JS helper. These
+  silently pointed at the old root path in **all three apps**, v18/v19
+  included — harmless only because neither had been deployed anywhere yet.
+  Rewrote all three apps' copies to their own already-correct prefix
+  (`/first-to-react/v17/…`, `/v18/…`, `/v19/…`).
+- **Fixed a second latent bug in the GitHub-Pages SPA-redirect trick**:
+  `public/404.html`'s `pathSegmentsToKeep` was `1` in all three apps
+  (correct only when an app is hosted at the repo root, one path segment
+  deep). Now that every app lives two segments deep
+  (`/first-to-react/vNN/…`), a direct/refreshed load of an inner route
+  (e.g. `/first-to-react/v17/page/3.1`) would 404 and the redirect script
+  would then strip the `vNN` segment along with the route, landing back at
+  the app root instead of the intended page. Bumped to `2` in all three
+  apps' `404.html`. Verified by serving a local GitHub-Pages-shaped
+  directory tree (`/first-to-react/…` prefix, with a handler standing in
+  for GitHub's per-directory 404 fallback) and loading
+  `/first-to-react/v17/page/3.1` directly with Playwright: the JSX page
+  rendered correctly, deep-link intact, rather than bouncing to the home
+  page.
+- **`apps/v17/src/App.js`**: added an "All Versions" link (top-right of the
+  navbar, via a new `Nav`/`Nav.Link`) back to the landing page — a plain
+  `href="/first-to-react/"`, not a `fullLinkPath` route, since it leaves
+  this app entirely. This is the "shared nav" piece of the original Phase 5
+  wording, scoped down to what's useful with only one version live: a way
+  back to the selector, not an in-app dropdown of tracks that don't exist
+  yet. `apps/v18`/`v19` don't get this link yet — nothing points at them to
+  link back from.
+- **`pages.yml`**: build step is unchanged (`npm run build:v17` only, v18/v19
+  still not built by CI). Added an "Assemble deploy tree" step that copies
+  `landing/` verbatim into `site/` and `apps/v17/build` into `site/v17`, then
+  pointed the deploy action's `folder` at `site` instead of `apps/v17/build`
+  directly. This is Phase 6 work pulled forward the same way Phase 0.5
+  pulled forward Phase 2 material — needed here because changing v17's
+  `homepage` without also updating what CI deploys and where would break the
+  live site. v18/v19's own build/deploy steps are left for when their
+  tracks actually get linked from the landing page.
+- **Verified**: clean-room install plus `build:v17`/`test:v17` and
+  `build:v18`/`test:v18`, `build:v19`/`test:v19` all pass (the markdown/
+  404.html edits touch v18/v19 too, so re-verified those builds stayed
+  green). Locally assembled the exact tree `pages.yml` now produces
+  (`landing/` + `apps/v17/build` under a `site/` root) and served it with a
+  path prefix simulating the real `github.io/first-to-react/…` deploy
+  shape. Verified with Playwright: the landing page renders and its React
+  17 card links to `/first-to-react/v17/`; from inside v17, "All Versions"
+  correctly returns to the landing page; a direct load of a deep in-app URL
+  (`/first-to-react/v17/page/3.1`) round-trips through the 404.html
+  redirect trick and renders the right page rather than 404ing or landing
+  on the wrong route.
+
 ## Status
 
 | Phase | Status |
@@ -488,6 +569,6 @@ needed: `apps/v19`'s router/markdown/live-editor rewrites and
 | 2. `apps/v17` remaining hygiene cleanup | Done — see findings above |
 | 3. Scaffold `apps/v19` | Done — see findings above |
 | 4. Scaffold `apps/v18` | Done — see findings above |
-| 5. Landing/selector page | Not started |
-| 6. CI/CD rewrite | Not started |
+| 5. Landing/selector page | Done, v17-only by request — see findings above |
+| 6. CI/CD rewrite | Partially done (landing + v17 wired) — see Phase 5 findings; v18/v19 build/deploy still to come |
 | 7. Content divergence | Not started |

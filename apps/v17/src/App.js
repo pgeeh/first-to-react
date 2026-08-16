@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import './App.scss';
 
 import TableOfContents from './components/TableOfContents';
@@ -82,6 +83,11 @@ function App() {
             <img src={fullLinkPath('/f2r-logo.png')} style={{height: '40px'}} />
             First-To-React
           </Navbar.Brand>
+          <Nav className="ml-auto">
+            {/* Leaves the app for the landing/version-selector page,
+                so this is a real link rather than a fullLinkPath route. */}
+            <Nav.Link href="/first-to-react/">All Versions</Nav.Link>
+          </Nav>
         </Navbar>
         {/* <header>First To React</header> */}
         <Container className="main" fluid>

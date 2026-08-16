@@ -8,7 +8,7 @@ Class components still have their place when complicated lifecycle management co
 
 The diagram below lists the most common class lifecycle methods and when they happen.
 
-![React Data Flow](/first-to-react/diagrams/react-lifecycle-light.png)
+![React Data Flow](/first-to-react/v17/diagrams/react-lifecycle-light.png)
 _Diagram Credit to [wojtekmaj](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)_
 
 Important to remember when working with class components:

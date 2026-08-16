@@ -29,10 +29,21 @@ jobs:
           npm install
           npm run build:v17
 
+      - name: Assemble deploy tree 📦
+        # Combines the static landing page (deployed at the site root) with
+        # v17's build (deployed under /v17) into one tree. v18/v19 aren't
+        # built or deployed here yet - they aren't linked from the landing
+        # page until their own tracks are ready to show.
+        run: |
+          mkdir -p site
+          cp -r landing/. site/
+          mkdir -p site/v17
+          cp -r apps/v17/build/. site/v17/
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: docs # The branch the action should deploy to.
-          folder: apps/v17/build # The folder the action should deploy.
+          folder: site # The folder the action should deploy.
           clean: true # Automatically remove deleted files from the deploy branch
