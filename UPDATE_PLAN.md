@@ -78,16 +78,21 @@ Each phase is a separate, independently reviewable/revertible PR.
    (non-force) on the current single-app tree, before any restructuring, so
    the baseline everything forks from is as clean as it can be without
    breaking changes. See [Phase 0 findings](#phase-0-findings) below.
+0.5. **react-scripts 4 → 5 (still pre-restructure)** — bump the build tool
+   itself, since it resolves the bulk of the remaining vulnerabilities and
+   incidentally fixes the Node 17+ OpenSSL build crash. See
+   [Phase 0.5 findings](#phase-05-findings) below.
 1. **Repo restructure** — convert to an npm workspaces monorepo; `git mv` the
    current app into `apps/v17` with no functional changes; adjust
    `homepage`/CI paths so `master` stays deployable throughout. Pure
    plumbing, zero content risk.
-2. **Hygiene cleanup in `apps/v17`** — remove the dead `@material-ui/core`
-   and `@material-ui/icons` deps, replace the `node-sass` npm-alias hack with
-   a direct `sass` dependency, bump CI action versions (`checkout`,
-   `github-pages-deploy-action`), bump low-risk libs (testing-library
-   patch/minor, `web-vitals`, `react-medium-image-zoom`) within
-   v17-compatible ranges, add `.nvmrc`/`engines`.
+2. **Remaining hygiene cleanup in `apps/v17`** — `@material-ui/core`/
+   `@material-ui/icons` removal and the `node-sass` → `sass` swap already
+   happened in Phase 0.5 (needed to unblock the react-scripts bump). What's
+   left: bump CI action versions (`checkout`, `github-pages-deploy-action`),
+   bump remaining low-risk libs (testing-library patch/minor,
+   `react-medium-image-zoom`) within v17-compatible ranges, add
+   `.nvmrc`/`engines`.
 3. **Scaffold `apps/v19`** — fork v17 → v19, bump `react`/`react-dom` to 19
    (confirm `createRoot` usage), bump `react-router-dom`, testing-library,
    and everything else to React-19-compatible versions. Goal: identical
@@ -157,13 +162,77 @@ resolver rejects against the installed React 17) followed by
   sake of the fix, or stays on the vulnerable version with the risk
   documented.
 
+## Phase 0.5 findings
+
+Bumped `react-scripts` `4.0.0` → `^5.0.1` (webpack 4 → 5) on the current
+tree, since it's the single highest-leverage fix available pre-restructure.
+
+- **225 → 34 vulnerabilities, 0 critical** (down from 21 critical at
+  baseline, 9 after Phase 0). The remaining 34 are `react-markdown@4`'s
+  `trim`/`remark-parse` ReDoS plus a handful of dev-only
+  `webpack-dev-server`/`bfj` transitive issues that even `react-scripts@5`'s
+  own dependency tree hasn't fully cleared yet — none shippable to
+  production, none fixable without another breaking bump.
+- Removed the dead `@material-ui/core`/`@material-ui/icons` dependencies
+  (confirmed unused in `src`) and replaced the `node-sass` npm-alias hack
+  with a direct `sass` dependency — both were already planned for Phase 2,
+  pulled forward because `@material-ui/core`'s `react@^16.8.0` peer range
+  was the exact conflict breaking CI in Phase 0's PR.
+- **`react-markdown@4.3.1`'s peer conflict** (`react@"^15.0.0 || ^16.0.0"`
+  against the installed React 17) no longer needs `--legacy-peer-deps`.
+  Used a targeted `package.json` `overrides` entry instead
+  (`"react-markdown": { "react": "$react" }`), which tells npm to satisfy
+  just that one peer check with the root's resolved React version rather
+  than loosening peer resolution tree-wide — avoids the collateral damage
+  a blanket `--legacy-peer-deps`/`ajv` override caused below.
+- **webpack 5 does fix the OpenSSL 3 crash** from Phase 0 — confirmed by a
+  clean build on Node 22 in this sandbox with no flags and no Node-version
+  pin needed. `pages.yml` no longer needs the Node 16 pin or
+  `--legacy-peer-deps`; moved to Node 20.
+- Hit two more webpack 5 breaking changes, both from `react-markdown@4`'s
+  old `unified`/`vfile` dependency chain expecting Node core modules the
+  bundler no longer auto-polyfills (`path`, then `process`). Rather than
+  `npm run eject` (irreversible), added `react-app-rewired` — a thin,
+  reversible wrapper — with a `config-overrides.js` supplying the two
+  fallbacks via `resolve.fallback` + `webpack.ProvidePlugin`. `start`/
+  `build`/`test` npm scripts now call `react-app-rewired` instead of
+  `react-scripts` directly (`eject` still points at `react-scripts`, as
+  `react-app-rewired` recommends).
+- First attempt used a blanket `ajv`/`ajv-keywords` `overrides` to fix an
+  unrelated `npm ls ajv` dedup conflict (`ajv-keywords@5` needs `ajv@^8`,
+  but `eslint`'s `ajv@6` was getting hoisted over it) — that broke a
+  *different* nested consumer (`fork-ts-checker-webpack-plugin`'s bundled
+  `ajv-keywords@3.5.2`, built for the `ajv@6` keyword set) with `Unknown
+  keyword formatMinimum`. Root cause was actually `--legacy-peer-deps`
+  skewing npm's dedup; switching to the `react-markdown` override above
+  and dropping `--legacy-peer-deps` entirely made the conflict disappear
+  on its own, so the `ajv` override was removed.
+- Also fixed two test-suite issues surfaced along the way (both
+  pre-existing, unrelated to the version bump itself): `Info.jsx` imported
+  `react-syntax-highlighter`'s ESM style file directly
+  (`dist/esm/styles/prism`), which Jest can't transform by default —
+  switched to the `dist/cjs/...` path. `App.test.js` was still the
+  original CRA-boilerplate assertion (`getByText(/learn react/i)`), never
+  updated when the actual tutorial content replaced the starter page —
+  replaced with an assertion against real app content.
+- Verified with a clean-room install (`rm -rf node_modules && npm install`,
+  no flags) plus `npm run build` and `npm test`, both passing, and visually
+  in a headless browser: the table of contents, a Main Concepts page's
+  rendered markdown, syntax-highlighted code, and the `react-live`
+  editor/preview pair all work correctly.
+- `react-markdown` itself is still v4 (unfixed) — bumping to `v9`/`v10` is
+  a full API rewrite (remark/rehype plugins, ESM-only) affecting `Info.jsx`
+  directly, not just config. Left for a dedicated follow-up rather than
+  folded into this pass.
+
 ## Status
 
 | Phase | Status |
 |---|---|
 | 0. Safe vulnerability fixes | Done — lockfile-only, see findings above |
+| 0.5. react-scripts 4 → 5 | Done — see findings above |
 | 1. Repo restructure | Not started |
-| 2. `apps/v17` hygiene cleanup | Not started |
+| 2. `apps/v17` remaining hygiene cleanup | Not started |
 | 3. Scaffold `apps/v19` | Not started |
 | 4. Scaffold `apps/v18` | Not started |
 | 5. Landing/selector page | Not started |
