@@ -225,13 +225,52 @@ tree, since it's the single highest-leverage fix available pre-restructure.
   directly, not just config. Left for a dedicated follow-up rather than
   folded into this pass.
 
+## Phase 1 findings
+
+`git mv`'d the app (`package.json`, `package-lock.json`, `config-overrides.js`,
+`.eslintrc.json`, `public/`, `src/`) into `apps/v17/`, unchanged in content.
+Added a new root `package.json` declaring `"workspaces": ["apps/*"]` plus
+`build:v17`/`start:v17`/`test:v17` orchestration scripts that call
+`--workspace=apps/v17` — a pattern later phases repeat for `apps/v18`/`v19`.
+`generator-f-2-r/` stays outside `apps/*`, as planned — it's an unrelated
+Yeoman dependency tree, not an npm workspace member.
+
+- **`homepage` left as `/first-to-react`** (not `/first-to-react/v17`) —
+  changing it now would move the deployed asset/base paths before the
+  landing page and multi-app CI (Phases 5–6) exist to route `/v17` traffic
+  anywhere, breaking the live site for no reason. Revisit when the landing
+  page ships.
+- **`apps/v17/package.json`'s `name` renamed** `first-to-react` →
+  `first-to-react-v17`, since the root `package.json` now also owns the bare
+  `first-to-react` name and workspace package names should be unique/
+  descriptive — same naming pattern `v18`/`v19` will follow.
+- **`overrides` moved from `apps/v17/package.json` to the root
+  `package.json`**, and its value changed from the `$react` self-reference to
+  a literal `^17.0.1` — npm only reads `overrides` from the workspace root,
+  and `$react` resolves against a `dependencies.react` entry the (dependency-
+  free) root package.json doesn't have. `npm install` failed with the
+  original peer-conflict ERESOLVE error until this moved; a literal range
+  works from the root without needing a dummy root-level `react` dependency.
+- **`.gitignore` patterns un-anchored**: `/coverage` → `coverage`, `/build` →
+  `build` (and the redundant `/node_modules` + `**node_modules` pair
+  collapsed to just `node_modules`) so they match at any depth — the old
+  leading-`/` patterns only matched the repo root and would have left
+  `apps/v17/build`/`apps/v17/coverage` untracked-but-visible to git status.
+- **CI** (`pages.yml`): install step is unchanged (`npm install` at the repo
+  root installs all workspaces); build step now calls `npm run build:v17`;
+  deploy step's `FOLDER` now points at `apps/v17/build` instead of `build`.
+- Verified with a clean-room install (`rm -rf node_modules apps/v17/node_modules
+  && npm install`, no flags), `npm run build:v17`, and `npm run test:v17`
+  from the repo root — all pass, output lands at `apps/v17/build/` as
+  expected, single test suite still green.
+
 ## Status
 
 | Phase | Status |
 |---|---|
 | 0. Safe vulnerability fixes | Done — lockfile-only, see findings above |
 | 0.5. react-scripts 4 → 5 | Done — see findings above |
-| 1. Repo restructure | Not started |
+| 1. Repo restructure | Done — see findings above |
 | 2. `apps/v17` remaining hygiene cleanup | Not started |
 | 3. Scaffold `apps/v19` | Not started |
 | 4. Scaffold `apps/v18` | Not started |
