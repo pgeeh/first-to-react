@@ -584,6 +584,60 @@ Extended `pages.yml` to build and deploy `apps/v18`/`apps/v19` alongside
   tree has `index.html` plus `v17/`, `v18/`, `v19/` subdirectories each with
   a complete, independent build.
 
+## Phase 7 findings (pilot: Hooks section)
+
+Started content divergence with a single pilot section - the `OtherConcepts/Hooks`
+page - rather than sweeping all 42 pages at once, to validate the pattern
+before it's repeated elsewhere. Before this, `apps/v18`/`apps/v19` content
+was byte-for-byte identical to `apps/v17` (only image path prefixes
+differed) - nothing had actually taught what's different about React 18/19
+yet.
+
+- **`apps/v18` gained two new Hook pages**: `useTransition` (a filtered-list
+  example showing `isPending`/`startTransition` keeping a text input
+  responsive while a large list re-filters) and `useId` (a reusable
+  `LabeledInput` component showing stable, collision-free IDs across
+  multiple instances). `Hooks.md` gained bullet entries for both plus a
+  paragraph on React 18's automatic batching, which underpins why
+  transitions are cheap to use. `Hooks/index.js`'s `children` array wired
+  both in, following the existing per-hook-folder pattern (`.md` + one or
+  more `.jsexample` files + `index.js` config).
+- **`apps/v19` gained two new Hook pages**: `use` (two examples - reading a
+  cached `fetch` Promise under `<Suspense>`, and reading Context
+  conditionally, something `useContext` cannot do) and `useActionState` (a
+  form with an `async` Action simulating a server update, showing
+  `isPending` and returned error state). `Hooks.md` and `Hooks/index.js`
+  updated the same way as v18.
+- **`use`'s Promise example needed hardening**: the first draft let a failed
+  `fetch` leave `use()`'s Promise rejected, which reaches for the nearest
+  error boundary - a concept this tutorial doesn't teach anywhere else, and
+  react-live's own internal error boundary doesn't render a fallback UI, so
+  a failed request silently went blank. Changed `fetchUser` to `.catch()`
+  the failure into a resolved `{error}` value instead, so the example is
+  self-contained and a real network hiccup renders a message rather than an
+  empty preview.
+- **Verified with a clean-room install** plus `build:v18`/`test:v18` and
+  `build:v19`/`test:v19` (still passing). Ran both dev servers and drove
+  them with Playwright/Chromium: `useTransition`'s filter input stayed
+  responsive and showed the pending indicator while typing into a
+  20,000-item list; `useId` rendered two distinct, stable IDs correctly
+  linking each label to its input; `use`'s Conditional Context example
+  toggled correctly; `useActionState`'s form submitted, showed a pending
+  state, and updated the rendered name. `use`'s Promise example itself
+  could not be fully exercised end-to-end here - this sandbox's outbound
+  network blocks `jsonplaceholder.typicode.com` (confirmed the *pre-existing*
+  `useEffect` "Fetch" example, unrelated to this change, hits the same
+  block) - but the failure path was verified instead, rendering the
+  expected error message rather than going blank. Both dev servers logged
+  no console errors from the new pages.
+- **Scope note for continuing this phase**: this pilot only touched the
+  `Hooks` page. Per the original plan wording, still open: `createRoot`
+  content (arguably belongs on a rendering/entry-point page rather than
+  Hooks), `ref-as-prop` (touches `ComponentsandProps`/`FunctionalComponents`
+  for v19), and a React Compiler mention (v19, likely on `WhatisReact` or a
+  new `BuildingonReact` entry) - each is its own follow-up in the same
+  per-topic style as this pilot, not a fixed checklist to clear in one PR.
+
 ## Status
 
 | Phase | Status |
@@ -596,4 +650,4 @@ Extended `pages.yml` to build and deploy `apps/v18`/`apps/v19` alongside
 | 4. Scaffold `apps/v18` | Done — see findings above |
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
-| 7. Content divergence | Not started — ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
+| 7. Content divergence | In progress — Hooks section piloted for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |

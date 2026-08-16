@@ -1,0 +1,51 @@
+// Cache Promises by userId - use() re-suspends if given a *new*
+// Promise instance, so this must not create a fresh Promise every render.
+const userCache = new Map();
+
+function fetchUser(userId) {
+  if (!userCache.has(userId)) {
+    userCache.set(
+        userId,
+        fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+            .then((response) => response.json())
+            // Resolve to an error marker instead of leaving the Promise
+            // rejected - use() re-throws a rejection to the nearest error
+            // boundary, which this simple example does not set up.
+            .catch((error) => ({error: String(error)})),
+    );
+  }
+  return userCache.get(userId);
+}
+
+function UserName(props) {
+  const {userId} = props;
+  const user = React.use(fetchUser(userId));
+
+  if (user.error) {
+    return <span>Could not load user {userId}: {user.error}</span>;
+  }
+
+  return (
+    <span>{user.name} (<span>{user.email}</span>)</span>
+  );
+}
+
+function UserCard(props) {
+  const {userId} = props;
+
+  return (
+    <React.Suspense fallback={<span>Loading user {userId}...</span>}>
+      <UserName userId={userId} />
+    </React.Suspense>
+  );
+}
+
+const initial = {
+  userId: 1,
+};
+
+render(
+  <PropOverride initial={initial}>
+    <UserCard />
+  </PropOverride>
+);

@@ -14,6 +14,12 @@ React Hooks provide the ability for a functional component to slowly add lifecyc
 
 * __useContext__ - Provides the ability to set values that can be used by child components without the need to pass all of the information down through _props_.
 
+* __useTransition__ _(new in React 18)_ - Marks a _state_ update as a low-priority _transition_ so React can keep the UI responsive while it renders.
+
+* __useId__ _(new in React 18)_ - Generates a unique, stable ID string for accessibility attributes, consistent between server and client renders.
+
+React 18 also introduced __automatic batching__: _state_ updates inside promises, `setTimeout`, and native event handlers are now grouped into a single re-render, the same way updates inside React event handlers always were. Previously, only updates inside React event handlers were batched.
+
 Some rules to remember when using Hooks:
 
 * Hooks should only be used prior to the start of the `return` statement. Hooks need to be run in the same order during each render iteration so that the internal tracking of React can function.
