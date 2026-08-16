@@ -74,6 +74,10 @@ Deploy output on the `docs` branch mirrors that: `docs/index.html`
 
 Each phase is a separate, independently reviewable/revertible PR.
 
+0. **Safe vulnerability fixes (pre-restructure)** — run `npm audit fix`
+   (non-force) on the current single-app tree, before any restructuring, so
+   the baseline everything forks from is as clean as it can be without
+   breaking changes. See [Phase 0 findings](#phase-0-findings) below.
 1. **Repo restructure** — convert to an npm workspaces monorepo; `git mv` the
    current app into `apps/v17` with no functional changes; adjust
    `homepage`/CI paths so `master` stays deployable throughout. Pure
@@ -104,10 +108,60 @@ Each phase is a separate, independently reviewable/revertible PR.
    topic-by-topic follow-up work rather than one PR, driven by editorial
    priorities rather than a fixed curriculum decided up front.
 
+## Phase 0 findings
+
+Ran `npm install --legacy-peer-deps` (required — `react-markdown@4.3.1`
+declares a peer range of `^15.0.0 || ^16.0.0`, which npm's default strict
+resolver rejects against the installed React 17) followed by
+`npm audit fix --legacy-peer-deps` on the current tree.
+
+- **225 → 160 vulnerabilities** (21 → 9 critical, 79 → 38 high, 118 → 104
+  moderate, 7 → 9 low), with **zero `package.json` changes** — the fix only
+  tightened transitive resolutions already permitted by existing semver
+  ranges, recorded in `package-lock.json`.
+- The remaining 160 all require breaking changes and split into two buckets:
+  - **`react-scripts@5.0.1`** would resolve most of them (`sockjs`, `ws`,
+    `uuid`, `websocket-driver`, `y18n`, `yaml`, `word-wrap`, `ua-parser-js`,
+    `url-parse`, `node-tar`/`cacache`). These are all in the
+    webpack-dev-server toolchain pulled in by `react-scripts` — dev-time
+    exposure, not shipped in the production bundle, but still worth fixing.
+  - **`react-markdown@10.1.0`** would resolve a `trim`/`remark-parse` ReDoS.
+    This is the same breaking rewrite already noted above (remark/rehype
+    plugin architecture, ESM-only) — not a small bump.
+- **Build could not be verified in this sandbox on either the baseline or
+  the audit-fixed tree**: Node 22 + webpack 4 (as shipped by
+  `react-scripts@4.0.0`) hits `error:0308010C:digital envelope
+  routines::unsupported` (the well-known OpenSSL 3 / webpack 4 MD4 hash
+  incompatibility) on both trees identically, confirming it's pre-existing
+  and unrelated to the audit fix. Working around it with
+  `NODE_OPTIONS=--openssl-legacy-provider` gets further, but then the
+  **audit-fixed tree hits a new failure**: a transitive Babel plugin got
+  bumped past what `react-scripts`'s pinned `@babel/core@7.12.3` supports
+  (`Requires Babel "^7.16.0", but was loaded with "7.12.3"`). The baseline
+  tree fails at an earlier stage instead (a `postcss` ESM exports-map
+  issue), so neither built cleanly enough here to fully confirm the
+  audit-fixed tree is safe — it should be exercised on a Node version this
+  toolchain actually supports (Node ≤16, or with the legacy-provider flag)
+  before being trusted.
+- GitHub's Actions API returned **zero recorded workflow runs** for this
+  repo, so current CI health for `pages.yml` couldn't be confirmed from
+  here. Given `pages.yml` doesn't pin a Node version via
+  `actions/setup-node`, and modern `ubuntu-latest` runners ship Node
+  versions well past 16, it's plausible the live deploy workflow is
+  already hitting the same OpenSSL incompatibility. Worth confirming
+  directly by watching the next real CI run.
+- **Decision point**: the `react-markdown` vulnerability affects `apps/v17`
+  too once it's forked out in Phase 1, since v17 is meant to stay
+  behaviorally frozen. Bumping it is a breaking API rewrite, not a hygiene
+  fix — needs an explicit call on whether v17 accepts that rewrite for the
+  sake of the fix, or stays on the vulnerable version with the risk
+  documented.
+
 ## Status
 
 | Phase | Status |
 |---|---|
+| 0. Safe vulnerability fixes | Done — lockfile-only, see findings above |
 | 1. Repo restructure | Not started |
 | 2. `apps/v17` hygiene cleanup | Not started |
 | 3. Scaffold `apps/v19` | Not started |
