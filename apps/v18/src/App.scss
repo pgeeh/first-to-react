@@ -1,0 +1,18 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  & > .main {
+    flex-grow: 1;
+  }
+  
+  footer {
+    text-align: center;
+    font-style: italic;
+  }
+
+  .toc-col {
+    z-index: 100;
+  }
+}

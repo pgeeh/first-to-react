@@ -15,6 +15,9 @@
     "start:v17": "npm run start --workspace=apps/v17",
     "build:v17": "npm run build --workspace=apps/v17",
     "test:v17": "npm run test --workspace=apps/v17",
+    "start:v18": "npm run start --workspace=apps/v18",
+    "build:v18": "npm run build --workspace=apps/v18",
+    "test:v18": "npm run test --workspace=apps/v18",
     "start:v19": "npm run start --workspace=apps/v19",
     "build:v19": "npm run build --workspace=apps/v19",
     "test:v19": "npm run test --workspace=apps/v19"
