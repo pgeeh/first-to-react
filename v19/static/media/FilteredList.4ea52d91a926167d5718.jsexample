@@ -1,0 +1,54 @@
+function FilteredList(props) {
+  const {itemCount} = props;
+  const [isPending, startTransition] = React.useTransition();
+  const [query, setQuery] = React.useState('');
+  const [items, setItems] = React.useState([]);
+
+  const allItems = React.useMemo(() => {
+    const list = [];
+    for (let i = 0; i < itemCount; i++) {
+      list.push(`Item ${i}`);
+    }
+    return list;
+  }, [itemCount]);
+
+  const onChange = (e) => {
+    // Urgent update - keeps the input feeling instant.
+    const value = e.target.value;
+    setQuery(value);
+
+    // Non-urgent update - React can interrupt this if
+    // onChange fires again (e.g. more typing) before it finishes.
+    startTransition(() => {
+      setItems(allItems.filter((item) => item.includes(value)));
+    });
+  };
+
+  return (
+    <>
+      <input
+        value={query}
+        onChange={onChange}
+        placeholder="Filter items..."
+      />
+      <div>
+        {isPending ?
+          'Updating list...' :
+          `${items.length} of ${allItems.length} items match`}
+      </div>
+      <ul>
+        {items.slice(0, 20).map((item) => <li key={item}>{item}</li>)}
+      </ul>
+    </>
+  );
+}
+
+const initial = {
+  itemCount: 20000,
+};
+
+render(
+  <PropOverride initial={initial}>
+    <FilteredList />
+  </PropOverride>
+);

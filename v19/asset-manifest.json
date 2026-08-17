@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/first-to-react/v19/static/css/main.814e99f7.css",
-    "main.js": "/first-to-react/v19/static/js/main.b79f1b9f.js",
+    "main.js": "/first-to-react/v19/static/js/main.59a0ed3f.js",
     "static/js/163.6bc55562.chunk.js": "/first-to-react/v19/static/js/163.6bc55562.chunk.js",
-    "static/media/OtherLibraries.md": "/first-to-react/v19/static/media/OtherLibraries.d67a8afd98580cf9d2e0.md",
+    "static/media/OtherLibraries.md": "/first-to-react/v19/static/media/OtherLibraries.eb0a6c21c0bd926b5b6e.md",
     "static/media/useContext3.jsexample": "/first-to-react/v19/static/media/useContext3.a02f88a0b572c52b48b4.jsexample",
     "static/media/ListsandKeys.md": "/first-to-react/v19/static/media/ListsandKeys.91923cdc8e4a7946622c.md",
     "static/media/FormsControlled.jsexample": "/first-to-react/v19/static/media/FormsControlled.d4d0347bffe3a4f2019d.jsexample",
@@ -11,6 +11,7 @@
     "static/media/StateandLifecycle.md": "/first-to-react/v19/static/media/StateandLifecycle.34a2ab3bae0d8a88e74e.md",
     "static/media/useReducer3.jsexample": "/first-to-react/v19/static/media/useReducer3.f9930a6092686b5fc86d.jsexample",
     "static/media/Intro.md": "/first-to-react/v19/static/media/Intro.830e07fd7189fe4ed823.md",
+    "static/media/Hooks.md": "/first-to-react/v19/static/media/Hooks.70eea0afc37e43ee7847.md",
     "static/media/SortExample.jsexample": "/first-to-react/v19/static/media/SortExample.8a8ccdb1707e3421a6c5.jsexample",
     "static/media/CompositionoverInheritance.jsexample": "/first-to-react/v19/static/media/CompositionoverInheritance.0863fc06c52472761612.jsexample",
     "static/media/useEffect2.jsexample": "/first-to-react/v19/static/media/useEffect2.5e7de78a576d5d7bc77b.jsexample",
@@ -24,7 +25,6 @@
     "static/media/ComponentsandProps.jsexample": "/first-to-react/v19/static/media/ComponentsandProps.c233bbbe269dd4649cb7.jsexample",
     "static/media/useReducer.md": "/first-to-react/v19/static/media/useReducer.37a30775e0f9e66be9e7.md",
     "static/media/Drawbacks.md": "/first-to-react/v19/static/media/Drawbacks.8db5b627973cd18ab1bb.md",
-    "static/media/Hooks.md": "/first-to-react/v19/static/media/Hooks.a13b5c9169acd20278fb.md",
     "static/media/BasicState.jsexample": "/first-to-react/v19/static/media/BasicState.6a7a73e3e03b0dafdef4.jsexample",
     "static/media/ClassPropUpdate.jsexample": "/first-to-react/v19/static/media/ClassPropUpdate.98be8e20f8cdbd014da0.jsexample",
     "static/media/MultiState.jsexample": "/first-to-react/v19/static/media/MultiState.52a53bde49821a95f737.jsexample",
@@ -42,12 +42,15 @@
     "static/media/Benefits.md": "/first-to-react/v19/static/media/Benefits.6ad31f3f8a65a7961f74.md",
     "static/media/useMemo2.jsexample": "/first-to-react/v19/static/media/useMemo2.719e61a2e06177df6353.jsexample",
     "static/media/HandlingEvents.jsexample": "/first-to-react/v19/static/media/HandlingEvents.c93910301c29471e47d5.jsexample",
+    "static/media/useTransition.md": "/first-to-react/v19/static/media/useTransition.792270c29e904d2feaaa.md",
     "static/media/useEffect.md": "/first-to-react/v19/static/media/useEffect.e8462e88ff598f8a8c22.md",
     "static/media/Promise.jsexample": "/first-to-react/v19/static/media/Promise.16d1d52579d40b80b17a.jsexample",
+    "static/media/FilteredList.jsexample": "/first-to-react/v19/static/media/FilteredList.4ea52d91a926167d5718.jsexample",
+    "static/media/useId.md": "/first-to-react/v19/static/media/useId.1c683ea02ca11877aecf.md",
     "static/media/ClassComponents.md": "/first-to-react/v19/static/media/ClassComponents.1930f893728b0a6d937f.md",
     "static/media/JSX.md": "/first-to-react/v19/static/media/JSX.5e4fef4e66e80f8e4fb8.md",
     "static/media/PropsChange.jsexample": "/first-to-react/v19/static/media/PropsChange.dbc80a1a7bb5a7024aa0.jsexample",
-    "static/media/LayoutFrameworks.md": "/first-to-react/v19/static/media/LayoutFrameworks.d5b3388ccf529da9d2e9.md",
+    "static/media/LayoutFrameworks.md": "/first-to-react/v19/static/media/LayoutFrameworks.5b29c53defe3ef638a51.md",
     "static/media/useContext2.jsexample": "/first-to-react/v19/static/media/useContext2.8cf5f6147e4a2e645c98.jsexample",
     "static/media/useCallback.md": "/first-to-react/v19/static/media/useCallback.f84c1f9a335d95df2740.md",
     "static/media/ComponentsandProps.md": "/first-to-react/v19/static/media/ComponentsandProps.7d6b62b08bf8cb6eea2c.md",
@@ -83,18 +86,19 @@
     "static/media/Home.md": "/first-to-react/v19/static/media/Home.39df312247533bd3e96d.md",
     "static/media/Intro1.jsexample": "/first-to-react/v19/static/media/Intro1.632bce96954b74a743a9.jsexample",
     "static/media/BasicFragments.jsexample": "/first-to-react/v19/static/media/BasicFragments.3e44dd4687e0079ac938.jsexample",
-    "static/media/BuildingonReact.md": "/first-to-react/v19/static/media/BuildingonReact.078ee9b1f48143051b6d.md",
+    "static/media/BuildingonReact.md": "/first-to-react/v19/static/media/BuildingonReact.970b77821e24d6f05b25.md",
+    "static/media/LabeledFields.jsexample": "/first-to-react/v19/static/media/LabeledFields.39f346160e0d5f1f5917.jsexample",
     "static/media/Intro2.jsexample": "/first-to-react/v19/static/media/Intro2.d3ab80b72b99a2179b86.jsexample",
     "static/media/useMemo1.jsexample": "/first-to-react/v19/static/media/useMemo1.c7d60b6875370dc07eb7.jsexample",
     "static/media/FocusInput.jsexample": "/first-to-react/v19/static/media/FocusInput.14a7e53be89d60c1277e.jsexample",
     "static/media/useCallback1.jsexample": "/first-to-react/v19/static/media/useCallback1.cb324c38a3384890aed5.jsexample",
     "static/media/OtherConcepts.md": "/first-to-react/v19/static/media/OtherConcepts.cc5795dbace22b2a7326.md",
     "main.814e99f7.css.map": "/first-to-react/v19/static/css/main.814e99f7.css.map",
-    "main.b79f1b9f.js.map": "/first-to-react/v19/static/js/main.b79f1b9f.js.map",
+    "main.59a0ed3f.js.map": "/first-to-react/v19/static/js/main.59a0ed3f.js.map",
     "163.6bc55562.chunk.js.map": "/first-to-react/v19/static/js/163.6bc55562.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.814e99f7.css",
-    "static/js/main.b79f1b9f.js"
+    "static/js/main.59a0ed3f.js"
   ]
 }

@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/first-to-react/v17/static/css/main.0bc86adc.css",
-    "main.js": "/first-to-react/v17/static/js/main.9f4d7598.js",
+    "main.js": "/first-to-react/v17/static/js/main.1eafaa70.js",
     "static/js/163.efea4dbc.chunk.js": "/first-to-react/v17/static/js/163.efea4dbc.chunk.js",
-    "static/media/OtherLibraries.md": "/first-to-react/v17/static/media/OtherLibraries.d67a8afd98580cf9d2e0.md",
+    "static/media/OtherLibraries.md": "/first-to-react/v17/static/media/OtherLibraries.eb0a6c21c0bd926b5b6e.md",
     "static/media/useContext3.jsexample": "/first-to-react/v17/static/media/useContext3.a02f88a0b572c52b48b4.jsexample",
     "static/media/ListsandKeys.md": "/first-to-react/v17/static/media/ListsandKeys.91923cdc8e4a7946622c.md",
     "static/media/FormsControlled.jsexample": "/first-to-react/v17/static/media/FormsControlled.d4d0347bffe3a4f2019d.jsexample",
@@ -42,7 +42,7 @@
     "static/media/ClassComponents.md": "/first-to-react/v17/static/media/ClassComponents.ec769d77bfdfbf86b015.md",
     "static/media/JSX.md": "/first-to-react/v17/static/media/JSX.5e4fef4e66e80f8e4fb8.md",
     "static/media/PropsChange.jsexample": "/first-to-react/v17/static/media/PropsChange.dbc80a1a7bb5a7024aa0.jsexample",
-    "static/media/LayoutFrameworks.md": "/first-to-react/v17/static/media/LayoutFrameworks.d5b3388ccf529da9d2e9.md",
+    "static/media/LayoutFrameworks.md": "/first-to-react/v17/static/media/LayoutFrameworks.5b29c53defe3ef638a51.md",
     "static/media/useContext2.jsexample": "/first-to-react/v17/static/media/useContext2.8cf5f6147e4a2e645c98.jsexample",
     "static/media/useCallback.md": "/first-to-react/v17/static/media/useCallback.f84c1f9a335d95df2740.md",
     "static/media/ComponentsandProps.md": "/first-to-react/v17/static/media/ComponentsandProps.7d6b62b08bf8cb6eea2c.md",
@@ -75,17 +75,17 @@
     "static/media/Home.md": "/first-to-react/v17/static/media/Home.59899bf00993015b09af.md",
     "static/media/Intro1.jsexample": "/first-to-react/v17/static/media/Intro1.632bce96954b74a743a9.jsexample",
     "static/media/BasicFragments.jsexample": "/first-to-react/v17/static/media/BasicFragments.3e44dd4687e0079ac938.jsexample",
-    "static/media/BuildingonReact.md": "/first-to-react/v17/static/media/BuildingonReact.078ee9b1f48143051b6d.md",
+    "static/media/BuildingonReact.md": "/first-to-react/v17/static/media/BuildingonReact.970b77821e24d6f05b25.md",
     "static/media/Intro2.jsexample": "/first-to-react/v17/static/media/Intro2.d3ab80b72b99a2179b86.jsexample",
     "static/media/useMemo1.jsexample": "/first-to-react/v17/static/media/useMemo1.c7d60b6875370dc07eb7.jsexample",
     "static/media/useCallback1.jsexample": "/first-to-react/v17/static/media/useCallback1.cb324c38a3384890aed5.jsexample",
     "static/media/OtherConcepts.md": "/first-to-react/v17/static/media/OtherConcepts.4089c767d52106dbd9c8.md",
     "main.0bc86adc.css.map": "/first-to-react/v17/static/css/main.0bc86adc.css.map",
-    "main.9f4d7598.js.map": "/first-to-react/v17/static/js/main.9f4d7598.js.map",
+    "main.1eafaa70.js.map": "/first-to-react/v17/static/js/main.1eafaa70.js.map",
     "163.efea4dbc.chunk.js.map": "/first-to-react/v17/static/js/163.efea4dbc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0bc86adc.css",
-    "static/js/main.9f4d7598.js"
+    "static/js/main.1eafaa70.js"
   ]
 }
