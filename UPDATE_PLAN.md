@@ -112,6 +112,30 @@ Each phase is a separate, independently reviewable/revertible PR.
    `useActionState`, ref-as-prop, React Compiler mention for 19. Treated as
    topic-by-topic follow-up work rather than one PR, driven by editorial
    priorities rather than a fixed curriculum decided up front.
+8. **Migrate build tooling from CRA to Vite (multiple PRs)** — prompted by
+   the Phase 7 round 3 content refresh, which updated `OtherLibraries.md` to
+   recommend Vite over `create-react-app` (officially deprecated by the
+   React team in 2025); the repo's own build tooling should practice what
+   the tutorial content now preaches, and it would let the `react-app-rewired`/
+   `config-overrides.js` workarounds accumulated since Phase 0.5 (Node-core
+   polyfill fallbacks, the `postcss-svgo` CI-only build failure, the
+   per-app React-version-isolation `resolve.alias`/`moduleNameMapper` hack)
+   be dropped rather than carried forward indefinitely. Not a drop-in swap,
+   so scoped as its own multi-PR phase rather than a quick follow-up:
+   - **8a. Pilot on `apps/v19`** first, since it has no legacy CRA-specific
+     history to preserve — swap `react-scripts`/`react-app-rewired` for
+     Vite, replace Jest with Vitest (different test runner, so
+     `setupTests.js` and `App.test.js` need rewriting, not just
+     reconfiguring), re-implement the React-version-isolation trick as a
+     native Vite `resolve.alias`, and re-verify the GitHub Pages
+     `homepage`/basename/`404.html` SPA-redirect trick still works under
+     Vite's dev server and build output shape (asset paths, `base` config).
+   - **8b. Repeat for `apps/v17`/`apps/v18`** once the v19 pilot validates
+     the pattern, reusing whatever Vite config the pilot establishes.
+   - **8c. `pages.yml` update** — build commands change (`vite build`
+     instead of `react-scripts`/`react-app-rewired build`); confirm the
+     assembled `site/` deploy tree is unaffected.
+   - Not yet started — no findings section below until 8a lands.
 
 ## Phase 0 findings
 
@@ -788,3 +812,4 @@ divergence from the earlier Phase 7 rounds.
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
+| 8. Migrate build tooling from CRA to Vite | Not started — scoped as 8a (v19 pilot) / 8b (v17, v18) / 8c (CI) above, no findings yet |
