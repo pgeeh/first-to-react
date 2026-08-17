@@ -1,0 +1,48 @@
+// Context is created and
+const ValueContext = React.createContext();
+
+function Information(props) {
+  const {infoKey} = props;
+  const info = React.useContext(ValueContext);
+
+  const value = info[infoKey];
+  return (
+    <li>{infoKey}({typeof(value)}) is {String(value)}</li>
+  );
+}
+
+function InformationList() {
+  const info = React.useContext(ValueContext);
+
+  return (
+    <>
+      {Object.keys(info).map((key) => {
+        return (
+          <Information key={key} infoKey={key} />
+        );
+      })}
+    </>
+  )
+}
+
+function ContextExample(props) {
+  return (
+    // This context provides an object as the `value`
+    <ValueContext.Provider value={props}>
+      <div>Current information:</div>
+      <ul>
+        <InformationList />
+      </ul>
+    </ValueContext.Provider>
+  );
+}
+
+const initial = {
+  test: 'something interesting',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ContextExample />
+  </PropOverride>
+);

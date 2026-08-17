@@ -1,0 +1,32 @@
+// React 19: function components can receive ref as a normal prop -
+// no forwardRef wrapper needed.
+function FancyInput(props) {
+  const {placeholder, ref} = props;
+
+  return (
+    <input
+      ref={ref}
+      type="text"
+      className="fancyInput"
+      placeholder={placeholder}
+    />
+  );
+}
+
+function Form() {
+  const fancyRef = React.useRef(null);
+
+  const onFocusClick = () => {
+    fancyRef.current.focus();
+  };
+
+  return (
+    <>
+      <FancyInput ref={fancyRef} placeholder="I'm a ref, passed as a prop!" />
+      {' '}
+      <button onClick={onFocusClick}>Focus the fancy input</button>
+    </>
+  );
+}
+
+render(<Form />);

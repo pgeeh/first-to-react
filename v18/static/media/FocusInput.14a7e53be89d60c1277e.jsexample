@@ -1,0 +1,21 @@
+function FocusInput(props) {
+  const inputRef = React.useRef(null);
+
+  const onFocusClick = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="Click the button to focus me"
+      />
+      {' '}
+      <button onClick={onFocusClick}>Focus the input</button>
+    </>
+  );
+}
+
+render(<FocusInput />);

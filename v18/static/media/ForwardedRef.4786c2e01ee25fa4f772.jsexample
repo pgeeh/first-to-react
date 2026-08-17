@@ -1,0 +1,32 @@
+// Function components do not accept a ref prop by default -
+// forwardRef is required to pass one through to an inner DOM node.
+const FancyInput = React.forwardRef((props, ref) => {
+  const {placeholder} = props;
+
+  return (
+    <input
+      ref={ref}
+      type="text"
+      className="fancyInput"
+      placeholder={placeholder}
+    />
+  );
+});
+
+function Form() {
+  const fancyRef = React.useRef(null);
+
+  const onFocusClick = () => {
+    fancyRef.current.focus();
+  };
+
+  return (
+    <>
+      <FancyInput ref={fancyRef} placeholder="I'm a forwarded ref!" />
+      {' '}
+      <button onClick={onFocusClick}>Focus the fancy input</button>
+    </>
+  );
+}
+
+render(<Form />);

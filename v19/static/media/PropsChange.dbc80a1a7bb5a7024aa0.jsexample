@@ -1,0 +1,53 @@
+class ClassQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // This value is only calculated on construction
+    // of this component
+    this.uniqueId = Math.floor(Math.random() * 1000 * 1000);
+  }
+
+  render() {
+    // Note that props must be accessed with 'this' in a Class Component
+    const {question, a, b} = this.props;
+    return (
+      <div>
+        <center>
+          Class ({this.uniqueId}) {question} {a + b}
+        </center>
+      </div>
+    );  
+  }
+}
+
+function FunctionalQuestion(props) {
+  // Props is in scope, so can be accessed without 'this'
+  const {question, a, b} = props;
+
+  // This value is only calculated on the initial render
+  // of this component.
+  const uniqueId = React.useMemo(() => {
+    return Math.floor(Math.random() * 1000 * 1000);
+  }, []);
+
+  return (
+    <div>
+      <center>
+        Functional ({uniqueId}) {question} {a + b}
+      </center>
+    </div>
+  );
+}
+
+const initial = {
+  question: 'What is a + b?',
+  a: 7,
+  b: 8,
+};
+
+render(
+  <PropOverride initial={initial}>
+    <ClassQuestion />
+    <FunctionalQuestion />
+  </PropOverride>
+);

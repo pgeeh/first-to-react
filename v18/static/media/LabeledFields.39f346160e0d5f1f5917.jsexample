@@ -1,0 +1,25 @@
+function LabeledInput(props) {
+  const {label} = props;
+  const id = React.useId();
+
+  return (
+    <div style={{marginBottom: '8px'}}>
+      <label htmlFor={id}>{label}</label>
+      {' '}
+      <input id={id} type="text" />
+      {' '}
+      <small>(id: {id})</small>
+    </div>
+  );
+}
+
+function Form() {
+  return (
+    <>
+      <LabeledInput label="First name" />
+      <LabeledInput label="Last name" />
+    </>
+  );
+}
+
+render(<Form />);
