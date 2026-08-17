@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 // Shared transitive dependencies (e.g. react-bootstrap's `uncontrollable`)
 // dedupe to a single hoisted copy across the workspace whenever their
@@ -47,6 +48,25 @@ function overrideWebpack(config) {
         process: 'process/browser.js',
       }),
   );
+
+  // Bootstrap 5's SCSS inlines background-image SVGs as percent-encoded
+  // data URIs. The css-minimizer-webpack-plugin CRA wires up by default
+  // runs them through cssnano's bundled svgo, which chokes on that
+  // encoding ("Non-whitespace before first tag") and emits a build
+  // warning - harmless in dev, but `CI=true` (set automatically by
+  // GitHub Actions) makes CRA treat any build warning as a hard failure.
+  // Disabling just the svgo sub-optimization (not the whole minimizer)
+  // avoids the warning while keeping the rest of cssnano's default CSS
+  // minification.
+  const cssMinimizer = (config.optimization.minimizer || []).find(
+      (plugin) => plugin instanceof CssMinimizerPlugin,
+  );
+  if (cssMinimizer) {
+    cssMinimizer.options.minimizer.options = {
+      preset: ['default', {svgo: false}],
+    };
+  }
+
   return config;
 }
 

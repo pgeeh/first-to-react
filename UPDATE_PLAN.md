@@ -696,6 +696,38 @@ existing content structure fit best rather than forcing a single new page.
   showing the old stub. No new console errors beyond the same pre-existing
   markdown image-nesting warning already documented in earlier phases.
 
+## PR #16 CI build failure (v18/v19 `postcss-svgo`)
+
+Phase 6's PR failed in CI on `build:v18` with `Failed to compile` /
+`postcss-svgo:: Non-whitespace before first tag.`, tracing to the
+percent-encoded SVG data URIs Bootstrap 5's SCSS inlines for background
+images - a pre-existing, already-documented warning (Phase 4 findings: "a
+pre-existing Bootstrap 5 `postcss-svgo` warning unrelated to this phase").
+It was never build-breaking locally because local verification throughout
+Phases 3-7 ran `npm run build:vNN` without `CI=true`, where CRA only
+prints it as a warning. GitHub Actions runners set `CI=true` in the job
+environment automatically (not something `pages.yml` opts into), which
+makes CRA treat *any* build warning as a hard failure - and Phase 6 was the
+first time `v18`/`v19` were actually built by that CI job, so this is where
+the long-latent issue first got exercised for real. v17 doesn't hit it
+because it's still on Bootstrap 4.
+
+Rather than papering over it with `CI=false` in the workflow (which would
+silence every future warning, not just this one), added a targeted webpack
+override in both `apps/v18/config-overrides.js` and `apps/v19/config-overrides.js`:
+finds the `CssMinimizerPlugin` instance CRA wires into
+`config.optimization.minimizer` and sets its `minimizerOptions` to
+`{preset: ['default', {svgo: false}]}`, disabling just the SVG
+sub-optimization within cssnano's default preset while leaving the rest of
+CSS minification untouched.
+
+**Verified** by rebuilding all three apps with `CI=true` set explicitly
+(matching what the GitHub Actions runner does, which local testing had not
+been doing) - `v17`/`v18`/`v19` all now `Compiled successfully.` under
+`CI=true`, plus `test:v17`/`test:v18`/`test:v19` still passing. Confirmed
+the built CSS still contains the same (now unminified-by-svgo, but valid
+and unchanged) SVG data URIs rather than broken or missing ones.
+
 ## Status
 
 | Phase | Status |
