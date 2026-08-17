@@ -6,7 +6,7 @@ Two of these libraries are mentioned below, but there are many more.
 
 __[Bootstrap](https://getbootstrap.com/)__ is one of the most widely used front-end toolkits for pre-built UI components, styling, and layout. React wrappers such as [reactstrap](https://reactstrap.github.io/) and [react-bootstrap](https://react-bootstrap.github.io/) make it easy to add these pre-built components and layouts to a React application.
 
-__[Material-UI](https://material-ui.com/)__ is a React-specific library providing pre-built UI components, layouts, and theme management.
+__[MUI](https://mui.com/)__ (formerly Material-UI) is a React-specific library providing pre-built UI components, layouts, and theme management.
 
 Both libraries provide:
 

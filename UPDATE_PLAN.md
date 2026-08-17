@@ -728,6 +728,53 @@ been doing) - `v17`/`v18`/`v19` all now `Compiled successfully.` under
 the built CSS still contains the same (now unminified-by-svgo, but valid
 and unchanged) SVG data URIs rather than broken or missing ones.
 
+## Phase 7 findings (round 3: React Ecosystem refresh, v19 Hooks gap)
+
+Reviewed the `BuildingonReact`/"React Ecosystem" section (its intro page plus
+`ReduxandFluxWorkflows`, `LayoutFrameworks`, `PerformanceandUsability`,
+`OtherLibraries` — content shared identically across all three apps except
+`PerformanceandUsability`) for currency, plus re-checked the Hooks page
+divergence from the earlier Phase 7 rounds.
+
+- **`LayoutFrameworks.md`**: "Material-UI" renamed to "MUI" in 2021 — updated
+  the name/link, kept as an example despite `@material-ui/core` having been
+  removed as a dead dependency back in Phase 0.5 (it's describing the
+  ecosystem, not this app's own deps).
+- **`OtherLibraries.md`**: swapped the `create-react-app`-as-the-way-to-start
+  recommendation for `Vite`, since React officially deprecated CRA in 2025 —
+  notable given this repo's own `UPDATE_PLAN.md` documents CRA as the
+  unmaintained build tool that drove several phases of workarounds here.
+  Also corrected the claim that Gatsby builds the official React website
+  (it's Next.js now, at `react.dev`) and added a note on Gatsby's/
+  `react-static`'s reduced maintenance activity since.
+- **`BuildingonReact.md`**: softened the "over 65,000 dependent projects" NPM
+  stat (written ~2020) to "tens of thousands" rather than guess a current
+  number — `npmjs.com` blocked an automated fetch to verify it here; worth
+  confirming the real figure in an environment that can reach it.
+- **v19's Hooks page gained `useTransition`/`useId`** (copied from v18,
+  content and example code unchanged — both are still valid, current React
+  19 hooks): the earlier Phase 7 pilot round only added `use`/
+  `useActionState` to v19 while adding `useTransition`/`useId` to v18, one
+  new hook pair per app, without checking whether either pair was still
+  relevant to the *other* app's target React version. Since React 18's
+  hooks weren't removed in 19, v19 silently under-taught its own current
+  version. `Hooks.md` also gained the automatic-batching paragraph v18
+  already had (still true in React 19) and now lists all four newer hooks
+  before the "rules to remember" section.
+- **`PerformanceandUsability` (React Compiler) is still v19-only by earlier
+  request**, left unchanged this round — React Compiler has since gained a
+  React 17/18 compatibility runtime, so extending the mention to v18 is
+  worth a deliberate follow-up call rather than folding into this pass.
+- **Verified**: clean-room install plus `build:v17`/`test:v17`,
+  `build:v18`/`test:v18`, `build:v19`/`test:v19` (with `CI=true`, matching
+  the real deploy workflow) all pass.
+- **Scope note**: this was a light editorial pass done from a sandboxed
+  environment without general web access (couldn't verify the NPM stat,
+  couldn't check whether other pages have similar staleness). Worth a
+  broader sweep of the remaining pages from an environment with full
+  browsing access to catch anything else the tutorial content has drifted
+  on.
+
 ## Status
 
 | Phase | Status |
