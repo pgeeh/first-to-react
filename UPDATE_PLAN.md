@@ -638,6 +638,64 @@ yet.
   new `BuildingonReact` entry) - each is its own follow-up in the same
   per-topic style as this pilot, not a fixed checklist to clear in one PR.
 
+## Phase 7 findings (round 2: createRoot, ref-as-prop, React Compiler)
+
+Closed out the three items the pilot round left open, each landing where the
+existing content structure fit best rather than forcing a single new page.
+
+- **`createRoot` / mounting** (`WhatisReact.md`, v18 and v19): added a
+  "Mounting the App" subsection under the existing "Basics" section, since
+  that page already references "the initial entry point" without explaining
+  it. v18's version frames `createRoot` as a same-behavior API replacing
+  `ReactDOM.render`, tying it back to the automatic batching note already on
+  the Hooks page. v19's version additionally notes `ReactDOM.render` was
+  removed outright in React 19 (not just deprecated, as it still was in
+  React 18) - readers coming straight from v17 hit this as a hard break, not
+  a soft one. Both use a fenced ` ```jsx ` code block - the first time any
+  page in the tutorial has used one inline in markdown rather than a
+  separate live `.jsexample` - confirmed it renders through the same
+  syntax-highlighted `CodeRenderer` the Editor uses, since mounting code
+  isn't something that belongs in an editable live sandbox.
+- **`ref-as-prop`** (new `OtherConcepts/Refs` page, v18 and v19): refs
+  weren't taught anywhere in the existing content (only used incidentally
+  inside one `useEffect` example), so this added the general concept -
+  `useRef`, attaching a `ref` to a DOM element - as the shared half, then
+  diverged on the actual prop-passing mechanics. v18's __Forwarded Ref__
+  example shows the `React.forwardRef` wrapper still required to pass a ref
+  into a function component. v19's __Ref as Prop__ example shows the same
+  result read straight out of `props.ref`, no `forwardRef` needed, with the
+  `.md` noting `forwardRef` still works in React 19 but is expected to be
+  removed in a future major. Wired into `OtherConcepts/index.js` alongside
+  `Fragments`/`Hooks` on both apps, with a one-line `OtherConcepts.md`
+  mention.
+- **React Compiler mention** (v19 only): rather than inventing a new page,
+  discovered `BuildingonReact/PerformanceandUsability` already existed as a
+  page in all three apps but was commented out of every `BuildingonReact/
+  index.js` and its `.md` only ever said "Default information" - a dead
+  stub since Phase 1, never reachable through navigation. Wrote real content
+  for v19's copy (what the React Compiler automates, that it's a build-time
+  plugin rather than a runtime API, and that it still depends on code
+  following the Rules of React already taught throughout the tutorial), then
+  uncommented it in `apps/v19/src/pages/BuildingonReact/index.js` only -
+  v17/v18 stay as the disabled stub, unchanged. Its placeholder
+  `.jsexample` (which referenced an undefined `test` variable - a
+  pre-existing bug, moot while unreachable) was deleted along with the
+  `examples` key in `index.js`, since a build-time compiler isn't something
+  a live code sandbox can demonstrate; it follows the `OtherLibraries`
+  page's existing info-only pattern instead.
+- **Verified with a clean-room install** (including a full `package-lock.json`
+  regeneration, not just `node_modules`) plus `build:v17`/`test:v17`,
+  `build:v18`/`test:v18`, `build:v19`/`test:v19`, all passing. Drove both
+  dev servers with Playwright/Chromium: confirmed v18 and v19's "What is
+  React?" page renders the new mounting section (and the code block's
+  syntax highlighting) correctly; clicked through both Refs pages'
+  examples and confirmed `document.activeElement` actually moved to the
+  right `<input>` in all four cases (plain `useRef`, `forwardRef`, and
+  ref-as-prop); confirmed v19's Performance and Usability page now shows
+  the React Compiler content at nav position 5.3 instead of 404ing or
+  showing the old stub. No new console errors beyond the same pre-existing
+  markdown image-nesting warning already documented in earlier phases.
+
 ## Status
 
 | Phase | Status |
@@ -650,4 +708,4 @@ yet.
 | 4. Scaffold `apps/v18` | Done — see findings above |
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
-| 7. Content divergence | In progress — Hooks section piloted for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
+| 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |

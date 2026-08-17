@@ -1,5 +1,6 @@
 import Fragments from './Fragments';
 import Hooks from './Hooks';
+import Refs from './Refs';
 
 import info from './OtherConcepts.md';
 
@@ -9,6 +10,7 @@ const config = {
   children: [
     Fragments,
     Hooks,
+    Refs,
   ],
 };
 
