@@ -799,6 +799,112 @@ divergence from the earlier Phase 7 rounds.
   browsing access to catch anything else the tutorial content has drifted
   on.
 
+## Phase 8a findings (pilot: `apps/v19` CRA → Vite)
+
+Swapped `react-scripts`/`react-app-rewired` for Vite in `apps/v19` only, replaced Jest
+with Vitest, and re-implemented the React-version-isolation trick as a native Vite
+`resolve.alias`. `apps/v17`/`apps/v18` are untouched (still CRA/Jest) — that's 8b.
+
+- **`vite@^7.3.6`, not the newly-released `vite@^8`**: `vite@8`'s new default bundler
+  ("Rolldown-powered Vite", replacing esbuild+Rollup) rejected JSX syntax in this app's
+  `.js` files even with every documented workaround tried (`@vitejs/plugin-react`'s
+  `include` option, `esbuild.loader`/`.include`/`.exclude`), including at the literal
+  HTML-referenced entry point. Vite 7 (the previous stable major, esbuild+Rollup as
+  before) built cleanly once configured correctly (below) — not worth chasing a
+  brand-new default engine's rough edges for a pilot meant to set the pattern `apps/v18`
+  in Phase 8b will reuse. `vitest@^3.2.7` similarly avoids `vitest@4`, whose *own*
+  bundled Vite dependency pulled in the same Rolldown engine independent of the app's
+  own pinned `vite` version, breaking tests the same way.
+- **JSX-in-`.js` needs two separate fixes, not one**: this app's JSX-containing source
+  uses a plain `.js` extension throughout (a CRA/babel-loader convention — babel
+  auto-detects JSX regardless of extension). Vite's `@vitejs/plugin-react` only applies
+  its JSX-aware Babel transform to `.jsx`/`.tsx` by default (fixed by widening its
+  `include` to `**/*.{js,jsx}`), but esbuild's *own* transform (used for `.jsx`/`.tsx`
+  natively, and for anything the react plugin doesn't otherwise handle) has a *separate*
+  default `exclude: /\.js$/` on the assumption `.js` never contains JSX — excludes take
+  priority over `include` when both match, so `esbuild.include`/`.loader: 'jsx'` alone
+  silently did nothing until `exclude: []` was also set. The dependency pre-bundler
+  (`optimizeDeps.esbuildOptions.loader`) needed the same `.js` → `jsx` loader mapping
+  independently, since it's a separate esbuild pass. The literal HTML-referenced entry
+  point (`src/index.js`) needed renaming to `.jsx` regardless — Vite's `vite:build-html`
+  step parses that one file with Rollup's own (non-esbuild, non-babel) parser before any
+  transform runs, so no config bridges that specific gap; every other `.js` file is fine
+  once the excludes above are cleared.
+- **`vite.config.js` replaces `config-overrides.js`**, alongside a Vitest `test` block in
+  the same file (`defineConfig` from `vitest/config`, not `vite`, to get both merged).
+  `.eslintrc.json`, `package.json`'s `browserslist`, and Bootstrap's CSS import are all
+  unchanged — none of those are CRA/webpack-specific.
+- **The react/react-dom `resolve.alias` + `dedupe` port over directly** from
+  `config-overrides.js`'s webpack `resolve.alias` — same root cause (a shared transitive
+  dependency, `react-bootstrap`'s `uncontrollable`, hoisted to the workspace root and
+  resolving `react` from wherever *it* lives rather than `apps/v19`'s nested React 19
+  copy), same fix, and CRA's `ModuleScopePlugin` dance isn't needed since Vite has no
+  equivalent "no imports outside src/" restriction to route around.
+- **`.md`/`.jsexample` files needed two Vite-specific adjustments**, since both are
+  fetched at runtime as raw text (`readFile()` in `src/utils`, unchanged) rather than
+  imported as JS: `assetsInclude: ['**/*.md', '**/*.jsexample']` tells Vite to treat them
+  as static assets (yielding a URL on import) instead of trying to parse them as
+  JS/JSON — CRA's webpack fell back to this for any unrecognized extension by default,
+  Vite doesn't. Separately, Vite base64-inlines small assets by default
+  (`build.assetsInlineLimit`, 4KB), which would hand `readFile()`'s `fetch(url)` a
+  `data:` URI instead of a real path — `fetch()` support for `data:` URIs is
+  inconsistent across browsers, so `build.assetsInlineLimit` is overridden to always
+  emit real files for just those two extensions, leaving normal image inlining alone.
+- **`index.html` moves from `public/` to the app root** (a hard Vite requirement, not a
+  choice) and swaps CRA's `%PUBLIC_URL%` template placeholder for Vite's own
+  `%BASE_URL%` (resolved from `vite.config.js`'s `base`), adding a
+  `<script type="module" src="/src/index.jsx">` tag Vite needs in place of webpack
+  injecting the bundle automatically. `public/404.html` and every other `public/` asset
+  are untouched — Vite copies `public/` verbatim to the build output root exactly like
+  CRA did, and the GitHub Pages SPA-redirect trick operates on browser URL structure at
+  request time, independent of which bundler produced the files.
+- **`vite build`'s `outDir` is set to `build`** (Vite's own default is `dist`) purely so
+  `pages.yml`'s existing `apps/v19/build` reference (wired up in Phase 6) keeps working
+  unchanged — `pages.yml` itself is still out of scope here (that's 8c).
+- **Vitest needed a `vi.mock('react-bootstrap/Navbar', ...)`** the CRA/Jest setup didn't:
+  rendering `<App/>` under Vitest hit the same "Invalid hook call" two-React-copies
+  symptom as the `uncontrollable` issue above, but the `resolve.alias`/`dedupe` fix that
+  solves it for the real (Vite-bundled) app doesn't reach it here. Root cause, confirmed
+  by instrumenting `vite-node`'s own `shouldExternalize` locally: Vitest executes
+  already-compiled CJS library code (like `react-bootstrap/cjs/Navbar.js`, itself loaded
+  correctly via Vite's own resolver) with Node's *native* `require()` for that file's
+  own internal requires, rather than routing every nested `require()` call back through
+  Vite's resolver — so `Navbar.js`'s own `require('uncontrollable')` bypasses
+  `resolve.alias` entirely and lands on the workspace-root-hoisted copy regardless of
+  config. This is a hard architectural difference between Vitest (fast native execution
+  for library code) and Jest (its own module registry intercepts every `require()`
+  globally, which is why the old `config-overrides.js` needed its *own*, separately
+  documented, `moduleNameMapper` entry for exactly this — Jest had the identical problem
+  for the identical reason, just fixed via a mechanism specific to Jest). `vi.mock` sidesteps
+  it by substituting Navbar before `react-bootstrap`'s real module (and its problematic
+  `uncontrollable` import) ever loads, rather than trying to fix its internal resolution.
+  Confirmed this is test-runner-specific, not a real app bug, by serving a production
+  `vite build` output and driving it with Playwright: Navbar renders with zero console
+  errors.
+- **The `react-markdown` Jest mock (`src/testMocks/react-markdown.js`) is deleted, not
+  ported**: it existed solely because Jest 27 (bundled with `react-scripts@5`) can't
+  resolve package.json `exports` subpaths, which `react-markdown@10`'s ESM-only
+  remark/rehype/unified dependency tree relies on throughout. Vitest resolves through
+  Vite itself, which fully supports `exports` maps and ESM natively - the mock's reason
+  to exist is gone. (Not exercised by the current smoke test either way - `App.test.js`
+  renders the unmatched-route fallback, which doesn't reach `Info`/markdown rendering -
+  so this wasn't re-verified via a passing markdown-rendering test specifically, only
+  via the same browser verification below that already covers real markdown output.)
+- **Verified**: clean-room install (`rm -rf node_modules apps/*/node_modules
+  package-lock.json && npm install`) plus `build:v19`/`test:v19` pass, and
+  `build:v17`/`test:v17`/`build:v18`/`test:v18` (still CRA/Jest) are unaffected. Served a
+  production `vite build` output through a small script reproducing GitHub Pages' own
+  per-directory `404.html` fallback behavior (`serve`'s own default 404 page doesn't
+  replicate this, so a plain `serve`/`http-server` isn't sufficient for this specific
+  check) and drove it with Playwright: a direct/refreshed deep-link load
+  (`/first-to-react/v19/page/3.1`) round-trips through the `404.html` redirect script and
+  renders the real JSX page (confirmed by page-specific content, not just the sidebar),
+  including its live code editors and markdown rendering — the same check Phase 5 ran
+  for v17's `homepage` move, re-run here to confirm Vite's build output shape (`base`,
+  asset paths) didn't break it. Also drove `vite`'s own dev server the same way. The only
+  console warning on either was the same pre-existing `<img>`-in-`<div>`-in-`<p>`
+  markdown-nesting warning already documented since Phase 2, confirming no regression.
+
 ## Status
 
 | Phase | Status |
@@ -812,4 +918,4 @@ divergence from the earlier Phase 7 rounds.
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
-| 8. Migrate build tooling from CRA to Vite | Not started — scoped as 8a (v19 pilot) / 8b (v17, v18) / 8c (CI) above, no findings yet |
+| 8. Migrate build tooling from CRA to Vite | In progress — 8a (`apps/v19` pilot) done, see Phase 8a findings; 8b (`apps/v17`/`apps/v18`) and 8c (`pages.yml`) not started |
