@@ -2,7 +2,7 @@
 
 React has a very rich ecosystem, with many tools, frameworks, and extensions built by the community and companies alike.
 
-__[NPM](https://www.npmjs.com/package/react)__ lists over 65,000 dependent projects.
+__[NPM](https://www.npmjs.com/package/react)__ lists tens of thousands of dependent projects.
 
 React wrappers can be found for nearly any type of library, including pre-built UI components or drawing or maps. 
 

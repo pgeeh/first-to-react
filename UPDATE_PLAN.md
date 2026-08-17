@@ -112,6 +112,30 @@ Each phase is a separate, independently reviewable/revertible PR.
    `useActionState`, ref-as-prop, React Compiler mention for 19. Treated as
    topic-by-topic follow-up work rather than one PR, driven by editorial
    priorities rather than a fixed curriculum decided up front.
+8. **Migrate build tooling from CRA to Vite (multiple PRs)** — prompted by
+   the Phase 7 round 3 content refresh, which updated `OtherLibraries.md` to
+   recommend Vite over `create-react-app` (officially deprecated by the
+   React team in 2025); the repo's own build tooling should practice what
+   the tutorial content now preaches, and it would let the `react-app-rewired`/
+   `config-overrides.js` workarounds accumulated since Phase 0.5 (Node-core
+   polyfill fallbacks, the `postcss-svgo` CI-only build failure, the
+   per-app React-version-isolation `resolve.alias`/`moduleNameMapper` hack)
+   be dropped rather than carried forward indefinitely. Not a drop-in swap,
+   so scoped as its own multi-PR phase rather than a quick follow-up:
+   - **8a. Pilot on `apps/v19`** first, since it has no legacy CRA-specific
+     history to preserve — swap `react-scripts`/`react-app-rewired` for
+     Vite, replace Jest with Vitest (different test runner, so
+     `setupTests.js` and `App.test.js` need rewriting, not just
+     reconfiguring), re-implement the React-version-isolation trick as a
+     native Vite `resolve.alias`, and re-verify the GitHub Pages
+     `homepage`/basename/`404.html` SPA-redirect trick still works under
+     Vite's dev server and build output shape (asset paths, `base` config).
+   - **8b. Repeat for `apps/v17`/`apps/v18`** once the v19 pilot validates
+     the pattern, reusing whatever Vite config the pilot establishes.
+   - **8c. `pages.yml` update** — build commands change (`vite build`
+     instead of `react-scripts`/`react-app-rewired build`); confirm the
+     assembled `site/` deploy tree is unaffected.
+   - Not yet started — no findings section below until 8a lands.
 
 ## Phase 0 findings
 
@@ -728,6 +752,53 @@ been doing) - `v17`/`v18`/`v19` all now `Compiled successfully.` under
 the built CSS still contains the same (now unminified-by-svgo, but valid
 and unchanged) SVG data URIs rather than broken or missing ones.
 
+## Phase 7 findings (round 3: React Ecosystem refresh, v19 Hooks gap)
+
+Reviewed the `BuildingonReact`/"React Ecosystem" section (its intro page plus
+`ReduxandFluxWorkflows`, `LayoutFrameworks`, `PerformanceandUsability`,
+`OtherLibraries` — content shared identically across all three apps except
+`PerformanceandUsability`) for currency, plus re-checked the Hooks page
+divergence from the earlier Phase 7 rounds.
+
+- **`LayoutFrameworks.md`**: "Material-UI" renamed to "MUI" in 2021 — updated
+  the name/link, kept as an example despite `@material-ui/core` having been
+  removed as a dead dependency back in Phase 0.5 (it's describing the
+  ecosystem, not this app's own deps).
+- **`OtherLibraries.md`**: swapped the `create-react-app`-as-the-way-to-start
+  recommendation for `Vite`, since React officially deprecated CRA in 2025 —
+  notable given this repo's own `UPDATE_PLAN.md` documents CRA as the
+  unmaintained build tool that drove several phases of workarounds here.
+  Also corrected the claim that Gatsby builds the official React website
+  (it's Next.js now, at `react.dev`) and added a note on Gatsby's/
+  `react-static`'s reduced maintenance activity since.
+- **`BuildingonReact.md`**: softened the "over 65,000 dependent projects" NPM
+  stat (written ~2020) to "tens of thousands" rather than guess a current
+  number — `npmjs.com` blocked an automated fetch to verify it here; worth
+  confirming the real figure in an environment that can reach it.
+- **v19's Hooks page gained `useTransition`/`useId`** (copied from v18,
+  content and example code unchanged — both are still valid, current React
+  19 hooks): the earlier Phase 7 pilot round only added `use`/
+  `useActionState` to v19 while adding `useTransition`/`useId` to v18, one
+  new hook pair per app, without checking whether either pair was still
+  relevant to the *other* app's target React version. Since React 18's
+  hooks weren't removed in 19, v19 silently under-taught its own current
+  version. `Hooks.md` also gained the automatic-batching paragraph v18
+  already had (still true in React 19) and now lists all four newer hooks
+  before the "rules to remember" section.
+- **`PerformanceandUsability` (React Compiler) is still v19-only by earlier
+  request**, left unchanged this round — React Compiler has since gained a
+  React 17/18 compatibility runtime, so extending the mention to v18 is
+  worth a deliberate follow-up call rather than folding into this pass.
+- **Verified**: clean-room install plus `build:v17`/`test:v17`,
+  `build:v18`/`test:v18`, `build:v19`/`test:v19` (with `CI=true`, matching
+  the real deploy workflow) all pass.
+- **Scope note**: this was a light editorial pass done from a sandboxed
+  environment without general web access (couldn't verify the NPM stat,
+  couldn't check whether other pages have similar staleness). Worth a
+  broader sweep of the remaining pages from an environment with full
+  browsing access to catch anything else the tutorial content has drifted
+  on.
+
 ## Status
 
 | Phase | Status |
@@ -741,3 +812,4 @@ and unchanged) SVG data URIs rather than broken or missing ones.
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
+| 8. Migrate build tooling from CRA to Vite | Not started — scoped as 8a (v19 pilot) / 8b (v17, v18) / 8c (CI) above, no findings yet |

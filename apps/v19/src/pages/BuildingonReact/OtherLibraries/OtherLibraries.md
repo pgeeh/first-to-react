@@ -12,9 +12,11 @@ __Static Website Generators__
 
 React does not need to be used for dynamic websites; it can also be used for static sites. There exist many static site generators that work well with React.
 
-[Gatsby](https://www.gatsbyjs.com/) is a very popular framework, which also provides other functionality. It is even used to create the official [React Website](https://reactjs.org/)!
+[Next.js](https://nextjs.org/) is the most widely used React framework today and can produce fully static output; it's what builds the official [React Website](https://react.dev/) itself.
 
-[React-static](https://github.com/react-static/react-static) is another popular static site generator for React.
+[Gatsby](https://www.gatsbyjs.com/) was one of the most popular React-based static site generators for years, though active development has slowed considerably since Netlify's 2023 acquisition.
+
+[React-static](https://github.com/react-static/react-static) is another static site generator for React, though it too has seen little maintenance activity in recent years.
 
 __Routing__
 
@@ -30,10 +32,12 @@ __Drawing and Diagrams__
 
 __Development Tools__
 
-[create-react-app](https://github.com/facebook/create-react-app) was created by Facebook as a _very_ powerful utility to get a React application started and includes scripts to develop, test, and build the application. One command and we are ready to go.
+[Vite](https://vite.dev/) is the current recommended way to scaffold a new React application (`npm create vite@latest`), offering a very fast dev server and hot module replacement.
+
+[create-react-app](https://github.com/facebook/create-react-app) filled this role for years and is why it's referenced throughout this tutorial's own history, but the React team officially deprecated it in 2025 and no longer recommends it for new projects.
 
 [eslint](https://eslint.org/), while not directly a React library, can be very useful when developing React by providing consistency and hints when editing. Popular eslint configurations include:
-* [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react), which comes automatically included with _create-react-app_ generated applications
+* [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)
 * [eslint-config-google](https://github.com/google/eslint-config-google)
 * [eslint-config-airbnb](https://github.com/airbnb/javascript)
 

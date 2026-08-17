@@ -4,6 +4,8 @@ import useEffect from './useEffect';
 import useState from './useState';
 import useMemo from './useMemo';
 import useCallback from './useCallback';
+import useTransition from './useTransition';
+import useId from './useId';
 import use from './use';
 import useActionState from './useActionState';
 
@@ -26,6 +28,8 @@ const config = {
     useCallback,
     useReducer,
     useContext,
+    useTransition,
+    useId,
     use,
     useActionState,
   ],
