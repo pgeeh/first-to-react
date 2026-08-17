@@ -16,19 +16,17 @@
     "react-markdown": "^10.1.0",
     "react-medium-image-zoom": "^5.4.9",
     "react-router-dom": "^7.18.2",
-    "react-scripts": "^5.0.1",
     "react-syntax-highlighter": "^15.3.1",
     "sass": "^1.77.0",
     "save": "^2.4.0",
     "web-vitals": "0.2.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "homepage": "/first-to-react/v19",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -42,8 +40,9 @@
     ]
   },
   "devDependencies": {
-    "path-browserify": "^1.0.1",
-    "process": "^0.11.10",
-    "react-app-rewired": "^2.2.1"
+    "@vitejs/plugin-react": "^5.2.0",
+    "jsdom": "^30.0.1",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.7"
   }
 }
