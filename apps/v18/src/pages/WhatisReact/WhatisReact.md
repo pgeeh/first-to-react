@@ -28,3 +28,14 @@ React Components main concepts include:
 
 ![Flow through Render](/first-to-react/v18/diagrams/statepropsrender.png)
 
+#### Mounting the App _(React 18 change)_
+
+The "initial entry point" above is `src/index.js`, which mounts the top-level component into a DOM node. React 18 introduced a new `createRoot` API for this:
+
+```jsx
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+This replaces the older `ReactDOM.render(<App />, domNode)` call from React 17 and earlier. Beyond the syntax change, `createRoot` is what opts an app into React 18's concurrent features - including the automatic batching mentioned on the Hooks page - so it isn't just a rename.
+

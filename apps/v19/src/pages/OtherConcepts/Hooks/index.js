@@ -4,6 +4,8 @@ import useEffect from './useEffect';
 import useState from './useState';
 import useMemo from './useMemo';
 import useCallback from './useCallback';
+import use from './use';
+import useActionState from './useActionState';
 
 import info from './Hooks.md';
 // import example from './Hooks.jsexample';
@@ -24,6 +26,8 @@ const config = {
     useCallback,
     useReducer,
     useContext,
+    use,
+    useActionState,
   ],
 };
 

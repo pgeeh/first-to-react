@@ -1,0 +1,35 @@
+async function updateName(prevState, formData) {
+  const name = formData.get('name');
+
+  // Simulate a server request.
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  if (!name || name.trim().length === 0) {
+    return {...prevState, error: 'Name cannot be empty'};
+  }
+
+  return {name, error: null};
+}
+
+function NameForm() {
+  const [state, formAction, isPending] = React.useActionState(updateName, {
+    name: 'Anonymous',
+    error: null,
+  });
+
+  return (
+    <form action={formAction}>
+      <div>Current name: <b>{state.name}</b></div>
+      {state.error ?
+        <div style={{color: 'red'}}>{state.error}</div> :
+        null}
+      <input name="name" type="text" placeholder="New name" />
+      {' '}
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Saving...' : 'Update'}
+      </button>
+    </form>
+  );
+}
+
+render(<NameForm />);

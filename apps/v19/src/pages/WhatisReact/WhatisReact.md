@@ -28,3 +28,14 @@ React Components main concepts include:
 
 ![Flow through Render](/first-to-react/v19/diagrams/statepropsrender.png)
 
+#### Mounting the App
+
+The "initial entry point" above is `src/index.js`, which mounts the top-level component into a DOM node:
+
+```jsx
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+```
+
+`createRoot` was introduced in React 18 to opt into concurrent features like automatic batching. The older `ReactDOM.render(<App />, domNode)` call it replaced still worked as a deprecated fallback through React 18, but React 19 removed it entirely - `createRoot` is now the only way to mount an app.
+
