@@ -26,7 +26,14 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          npm install
+          # npm 10 (bundled with Node 20) hits a non-deterministic ERESOLVE
+          # failure roughly 1 in 4 runs on a fresh install, tracing to how
+          # its arborist peer-conflict resolver applies the workspace-scoped
+          # `overrides` entry needed for apps/v17's react-markdown@4 (see
+          # package.json). npm >=11 resolves it reliably every time - run
+          # the install itself through a one-off npx-fetched copy rather
+          # than replacing the runner's global npm.
+          npx --yes npm@11 install
           npm run build:v17
           npm run build:v18
           npm run build:v19
