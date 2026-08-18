@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   NavLink,
+  useLocation,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,7 @@ import {fullLinkPath} from '../../utils';
 
 import './TableOfContents.scss';
 
+const ACTIVE_ID_PATTERN = /\/page\/([^/]+)/;
 
 /**
  * A custom standardized link
@@ -30,33 +32,121 @@ CustomLink.propTypes = {
 };
 
 /**
- * Geneate the link for this page and any children
- * @param {object} page page with potential children
+ * Determine the ids of the ancestors of the provided id, so that they
+ * can be expanded to reveal it.
+ * @param {string} id dot-separated page id, e.g. "3.2.1"
+ * @return {array} ancestor ids, e.g. ["3", "3.2"]
+ */
+function ancestorIds(id) {
+  const parts = id.split('.');
+  const ancestors = [];
+  for (let i = 1; i < parts.length; i++) {
+    ancestors.push(parts.slice(0, i).join('.'));
+  }
+  return ancestors;
+}
+
+/**
+ * Render a page, and its children when expanded, as a collapsible node.
+ * @param {object} props props for the object
  * @return {object}
  */
-function PageLink(page) {
+function PageNode({page, expandedIds, onToggle}) {
+  const children = page.children || [];
+  const hasChildren = children.length > 0;
+  const isExpanded = expandedIds.has(page.id);
   const link = fullLinkPath(`/page/${page.id}/${page.name}`);
+
   return (
-    <div key={page.id} className='toc-link'>
-      <CustomLink
-        to={link}
-      >
-        <div className="toc-link-text">
-          {page.id} - {page.name}
+    <div className="toc-link">
+      <div className="toc-link-row">
+        {hasChildren ? (
+          <button
+            type="button"
+            className="toc-toggle"
+            onClick={() => onToggle(page.id)}
+            aria-expanded={isExpanded}
+            aria-label={
+              (isExpanded ? 'Collapse ' : 'Expand ') + page.name
+            }
+          >
+            {isExpanded ? '▾' : '▸'}
+          </button>
+        ) : (
+          <span className="toc-toggle-spacer" />
+        )}
+        <CustomLink to={link}>
+          <div className="toc-link-text">
+            {page.id} - {page.name}
+          </div>
+        </CustomLink>
+      </div>
+      {hasChildren && isExpanded && (
+        <div className="toc-children">
+          {children.map((child) => (
+            <PageNode
+              key={child.id}
+              page={child}
+              expandedIds={expandedIds}
+              onToggle={onToggle}
+            />
+          ))}
         </div>
-      </CustomLink>
-      {(page.children || []).map(PageLink)}
+      )}
     </div>
   );
 }
 
+PageNode.propTypes = {
+  page: PropTypes.object.isRequired,
+  expandedIds: PropTypes.object.isRequired,
+  onToggle: PropTypes.func.isRequired,
+};
+
 /**
- * Display a selectable TableOfContents
+ * Display a selectable, collapsible TableOfContents. Sections containing
+ * the active page are expanded automatically; other sections stay
+ * collapsed until toggled.
  * @param {object} props props for the object
  * @return {object}
  */
 function TableOfContents(props) {
   const {pages} = props;
+  const location = useLocation();
+
+  const activeId = useMemo(() => {
+    const match = location.pathname.match(ACTIVE_ID_PATTERN);
+    return match ? match[1] : null;
+  }, [location.pathname]);
+
+  const [expandedIds, setExpandedIds] = useState(
+      () => new Set(activeId ? ancestorIds(activeId) : []),
+  );
+
+  // Whenever the active page changes, make sure its ancestors are
+  // expanded, without collapsing anything the user already expanded.
+  useEffect(() => {
+    if (!activeId) {
+      return;
+    }
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      ancestorIds(activeId).forEach((id) => next.add(id));
+      return next;
+    });
+  }, [activeId]);
+
+  const toggleExpanded = (id) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
 
   return (
     <div className="tableOfContents">
@@ -67,7 +157,14 @@ function TableOfContents(props) {
           </div>
         </CustomLink>
       </div>
-      {pages.map(PageLink)}
+      {pages.map((page) => (
+        <PageNode
+          key={page.id}
+          page={page}
+          expandedIds={expandedIds}
+          onToggle={toggleExpanded}
+        />
+      ))}
       <div className='toc-link'>
         <CustomLink key="about" to={fullLinkPath('/about')} end={true}>
           <div className="toc-link-text">
