@@ -1,3 +1,6 @@
+$sidebar-breakpoint: 992px;
+$sidebar-width: 260px;
+
 .App {
   display: flex;
   flex-direction: column;
@@ -5,14 +8,64 @@
 
   & > .main {
     flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
   }
-  
+
   footer {
     text-align: center;
     font-style: italic;
   }
 
-  .toc-col {
+  .sidebar-toggle {
+    margin-right: 10px;
+  }
+
+  .sidebar {
+    flex: 0 0 $sidebar-width;
+    max-width: $sidebar-width;
+    align-self: flex-start;
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: auto;
     z-index: 100;
+  }
+
+  .content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .sidebar-backdrop {
+    display: none;
+  }
+
+  @media (max-width: $sidebar-breakpoint - 1) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -($sidebar-width + 20px);
+      width: $sidebar-width;
+      height: 100vh;
+      max-height: none;
+      background-color: white;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, .15);
+      z-index: 1050;
+      transition: left .2s ease-in-out;
+
+      &.open {
+        left: 0;
+      }
+    }
+
+    .sidebar-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, .3);
+      z-index: 1040;
+    }
   }
 }
