@@ -1,0 +1,53 @@
+function AdvancedMemo(props) {
+  const {first, second} = props;
+
+  // The next two calculate the length of
+  // each string independently
+  const firstLength = React.useMemo(() => {
+    return first.length;
+  }, [first]);
+
+  const secondLength = React.useMemo(() => {
+    return second.length;
+  }, [second]);
+
+  // This is only calculated during the initial
+  // render because of the empty array passed
+  const originalTotal = React.useMemo(() => {
+    return firstLength + secondLength;
+  }, []);
+
+  // This is incorrectly calculated - 
+  // since secondLength is missing from the array,
+  // this will only update when firstLength changes.
+  // Try fixing this.
+  const currentTotal = React.useMemo(() => {
+    return firstLength + secondLength;
+  }, [firstLength]);
+
+  // Just to show when a render happens
+  const randomValue = React.useMemo(() => {
+    return Math.random();
+  });
+  
+  return (
+    <>
+      <div>Original total length: {originalTotal}</div>
+      <div>Current total length: {currentTotal}</div>
+      <div>Length of first: {firstLength}</div>
+      <div>Length of second: {secondLength}</div>
+      <div>Random: {randomValue}</div>
+    </>
+  );
+}
+
+const initial = {
+  first: 'My First String',
+  second: 'Less Effective String',
+};
+
+render(
+  <PropOverride initial={initial}>
+    <AdvancedMemo />
+  </PropOverride>
+);

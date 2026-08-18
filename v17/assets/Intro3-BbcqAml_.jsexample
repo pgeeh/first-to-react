@@ -1,0 +1,28 @@
+function Intro(props) {
+  const {goal, when} = props;
+  return (
+    <div>
+      {/* Changes inside of the Prop Override will
+      override the initial props and be visible here */}
+      <div>What do we want to do? {goal}</div>
+      <br/>
+      <div>When do we want to do it? {when}</div>
+    </div>
+  );
+}
+
+const initial = {
+  '_note': 'Change the value of goal or when below',
+  goal: 'Learn React!',
+  when: 'Now!'
+}
+
+// Wrapping the component in a PropOverride
+// will render a textarea to edit the props.
+// This will be more important once we
+// start using state inside components.
+render(
+  <PropOverride initial={initial}>
+    <Intro/>
+  </PropOverride>
+);
