@@ -136,6 +136,11 @@ Each phase is a separate, independently reviewable/revertible PR.
      instead of `react-scripts`/`react-app-rewired build`); confirm the
      assembled `site/` deploy tree is unaffected.
    - Not yet started — no findings section below until 8a lands.
+8.5. **Drop npm workspaces** — give each app a fully independent install
+   (own `node_modules`, own `package-lock.json`), rather than the shared
+   root-hoisted `node_modules` the Phase 1 restructure set up. Landed in
+   parallel with, and had to be reconciled against, Phase 8b/8c's
+   hoisting-determinism fixes — see findings below.
 9. **Share common code across `apps/v17`/`v18`/`v19`** — prompted by today's
    `TableOfContents` bugfix session: its `.jsx`/`.scss` pair turned out to be
    byte-identical (modulo the `react-router` v5-vs-v6/v7 API surface) across
@@ -924,6 +929,176 @@ with Vitest, and re-implemented the React-version-isolation trick as a native Vi
   console warning on either was the same pre-existing `<img>`-in-`<div>`-in-`<p>`
   markdown-nesting warning already documented since Phase 2, confirming no regression.
 
+## Phase 8b findings (`apps/v17`/`apps/v18` CRA → Vite)
+
+Repeated the Phase 8a pilot pattern for the remaining two apps. `apps/v18` (react-bootstrap@^2,
+react-markdown@^10, react-router-dom@^7 - the same major generation as the v19 pilot) needed
+almost no adaptation beyond the app-specific paths. `apps/v17` (still on the pre-Phase-3
+dependency set - react-bootstrap@^1, react-markdown@^4, react-live@^2, react-router-dom@^5)
+surfaced two real, previously-latent bugs that a clean-room install had never actually exercised
+since they were introduced.
+
+- **`apps/v18`**: `vite.config.js`, `index.html`, and the Vitest setup (`setupTests.js`'s
+  `/vitest` entry point, the `TextEncoder`/`TextDecoder` polyfill, `App.test.js`'s Navbar mock)
+  all ported byte-for-byte from `apps/v19`'s pilot, only swapping `v19` → `v18` in the `base`
+  path and comments - identical dependency majors mean identical bundler-facing problems.
+  `src/testMocks/react-markdown.js` deleted for the same reason Phase 8a deleted v19's copy
+  (Vitest resolves `exports` maps natively; the mock existed only to work around Jest 27).
+  The Phase 6 `postcss-svgo`/`CssMinimizerPlugin` workaround (added to `config-overrides.js`
+  after PR #16's CI failure) is **not** ported: Vite's own CSS minifier isn't cssnano/svgo-based,
+  so the warning it worked around doesn't exist under Vite - confirmed by a clean `CI=true` build
+  with no `config-overrides.js` equivalent at all.
+- **`apps/v17` doesn't need the `react`/`react-dom` `resolve.alias`/`dedupe`** that v18/v19 both
+  carry: that fix exists because v18 and v19 both declare `react-bootstrap@^2.x`, so npm dedupes
+  their shared `uncontrollable` transitive dependency to one hoisted copy that resolves the wrong
+  React major for whichever app didn't win the hoist. `apps/v17` is the *only* workspace member on
+  `react-bootstrap@^1.x`, so there's no sibling to collide with - it already resolves `uncontrollable`
+  and `react`/`react-dom` from the same workspace-root-hoisted React 17 copy. Confirmed by removing
+  the alias entirely and verifying a clean install still nests exactly one React copy.
+- **Bug found: `prism-react-renderer` hoisting was non-deterministic across clean installs**,
+  independent of Vite. `apps/v17`'s `Editor.jsx` imports `prism-react-renderer/themes/vsDark`
+  directly (react-live@2's v1.x-era API), while `react-live@2.4.1` itself declares a real (non-peer)
+  `dependencies.prism-react-renderer: "^1.2.1"`; apps/v18/v19 separately declare
+  `"prism-react-renderer": "^2.4.1"` as their own direct dependency. Since neither range is
+  satisfiable by the other, npm's arborist has to choose which one wins the shared root-level
+  hoist slot and nest the other - and empirically, that choice wasn't stable across repeated
+  clean-room reinstalls of the *same* `package.json` (verified by installing from scratch several
+  times in a row). When v2.x won the root slot, `apps/v17`'s direct subpath import resolved to it
+  instead of react-live's own nested v1.x copy, and `themes/vsDark` doesn't exist in v2's
+  single-named-export API - `[vite]: Rollup failed to resolve import` at build time. This was
+  never CRA/webpack-specific and could in principle have bitten any past clean-room install since
+  Phase 3 added the v18/v19 dependency; it just happened not to. Fixed by adding
+  `"prism-react-renderer": "^1.3.5"` as an explicit `apps/v17` dependency, the same pattern
+  already used for `react`/`react-dom` on v18/v19: an explicit direct dependency always nests its
+  own copy under the declaring app's own `node_modules`, immune to whichever way root hoisting
+  happens to fall.
+- **Bug found: the root `package.json` `overrides` entry for `react-markdown`'s peer had been
+  silently broken since Phase 3**, and separately, even corrected, is flaky under npm 10.
+  The entry read `"react-markdown": {"4.3.1": {"react": "^17.0.1"}}` - per npm's own docs
+  (`npm help package.json`), version-scoping an override requires the version to be part of the
+  *key* (`"react-markdown@4.3.1"`), not a nested object level; the form in place was a silent
+  no-op. It never surfaced because every clean-room verification since Phase 3 happened to run
+  `npm install` against a `package-lock.json` that already encoded a working resolution from
+  before the (broken) override was introduced - `npm install` replays a valid existing lockfile
+  rather than re-deriving one from scratch, so the broken override was never actually exercised.
+  Deleting `package-lock.json` (this phase's clean-room testing habit) finally exposed it: a
+  from-scratch resolve hits the raw peer conflict (`react-markdown@4.3.1` wants
+  `react@"^15.0.0 || ^16.0.0"`) and fails outright. Corrected to the documented key syntax -
+  but that alone was still non-deterministic under the sandbox's bundled npm 10.9.7 (roughly a
+  1-in-4 success rate across repeated from-scratch installs of the identical `package.json`,
+  isolated by a minimal reproduction outside this repo). Re-scoping the override by the
+  *workspace name* instead of the dependency version
+  (`"first-to-react-v17": {"react-markdown": {"react": "^17.0.1"}}`) didn't fully fix the
+  non-determinism either. npm 11.19.0 and 12.0.2 both resolved the identical `package.json`
+  deterministically across 6/6 attempts each; bisecting further wasn't pursued. Fixed by pinning
+  `"engines.npm": ">=11"` and having `pages.yml`'s install step run through a one-off
+  `npx --yes npm@11 install` rather than the runner's bundled npm, so CI doesn't depend on a
+  human or the runner image happening to have a new-enough npm on `PATH`. Bumping `react-markdown`
+  past 4.3.1 (5.x+ has a peer range of `react: '>=16'` with no conflict at all) would sidestep
+  this differently, but that's the version-bump content decision Phase 0's findings already
+  flagged as needing an explicit call, not something to fold into a build-tooling phase.
+- **Bug found: `apps/v17`'s `Editor.jsx` line only reproduces under a real browser, not the test
+  suite** - Vitest's smoke test doesn't render markdown/live-editor content (same tradeoff noted
+  in Phase 8a for v19), so the `prism-react-renderer` and `process`/`path` failures below were
+  only caught by an actual `vite build` + Playwright pass, not `npm run test:v17`.
+- **`apps/v17`-only: `process`/`path` polyfill gap, re-emerging under Vite.** `react-markdown@4`'s
+  old `unified@6`/`vfile` dependency chain (still CJS, pre-dating the remark/rehype ESM rewrite
+  `apps/v18`/`v19` already sit on) has `vfile/core.js` doing `require('path')` and reading
+  `process.cwd()` as a bare global - the *exact* two Node-core gaps Phase 0.5's findings already
+  documented webpack 5 needing a `config-overrides.js` fallback for. Vite doesn't auto-polyfill
+  them either, so removing `config-overrides.js` reintroduced the gap: the built app rendered a
+  blank markdown page with `ReferenceError: process is not defined` in the console, only visible
+  via the browser check, not the build or test suite. `path` gets the same
+  `resolve.alias: {path: 'path-browserify'}` swap as before. `process` needed a different fix:
+  esbuild's `define` only accepts literal/entity-name replacement values (no callable stand-in),
+  so `process.cwd()` needs a *real* `globalThis.process` object at runtime, not a text
+  substitution - `define: {process: 'globalThis.process'}` points the bare identifier at it, and
+  `src/index.jsx` sets `globalThis.process` from the `process/browser` polyfill (the same package
+  the old webpack `ProvidePlugin` fallback used) as its first import, before any markdown
+  rendering can run. (An earlier attempt also added `resolve.alias.process: 'process/browser'`
+  for symmetry with `path` - that broke `index.jsx`'s own `import process from 'process/browser'`
+  by prefix-matching it to `process/browser/browser`, since Vite/Rollup aliases match by string
+  prefix, not exact string, by default. Removed - nothing in this dependency chain imports a bare
+  `process` module, only reads the global, so the alias was unnecessary as well as wrong.)
+- **Verified**: clean-room installs (`rm -rf node_modules apps/*/node_modules package-lock.json`,
+  `npx --yes npm@11 install`) succeeded 6/6 in a row after the npm-version and dependency fixes
+  above (vs. roughly 1/4 on the sandbox's bundled npm 10.9.7 before them), plus
+  `build:v17`/`test:v17`, `build:v18`/`test:v18`, `build:v19`/`test:v19` all passing under
+  `CI=true`. Assembled the exact deploy tree `pages.yml` produces (landing page +
+  `apps/v17/build`/`v18/build`/`v19/build` under `/first-to-react/v17`, `/v18`, `/v19`) and served
+  it through a script reproducing GitHub Pages' per-directory `404.html` fallback, driven by
+  Playwright: the landing page and all three apps' home pages render; a direct/refreshed deep link
+  (`/first-to-react/vNN/page/3.1`) round-trips through the `404.html` redirect script and renders
+  the real JSX page on all three; `apps/v17`'s markdown content and live code editor render with
+  zero console errors (beyond the expected, harmless initial 404 the redirect trick itself
+  causes). No regressions versus the pre-migration CRA build on any of the three apps.
+
+## Phase 8c findings (`pages.yml` update)
+
+- **Build commands unchanged**: `npm run build:v17`/`build:v18`/`build:v19` already wrapped
+  `vite build` instead of `react-app-rewired build` transparently (Phase 8a/8b changed what's
+  inside the npm script, not the script name), and every app's `vite.config.js` keeps
+  `build.outDir: 'build'` specifically so the Phase 5/6 `pages.yml` deploy-tree assembly step
+  (`cp -r apps/vNN/build/. site/vNN/`) needs no changes either.
+- **Install step changed**: `npm install` → `npx --yes npm@11 install`, to fix the npm-10
+  ERESOLVE non-determinism documented in the Phase 8b findings above (also backed by
+  `engines.npm: ">=11"` in the root `package.json`). Runs through a one-off npx-fetched copy of
+  npm rather than mutating the runner's global npm install, since the latter isn't guaranteed to
+  succeed (or be desirable) on a shared CI image.
+- **Verified**: reproduced the exact `pages.yml` "Install and Build" step locally
+  (`npx --yes npm@11 install` from a fully clean tree, then the three `build:vNN` commands under
+  `CI=true`) six times in a row with no failures, and reproduced the "Assemble deploy tree" step's
+  resulting `site/` tree structure - unchanged shape, verified in the Phase 8b findings above.
+
+## Phase 8.5 findings (drop npm workspaces)
+
+Landed independently in a separate session that hit the exact same symptom Phase 8b's findings
+document — a `process is not defined` crash from `react-markdown`'s old `vfile` dependency —
+but traced it to a different root cause and reached it before Phase 8b/8c had merged, requiring
+reconciliation once both sides landed.
+
+- **Root cause here wasn't `vfile` itself, it was npm hoisting resolving the wrong copy of
+  `react-markdown` entirely**: `apps/v19/node_modules/react-markdown` was missing from disk
+  (despite `package-lock.json` declaring it), so Vite's dependency resolution walked up to the
+  workspace-root-hoisted `react-markdown@4.3.1` — a copy meant for `apps/v17` — instead of
+  `apps/v19`'s own `^10.1.0`. That old v4 tree's `vfile@2.3.0` is what threw, the same as Phase
+  8b's finding for `apps/v17`, but for `apps/v19` this was a resolution accident, not an
+  inherent gap in what Vite polyfills.
+- **Fix chosen: stop hoisting altogether**, rather than make hoisting reliable. Removed the root
+  `package.json`'s `workspaces` field; `apps/v17`/`v18`/`v19` each get their own `npm install`,
+  own `node_modules`, own `package-lock.json`. Root `package.json` now has no dependencies of
+  its own — orchestration scripts (`build:vNN`/`start:vNN`/`test:vNN`) call
+  `npm run <script> --prefix apps/vNN` instead of `--workspace=apps/vNN`. `pages.yml`'s install
+  step runs `npm --prefix apps/vNN ci` once per app instead of one root `npm install`.
+- **This makes most of Phase 8b/8c's hoisting-determinism fixes unnecessary, not wrong**: they
+  fixed the *shared* `node_modules` to resolve deterministically (corrected `overrides` syntax,
+  `engines.npm: ">=11"`, `pages.yml`'s `npx npm@11` install, an explicit `prism-react-renderer`
+  dependency to stop it deferring to whichever app's version won the hoist). With each app fully
+  isolated, there's no shared resolution left to be non-deterministic about — `apps/v17`'s
+  `prism-react-renderer@^1.x` and `apps/v18`/`v19`'s `^2.x` can no longer collide because they're
+  never candidates for the same hoist slot. The one Phase 8b fix that's unrelated to hoisting —
+  `apps/v17`'s `path`/`process` polyfill for `vfile`'s old CJS code (`vite.config.js`'s
+  `resolve.alias`/`define`, `src/index.jsx`'s `globalThis.process` assignment) — is orthogonal
+  and still needed either way; it carried over untouched.
+- **Reconciliation, once Phase 8b/8c (`#19`) and this both landed**: merged `master` into this
+  branch. Real conflicts were limited to the root `package.json` (workspaces/overrides vs.
+  prefix scripts — kept the no-workspaces side), `pages.yml`'s install step (same), this file's
+  Status table, and `apps/v17/package-lock.json` (git's rename-detection paired the deleted root
+  lockfile against the new per-app one; not a hand-mergeable conflict — deleted and regenerated
+  fresh). `apps/v17`/`apps/v18`'s `package.json` merged automatically with no conflict (Phase
+  8b's Vite/dependency changes and this phase's `overrides`/`node`-engine changes touched
+  non-overlapping regions), and every other Phase 8b/8c file (`vite.config.js`,
+  `config-overrides.js` deletions, `index.jsx` renames, `App.test.js`/`setupTests.js`) applied
+  cleanly since this phase never touched them. Dropped `engines.npm: ">=11"` and `pages.yml`'s
+  `npx npm@11` step as no longer needed (see above); bumped `pages.yml`'s `setup-node` from 20 to
+  24 to match this session's earlier `node: ">=24"` bump (`apps/v19`'s `jsdom@30` requires
+  Node ≥22.22.2, which 20 doesn't satisfy).
+- **Verified**: fresh `npm install` in each of `apps/v17`/`v18`/`v19` post-merge, then
+  `build:v17`/`test:v17`, `build:v18`/`test:v18`, `build:v19`/`test:v19` all passing. Confirmed
+  no stray conflict markers remained anywhere in the tree, and that this session's independent
+  `TableOfContents` layout fixes (see the git log around this merge) — untouched by Phase
+  8b/8c — survived in all three apps.
+
 ## Status
 
 | Phase | Status |
@@ -937,5 +1112,6 @@ with Vitest, and re-implemented the React-version-isolation trick as a native Vi
 | 5. Landing/selector page | Done, v17-only by request — see findings above |
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
-| 8. Migrate build tooling from CRA to Vite | In progress — 8a (`apps/v19` pilot) done, see Phase 8a findings; 8b (`apps/v17`/`apps/v18`) and 8c (`pages.yml`) not started |
+| 8. Migrate build tooling from CRA to Vite | Done — 8a (`apps/v19` pilot), 8b (`apps/v17`/`apps/v18`), and 8c (`pages.yml`) all landed, see Phase 8a/8b/8c findings |
+| 8.5. Drop npm workspaces | Done — see Phase 8.5 findings |
 | 9. Share common code across apps | Not started — see plan entry above |
