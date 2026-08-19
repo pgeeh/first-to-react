@@ -1,0 +1,33 @@
+function SubmitButton() {
+  const {pending} = useFormStatus();
+
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? 'Saving...' : 'Save'}
+    </button>
+  );
+}
+
+async function saveNote(prevState, formData) {
+  const note = formData.get('note');
+
+  // Simulate a server request.
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  return note;
+}
+
+function NoteForm() {
+  const [savedNote, formAction] = React.useActionState(saveNote, '');
+
+  return (
+    <form action={formAction}>
+      <div>Saved note: <i>{savedNote || '(none yet)'}</i></div>
+      <input name="note" type="text" placeholder="Note" />
+      {' '}
+      <SubmitButton />
+    </form>
+  );
+}
+
+render(<NoteForm />);
