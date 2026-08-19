@@ -18,9 +18,17 @@ React Hooks provide the ability for a functional component to slowly add lifecyc
 
 * __useId__ _(introduced in React 18)_ - Generates a unique, stable ID string for accessibility attributes, consistent between server and client renders.
 
+* __useDeferredValue__ _(introduced in React 18)_ - Returns a lagging copy of a value so an expensive render using it doesn't block a more urgent update.
+
+* __useSyncExternalStore__ _(introduced in React 18)_ - Safely subscribes a component to a value that lives outside React, such as a browser API or a third-party store.
+
 * __use__ _(new in React 19)_ - Reads a Promise or Context value. Unlike other Hooks, it can be called conditionally or in loops.
 
 * __useActionState__ _(new in React 19)_ - Tracks _state_ produced by a form Action, including a pending status while the action runs.
+
+* __useOptimistic__ _(new in React 19)_ - Shows an optimistic value while a form Action is still in flight, then reconciles back to the real _state_.
+
+* __useFormStatus__ _(new in React 19, from `react-dom`)_ - Reads the pending status of the nearest parent `<form>` from a component nested inside it.
 
 React 18 also introduced __automatic batching__, still in effect in React 19: _state_ updates inside promises, `setTimeout`, and native event handlers are grouped into a single re-render, the same way updates inside React event handlers always were.
 

@@ -1,0 +1,50 @@
+function MessageList() {
+  const [messages, setMessages] = React.useState([
+    {id: 0, text: 'Welcome!', sending: false},
+  ]);
+
+  const [optimisticMessages, addOptimisticMessage] = React.useOptimistic(
+      messages,
+      (state, newText) => [
+        ...state,
+        {id: 'pending', text: newText, sending: true},
+      ],
+  );
+
+  async function sendMessage(formData) {
+    const text = formData.get('message');
+    if (!text) {
+      return;
+    }
+
+    addOptimisticMessage(text);
+
+    // Simulate a network request.
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    setMessages((prev) => [
+      ...prev,
+      {id: prev.length, text, sending: false},
+    ]);
+  }
+
+  return (
+    <>
+      <ul>
+        {optimisticMessages.map((message) => (
+          <li key={message.id}>
+            {message.text}
+            {message.sending ? ' (Sending...)' : ''}
+          </li>
+        ))}
+      </ul>
+      <form action={sendMessage}>
+        <input name="message" type="text" placeholder="Message" />
+        {' '}
+        <button type="submit">Send</button>
+      </form>
+    </>
+  );
+}
+
+render(<MessageList />);

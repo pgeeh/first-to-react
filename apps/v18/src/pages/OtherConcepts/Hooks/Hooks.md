@@ -18,6 +18,10 @@ React Hooks provide the ability for a functional component to slowly add lifecyc
 
 * __useId__ _(new in React 18)_ - Generates a unique, stable ID string for accessibility attributes, consistent between server and client renders.
 
+* __useDeferredValue__ _(new in React 18)_ - Returns a lagging copy of a value so an expensive render using it doesn't block a more urgent update.
+
+* __useSyncExternalStore__ _(new in React 18)_ - Safely subscribes a component to a value that lives outside React, such as a browser API or a third-party store.
+
 React 18 also introduced __automatic batching__: _state_ updates inside promises, `setTimeout`, and native event handlers are now grouped into a single re-render, the same way updates inside React event handlers always were. Previously, only updates inside React event handlers were batched.
 
 Some rules to remember when using Hooks:

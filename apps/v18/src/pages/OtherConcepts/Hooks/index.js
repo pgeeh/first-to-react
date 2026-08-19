@@ -6,6 +6,8 @@ import useMemo from './useMemo';
 import useCallback from './useCallback';
 import useTransition from './useTransition';
 import useId from './useId';
+import useDeferredValue from './useDeferredValue';
+import useSyncExternalStore from './useSyncExternalStore';
 
 import info from './Hooks.md';
 // import example from './Hooks.jsexample';
@@ -28,6 +30,8 @@ const config = {
     useContext,
     useTransition,
     useId,
+    useDeferredValue,
+    useSyncExternalStore,
   ],
 };
 

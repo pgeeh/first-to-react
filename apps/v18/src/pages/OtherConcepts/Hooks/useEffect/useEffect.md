@@ -15,6 +15,8 @@ The functionality of the second parameter of `useEffect` follows the same patter
 
 As with `useMemo`, any values from _props_ or _state_ that are used inside of the function should be included in the second argument array.
 
+Since React 18, `<React.StrictMode>` intentionally runs each effect's setup, then its cleanup, then the setup again the first time a component mounts - only in development, never in production. This is meant to surface effects whose cleanup function doesn't properly undo everything the setup did (a common source of bugs once _Fast Refresh_ or navigating away and back triggers a real remount). An effect that behaves correctly under this double-invocation is safe; if it doesn't, the cleanup function is usually missing something.
+
 The __Interval__ example shows how an effect can be used to create, update, and cleanup an interval.
 
 The __Fetch__ example shows how `useEffect` can be used to fetch data from an API based on _props_. Clicking Next or Prev will cause new data to be fetched using `useEffect`. _Note: There is a slight delay built in so that it is visible as the data is returned._
