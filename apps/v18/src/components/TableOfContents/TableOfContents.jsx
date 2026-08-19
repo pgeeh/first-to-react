@@ -151,11 +151,14 @@ function TableOfContents(props) {
   return (
     <div className="tableOfContents">
       <div className='toc-link'>
-        <CustomLink key="home" to={fullLinkPath('/')} end={true}>
-          <div className="toc-link-text">
-              Home
-          </div>
-        </CustomLink>
+        <div className="toc-link-row">
+          <span className="toc-toggle-spacer" />
+          <CustomLink key="home" to={fullLinkPath('/')} end={true}>
+            <div className="toc-link-text">
+                Home
+            </div>
+          </CustomLink>
+        </div>
       </div>
       {pages.map((page) => (
         <PageNode
@@ -166,11 +169,14 @@ function TableOfContents(props) {
         />
       ))}
       <div className='toc-link'>
-        <CustomLink key="about" to={fullLinkPath('/about')} end={true}>
-          <div className="toc-link-text">
-              About
-          </div>
-        </CustomLink>
+        <div className="toc-link-row">
+          <span className="toc-toggle-spacer" />
+          <CustomLink key="about" to={fullLinkPath('/about')} end={true}>
+            <div className="toc-link-text">
+                About
+            </div>
+          </CustomLink>
+        </div>
       </div>
     </div>
   );

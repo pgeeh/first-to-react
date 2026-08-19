@@ -136,6 +136,25 @@ Each phase is a separate, independently reviewable/revertible PR.
      instead of `react-scripts`/`react-app-rewired build`); confirm the
      assembled `site/` deploy tree is unaffected.
    - Not yet started — no findings section below until 8a lands.
+9. **Share common code across `apps/v17`/`v18`/`v19`** — prompted by today's
+   `TableOfContents` bugfix session: its `.jsx`/`.scss` pair turned out to be
+   byte-identical (modulo the `react-router` v5-vs-v6/v7 API surface) across
+   all three apps, so three real layout bugs (a stray `:hover { width:
+   fit-content }` rule, a flex `min-width: auto` overflow, and an `em`-vs-
+   `rem` toggle/spacer misalignment) each had to be found and fixed three
+   times by hand. Likely more of `src/components` and `src/scss` is
+   similarly duplicated rather than intentionally diverged content — worth
+   an audit, not just this one component. Note this cuts against the
+   direction just taken elsewhere in the tree: apps were deliberately moved
+   *off* a shared `node_modules` (dropped npm workspaces entirely) because
+   hoisting silently mixed incompatible dependency versions across apps
+   pinned to different React majors — any code-sharing mechanism here needs
+   to avoid reintroducing that failure mode (e.g. a real shared package each
+   app depends on explicitly, rather than a build step relying on hoisting
+   or a symlink/copy step that can drift silently). Solution not decided yet
+   — scoped as an investigation phase, findings/approach to be recorded once
+   it's actually worked.
+   - Not yet started — no findings section below until this phase lands.
 
 ## Phase 0 findings
 
@@ -919,3 +938,4 @@ with Vitest, and re-implemented the React-version-isolation trick as a native Vi
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
 | 8. Migrate build tooling from CRA to Vite | In progress — 8a (`apps/v19` pilot) done, see Phase 8a findings; 8b (`apps/v17`/`apps/v18`) and 8c (`pages.yml`) not started |
+| 9. Share common code across apps | Not started — see plan entry above |
