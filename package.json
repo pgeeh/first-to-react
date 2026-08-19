@@ -12,6 +12,7 @@
     }
   },
   "scripts": {
+    "build": "npm run build:v17 && npm run build:v18 && npm run build:v19",
     "start:v17": "npm run start --workspace=apps/v17",
     "build:v17": "npm run build --workspace=apps/v17",
     "test:v17": "npm run test --workspace=apps/v17",
