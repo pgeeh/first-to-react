@@ -1,29 +1,22 @@
 {
   "name": "first-to-react",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
-  "overrides": {
-    "react-markdown": {
-      "4.3.1": {
-        "react": "^17.0.1"
-      }
-    }
-  },
   "scripts": {
+    "install:v17": "npm --prefix apps/v17 install",
+    "install:v18": "npm --prefix apps/v18 install",
+    "install:v19": "npm --prefix apps/v19 install",
     "build": "npm run build:v17 && npm run build:v18 && npm run build:v19",
-    "start:v17": "npm run start --workspace=apps/v17",
-    "build:v17": "npm run build --workspace=apps/v17",
-    "test:v17": "npm run test --workspace=apps/v17",
-    "start:v18": "npm run start --workspace=apps/v18",
-    "build:v18": "npm run build --workspace=apps/v18",
-    "test:v18": "npm run test --workspace=apps/v18",
-    "start:v19": "npm run start --workspace=apps/v19",
-    "build:v19": "npm run build --workspace=apps/v19",
-    "test:v19": "npm run test --workspace=apps/v19"
+    "start:v17": "npm run start --prefix apps/v17",
+    "build:v17": "npm run build --prefix apps/v17",
+    "test:v17": "npm run test --prefix apps/v17",
+    "start:v18": "npm run start --prefix apps/v18",
+    "build:v18": "npm run build --prefix apps/v18",
+    "test:v18": "npm run test --prefix apps/v18",
+    "start:v19": "npm run start --prefix apps/v19",
+    "build:v19": "npm run build --prefix apps/v19",
+    "test:v19": "npm run test --prefix apps/v19"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }

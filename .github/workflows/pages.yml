@@ -26,7 +26,9 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          npm install
+          npm --prefix apps/v17 ci
+          npm --prefix apps/v18 ci
+          npm --prefix apps/v19 ci
           npm run build:v17
           npm run build:v18
           npm run build:v19
