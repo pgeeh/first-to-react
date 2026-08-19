@@ -8,6 +8,6 @@
 
 Because `use` re-suspends whenever it's given a *new* Promise instance, the Promise passed in should be cached (e.g. in a `Map`, or from a data-fetching library) rather than created fresh inline during render - creating a new, never-resolving-relative-to-cache Promise on every render is a common mistake that causes the component to suspend forever.
 
-The __Promise__ example shows `use` reading a cached `fetch` Promise, suspending the component until the response arrives. Changing the `userId` in the Prop Override triggers a new fetch and a new suspended fallback. Rather than relying on an error boundary, it catches a failed request and resolves to an error marker instead, so a failed fetch renders a message rather than needing an error boundary this example doesn't otherwise cover.
+The __Promise__ example shows `use` reading a cached `fetch` Promise, suspending the component until the response arrives. Changing the `userId` in the Prop Override triggers a new fetch and a new suspended fallback. Rather than setting up an error boundary, this example catches a failed request itself and resolves to an error marker instead, so a failed fetch just renders a message.
 
 The __Conditional Context__ example shows `use` reading a Context value inside a conditional branch - something `useContext` cannot do, since regular Hooks must run unconditionally on every render.

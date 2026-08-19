@@ -57,9 +57,27 @@ ImageRenderer.propTypes = {
   title: PropTypes.string,
 };
 
+/**
+ * Render a paragraph, falling back to a div when it wraps a single
+ * image - Zoom renders a div, and a div cannot be nested inside a p.
+ * @param {object} children paragraph content
+ * @return {object}
+ */
+function ParagraphRenderer({children}) {
+  const isSoleImage = Array.isArray(children) &&
+    children.length === 1 && children[0]?.type === ImageRenderer;
+
+  return isSoleImage ? <div>{children}</div> : <p>{children}</p>;
+}
+
+ParagraphRenderer.propTypes = {
+  children: PropTypes.node,
+};
+
 const renderers = {
   code: CodeRenderer,
   image: ImageRenderer,
+  paragraph: ParagraphRenderer,
 };
 
 /**
