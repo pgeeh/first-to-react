@@ -1,0 +1,51 @@
+function SlowList(props) {
+  const {query, allItems} = props;
+  const filtered = allItems.filter((item) => item.includes(query));
+
+  return (
+    <>
+      <div>{filtered.length} of {allItems.length} items match</div>
+      <ul>
+        {filtered.slice(0, 20).map((item) => <li key={item}>{item}</li>)}
+      </ul>
+    </>
+  );
+}
+
+function DeferredFilter(props) {
+  const {itemCount} = props;
+  const [query, setQuery] = React.useState('');
+  const deferredQuery = React.useDeferredValue(query);
+  const isStale = query !== deferredQuery;
+
+  const allItems = React.useMemo(() => {
+    const list = [];
+    for (let i = 0; i < itemCount; i++) {
+      list.push(`Item ${i}`);
+    }
+    return list;
+  }, [itemCount]);
+
+  return (
+    <>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Filter items..."
+      />
+      <div style={{opacity: isStale ? 0.5 : 1}}>
+        <SlowList query={deferredQuery} allItems={allItems} />
+      </div>
+    </>
+  );
+}
+
+const initial = {
+  itemCount: 20000,
+};
+
+render(
+  <PropOverride initial={initial}>
+    <DeferredFilter />
+  </PropOverride>
+);

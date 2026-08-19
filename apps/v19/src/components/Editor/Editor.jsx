@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
+import {useFormStatus} from 'react-dom';
 import {
   LiveProvider,
   LiveEditor,
@@ -185,7 +186,7 @@ function Editor(props) {
     <LiveProvider
       code={content}
       noInline={true}
-      scope={{PropOverride}}
+      scope={{PropOverride, useFormStatus}}
       transformCode={onTransform}
       theme={themes.vsDark}
     >

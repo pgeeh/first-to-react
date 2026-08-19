@@ -136,6 +136,30 @@ Each phase is a separate, independently reviewable/revertible PR.
      instead of `react-scripts`/`react-app-rewired build`); confirm the
      assembled `site/` deploy tree is unaffected.
    - Not yet started — no findings section below until 8a lands.
+8.5. **Drop npm workspaces** — give each app a fully independent install
+   (own `node_modules`, own `package-lock.json`), rather than the shared
+   root-hoisted `node_modules` the Phase 1 restructure set up. Landed in
+   parallel with, and had to be reconciled against, Phase 8b/8c's
+   hoisting-determinism fixes — see findings below.
+9. **Share common code across `apps/v17`/`v18`/`v19`** — prompted by today's
+   `TableOfContents` bugfix session: its `.jsx`/`.scss` pair turned out to be
+   byte-identical (modulo the `react-router` v5-vs-v6/v7 API surface) across
+   all three apps, so three real layout bugs (a stray `:hover { width:
+   fit-content }` rule, a flex `min-width: auto` overflow, and an `em`-vs-
+   `rem` toggle/spacer misalignment) each had to be found and fixed three
+   times by hand. Likely more of `src/components` and `src/scss` is
+   similarly duplicated rather than intentionally diverged content — worth
+   an audit, not just this one component. Note this cuts against the
+   direction just taken elsewhere in the tree: apps were deliberately moved
+   *off* a shared `node_modules` (dropped npm workspaces entirely) because
+   hoisting silently mixed incompatible dependency versions across apps
+   pinned to different React majors — any code-sharing mechanism here needs
+   to avoid reintroducing that failure mode (e.g. a real shared package each
+   app depends on explicitly, rather than a build step relying on hoisting
+   or a symlink/copy step that can drift silently). Solution not decided yet
+   — scoped as an investigation phase, findings/approach to be recorded once
+   it's actually worked.
+   - Not yet started — no findings section below until this phase lands.
 
 ## Phase 0 findings
 
@@ -1026,6 +1050,55 @@ since they were introduced.
   `CI=true`) six times in a row with no failures, and reproduced the "Assemble deploy tree" step's
   resulting `site/` tree structure - unchanged shape, verified in the Phase 8b findings above.
 
+## Phase 8.5 findings (drop npm workspaces)
+
+Landed independently in a separate session that hit the exact same symptom Phase 8b's findings
+document — a `process is not defined` crash from `react-markdown`'s old `vfile` dependency —
+but traced it to a different root cause and reached it before Phase 8b/8c had merged, requiring
+reconciliation once both sides landed.
+
+- **Root cause here wasn't `vfile` itself, it was npm hoisting resolving the wrong copy of
+  `react-markdown` entirely**: `apps/v19/node_modules/react-markdown` was missing from disk
+  (despite `package-lock.json` declaring it), so Vite's dependency resolution walked up to the
+  workspace-root-hoisted `react-markdown@4.3.1` — a copy meant for `apps/v17` — instead of
+  `apps/v19`'s own `^10.1.0`. That old v4 tree's `vfile@2.3.0` is what threw, the same as Phase
+  8b's finding for `apps/v17`, but for `apps/v19` this was a resolution accident, not an
+  inherent gap in what Vite polyfills.
+- **Fix chosen: stop hoisting altogether**, rather than make hoisting reliable. Removed the root
+  `package.json`'s `workspaces` field; `apps/v17`/`v18`/`v19` each get their own `npm install`,
+  own `node_modules`, own `package-lock.json`. Root `package.json` now has no dependencies of
+  its own — orchestration scripts (`build:vNN`/`start:vNN`/`test:vNN`) call
+  `npm run <script> --prefix apps/vNN` instead of `--workspace=apps/vNN`. `pages.yml`'s install
+  step runs `npm --prefix apps/vNN ci` once per app instead of one root `npm install`.
+- **This makes most of Phase 8b/8c's hoisting-determinism fixes unnecessary, not wrong**: they
+  fixed the *shared* `node_modules` to resolve deterministically (corrected `overrides` syntax,
+  `engines.npm: ">=11"`, `pages.yml`'s `npx npm@11` install, an explicit `prism-react-renderer`
+  dependency to stop it deferring to whichever app's version won the hoist). With each app fully
+  isolated, there's no shared resolution left to be non-deterministic about — `apps/v17`'s
+  `prism-react-renderer@^1.x` and `apps/v18`/`v19`'s `^2.x` can no longer collide because they're
+  never candidates for the same hoist slot. The one Phase 8b fix that's unrelated to hoisting —
+  `apps/v17`'s `path`/`process` polyfill for `vfile`'s old CJS code (`vite.config.js`'s
+  `resolve.alias`/`define`, `src/index.jsx`'s `globalThis.process` assignment) — is orthogonal
+  and still needed either way; it carried over untouched.
+- **Reconciliation, once Phase 8b/8c (`#19`) and this both landed**: merged `master` into this
+  branch. Real conflicts were limited to the root `package.json` (workspaces/overrides vs.
+  prefix scripts — kept the no-workspaces side), `pages.yml`'s install step (same), this file's
+  Status table, and `apps/v17/package-lock.json` (git's rename-detection paired the deleted root
+  lockfile against the new per-app one; not a hand-mergeable conflict — deleted and regenerated
+  fresh). `apps/v17`/`apps/v18`'s `package.json` merged automatically with no conflict (Phase
+  8b's Vite/dependency changes and this phase's `overrides`/`node`-engine changes touched
+  non-overlapping regions), and every other Phase 8b/8c file (`vite.config.js`,
+  `config-overrides.js` deletions, `index.jsx` renames, `App.test.js`/`setupTests.js`) applied
+  cleanly since this phase never touched them. Dropped `engines.npm: ">=11"` and `pages.yml`'s
+  `npx npm@11` step as no longer needed (see above); bumped `pages.yml`'s `setup-node` from 20 to
+  24 to match this session's earlier `node: ">=24"` bump (`apps/v19`'s `jsdom@30` requires
+  Node ≥22.22.2, which 20 doesn't satisfy).
+- **Verified**: fresh `npm install` in each of `apps/v17`/`v18`/`v19` post-merge, then
+  `build:v17`/`test:v17`, `build:v18`/`test:v18`, `build:v19`/`test:v19` all passing. Confirmed
+  no stray conflict markers remained anywhere in the tree, and that this session's independent
+  `TableOfContents` layout fixes (see the git log around this merge) — untouched by Phase
+  8b/8c — survived in all three apps.
+
 ## Status
 
 | Phase | Status |
@@ -1040,3 +1113,5 @@ since they were introduced.
 | 6. CI/CD rewrite | Done — all three apps build/deploy; v18/v19 stay unlinked from the landing page by request, see Phase 6 findings |
 | 7. Content divergence | In progress — original plan wording's named topics (Hooks, `createRoot`, `ref-as-prop`, React Compiler) are done for v18/v19, see Phase 7 findings; remaining pages are ongoing, editorial-priority-driven follow-up work, not a fixed scope to complete |
 | 8. Migrate build tooling from CRA to Vite | Done — 8a (`apps/v19` pilot), 8b (`apps/v17`/`apps/v18`), and 8c (`pages.yml`) all landed, see Phase 8a/8b/8c findings |
+| 8.5. Drop npm workspaces | Done — see Phase 8.5 findings |
+| 9. Share common code across apps | Not started — see plan entry above |

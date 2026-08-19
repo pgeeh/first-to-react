@@ -13,12 +13,48 @@
   .toc-link {
     background-color: colors.$light-background;
   }
-  
+
   // Add extra margin to nested ones
   .toc-link .toc-link {
     padding-left: 5px;
   }
-  
+
+  .toc-link-row {
+    display: flex;
+    align-items: center;
+
+    // Flex items default to min-width: auto, which lets the nowrap
+    // text below grow past its container instead of shrinking to fit -
+    // that's what actually enables the ellipsis truncation.
+    > a {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+  }
+
+  .toc-toggle,
+  .toc-toggle-spacer {
+    flex: 0 0 auto;
+    // rem, not em: .toc-toggle sets its own smaller font-size below,
+    // which would otherwise shrink an em-based width and throw this
+    // column out of alignment with the spacer's (unshrunk) column.
+    width: 1.25rem;
+  }
+
+  .toc-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: .75em;
+    line-height: 1;
+    color: colors.$secondary-color;
+    cursor: pointer;
+
+    &:hover {
+      color: colors.$main-color;
+    }
+  }
+
   .active .toc-link-text {
     background-color: lighten(colors.$main-color, 65%);
     color: colors.$main-color;
@@ -35,10 +71,6 @@
     &:hover {
       background-color: darken(colors.$light-background, 10%);
     }
-  }
-
-  &:hover {
-    width: fit-content;
   }
 }
 

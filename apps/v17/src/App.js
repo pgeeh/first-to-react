@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
+  useLocation,
   useParams,
 } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import PropTypes from 'prop-types';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 import './App.scss';
 
 import TableOfContents from './components/TableOfContents';
@@ -64,10 +64,36 @@ function PageWrapper() {
 }
 
 /**
+ * Closes the sidebar whenever the route changes, so navigating on a
+ * mobile-width screen doesn't leave the off-canvas menu open over the
+ * newly selected page.
+ * @param {object} props props for the object
+ * @param {func} props.onNavigate called after every route change
+ * @return {null} renders nothing
+ */
+function SidebarCloser({onNavigate}) {
+  const location = useLocation();
+
+  // Only re-run when the path actually changes, not when onNavigate
+  // is re-created on parent render.
+  useEffect(() => {
+    onNavigate();
+  }, [location.pathname]);
+
+  return null;
+}
+
+SidebarCloser.propTypes = {
+  onNavigate: PropTypes.func.isRequired,
+};
+
+/**
  * The Tutorial App
  * @return {object} The Tutorial App
  */
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   // When the app mounts, clear the local storage so
   // all of the examples reset.
   useEffect(() => {
@@ -79,6 +105,15 @@ function App() {
     <div className="App">
       <Router>
         <Navbar bg='light' variant='light'>
+          <Button
+            variant="outline-secondary"
+            className="sidebar-toggle d-lg-none"
+            onClick={() => setSidebarOpen((open) => !open)}
+            aria-label="Toggle navigation"
+            aria-expanded={sidebarOpen}
+          >
+            ☰
+          </Button>
           <Navbar.Brand to={fullLinkPath('/')} as={NavLink}>
             <img src={fullLinkPath('/f2r-logo.png')} style={{height: '40px'}} />
             First-To-React
@@ -89,28 +124,32 @@ function App() {
             <Nav.Link href="/first-to-react/">All Versions</Nav.Link>
           </Nav>
         </Navbar>
-        {/* <header>First To React</header> */}
-        <Container className="main" fluid>
-          <Row className="justify-content-center">
-            <Col className="p-0 toc-col" xs={2}>
-              <TableOfContents
-                pages={pages}/>
-            </Col>
-            <Col className="p-0" xs={10}>
-              <Switch>
-                <Route path={fullLinkPath('/')} exact={true}>
-                  <General page={PAGES.HOME} />
-                </Route>
-                <Route path={fullLinkPath('/page/:activeId')}>
-                  <PageWrapper />
-                </Route>
-                <Route path={fullLinkPath('/about')} exact={true}>
-                  <General page={PAGES.ABOUT} />
-                </Route>
-              </Switch>
-            </Col>
-          </Row>
-        </Container>
+        <SidebarCloser onNavigate={() => setSidebarOpen(false)} />
+        <div className="main">
+          <aside className={'sidebar' + (sidebarOpen ? ' open' : '')}>
+            <TableOfContents
+              pages={pages}/>
+          </aside>
+          {sidebarOpen && (
+            <div
+              className="sidebar-backdrop"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
+          <div className="content">
+            <Switch>
+              <Route path={fullLinkPath('/')} exact={true}>
+                <General page={PAGES.HOME} />
+              </Route>
+              <Route path={fullLinkPath('/page/:activeId')}>
+                <PageWrapper />
+              </Route>
+              <Route path={fullLinkPath('/about')} exact={true}>
+                <General page={PAGES.ABOUT} />
+              </Route>
+            </Switch>
+          </div>
+        </div>
       </Router>
     </div>
   );

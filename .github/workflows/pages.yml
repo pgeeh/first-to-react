@@ -22,18 +22,13 @@ jobs:
       - name: Setup Node 🧰
         uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install and Build 🔧
         run: |
-          # npm 10 (bundled with Node 20) hits a non-deterministic ERESOLVE
-          # failure roughly 1 in 4 runs on a fresh install, tracing to how
-          # its arborist peer-conflict resolver applies the workspace-scoped
-          # `overrides` entry needed for apps/v17's react-markdown@4 (see
-          # package.json). npm >=11 resolves it reliably every time - run
-          # the install itself through a one-off npx-fetched copy rather
-          # than replacing the runner's global npm.
-          npx --yes npm@11 install
+          npm --prefix apps/v17 ci
+          npm --prefix apps/v18 ci
+          npm --prefix apps/v19 ci
           npm run build:v17
           npm run build:v18
           npm run build:v19
